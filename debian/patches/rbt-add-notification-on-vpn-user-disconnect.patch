@@ -1,0 +1,39 @@
+--- a/src/applet.c	2025-03-03 14:09:41.000000000 +0300
++++ b/src/applet.c	2025-03-02 14:31:32.759963421 +0300
+@@ -845,6 +845,8 @@
+ 		return g_strdup_printf (_("\nThe VPN connection “%s” failed because there were no valid VPN secrets."), id);
+ 	case NM_ACTIVE_CONNECTION_STATE_REASON_LOGIN_FAILED:
+ 		return g_strdup_printf (_("\nThe VPN connection “%s” failed because of invalid VPN secrets."), id);
++	case NM_ACTIVE_CONNECTION_STATE_REASON_USER_DISCONNECTED:
++		return g_strdup_printf (_("\nThe VPN connection “%s” disconnected because user interrupted."), id);
+ 	default:
+ 		break;
+ 	}
+@@ -886,8 +888,6 @@
+ 		g_free (msg);
+ 		break;
+ 	case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
+-		if (reason == NM_ACTIVE_CONNECTION_STATE_REASON_USER_DISCONNECTED)
+-			break;
+ 		title = _("VPN Connection Failed");
+ 		msg = make_active_failure_message (NM_ACTIVE_CONNECTION (vpn), reason, applet);
+ 		applet_do_notify (applet, title, msg, "gnome-lockscreen",
+
+--- a/po/ru.po	2025-03-03 14:09:41.000000000 +0300
++++ b/po/ru.po	2025-03-02 14:34:53.947962654 +0300
+@@ -913,6 +913,15 @@
+ "\n"
+ "В связи с недействительным паролем произошёл сбой VPN-соединения «%s»"
+ 
++#: src/applet.c:849
++#, c-format
++msgid ""
++"\n"
++"The VPN connection “%s” disconnected because user interrupted."
++msgstr ""
++"\n"
++"В связи с тем, что пользователь преравал подключение, связь с VPN «%s» была потеряна"
++
+ #: src/applet.c:852
+ #, c-format
+ msgid ""

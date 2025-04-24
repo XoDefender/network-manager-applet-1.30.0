@@ -1,0 +1,438 @@
+--- a/Makefile.am	2022-11-07 10:00:36.000000000 +0300
++++ b/Makefile.am	2023-11-20 13:27:49.587966811 +0300
+@@ -523,6 +523,7 @@
+ 	$(LIBNMA_CFLAGS) \
+ 	$(LIBNM_CFLAGS) \
+ 	$(LIBSECRET_CFLAGS) \
++	$(LIBXSETTINGS_CFLAGS) \
+ 	$(NOTIFY_CFLAGS) \
+ 	$(MM_GLIB_CFLAGS) \
+ 	$(APPINDICATOR_CFLAGS)
+@@ -533,6 +534,7 @@
+ 	$(LIBNM_LIBS) \
+ 	$(LIBNMA_LIBS) \
+ 	$(LIBSECRET_LIBS) \
++	$(LIBXSETTINGS_LIBS) \
+ 	$(NOTIFY_LIBS) \
+ 	$(MM_GLIB_LIBS) \
+ 	$(APPINDICATOR_LIBS) \
+
+--- a/configure.ac	2022-11-07 10:47:39.000000000 +0300
++++ b/configure.ac	2023-11-20 13:28:22.863966684 +0300
+@@ -49,6 +49,8 @@
+ dnl
+ AC_TYPE_PID_T
+
++PKG_CHECK_MODULES(LIBXSETTINGS, [libxsettings-client])
++
+ dnl
+ dnl translation support
+ dnl
+
+--- a/meson.build	2022-11-07 10:47:42.000000000 +0300
++++ b/meson.build	2023-11-20 14:43:53.447949402 +0300
+@@ -108,6 +108,7 @@
+ gmodule_export_dep = dependency('gmodule-export-2.0')
+ libsecret_dep = dependency('libsecret-1', version: '>= 0.18')
+ libnma_dep = dependency('libnma', version: '>= 1.8.27')
++libxsettings_dep = dependency('libxsettings-client')
+
+ m_dep = cc.find_library('m')
+
+--- a/src/meson.build	2022-11-07 10:00:04.000000000 +0300
++++ b/src/meson.build	2023-11-20 14:20:43.315954704 +0300
+@@ -49,6 +49,7 @@
+   libnma_dep,
+   libsecret_dep,
+   m_dep,
++  libxsettings_dep,
+   libutils_libnm_dep
+ ]
+
+--- a/src/applet.h	2022-11-07 10:00:04.000000000 +0300
++++ b/src/applet.h	2023-11-20 14:17:26.807955454 +0300
+@@ -31,6 +31,9 @@
+ #include <libmm-glib.h>
+ #endif
+
++//alex
++#include <xsettings-client.h>
++
+ #define NM_TYPE_APPLET              (nma_get_type())
+ #define NM_APPLET(object)           (G_TYPE_CHECK_INSTANCE_CAST((object), NM_TYPE_APPLET, NMApplet))
+ #define NM_APPLET_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass), NM_TYPE_APPLET, NMAppletClass))
+@@ -74,6 +77,9 @@
+
+ 	GSettings *gsettings;
+
++	// For detect an IP address conflict
++	NMDeviceStateReason state_reason;
++
+ #if WITH_WWAN
+ 	MMManager *mm1;
+ 	gboolean   mm1_running;
+@@ -103,9 +109,14 @@
+ #define NUM_VPN_CONNECTING_FRAMES 14
+
+ 	GtkIconTheme *  icon_theme;
+-	GHashTable *    icon_cache;
+-	GdkPixbuf *     fallback_icon;
+-	int             icon_size;
++	GtkIconTheme *  icon_theme_tray; //alex
++	char * icon_theme_tray_name; //alex
++ 	GHashTable *    icon_cache;
++	GHashTable *    icon_cache_tray; //alex
++ 	GdkPixbuf *     fallback_icon;
++ 	int             icon_size;
++
++    XSettingsClient *xsettings_client; //alex
+
+ 	/* Active status icon pixbufs */
+ 	GdkPixbuf *     icon_layers[ICON_LAYER_MAX + 1];
+@@ -269,6 +280,8 @@
+
+ GdkPixbuf * nma_icon_check_and_load (const char *name,
+                                      NMApplet *applet);
++GdkPixbuf * nma_tray_icon_check_and_load (const char *name,
++                                     NMApplet *applet);
+
+ gboolean applet_wifi_connect_to_hidden_network (NMApplet *applet);
+ gboolean applet_wifi_create_wifi_network (NMApplet *applet);
+
+--- a/src/applet.c	2023-11-20 12:36:33.000000000 +0300
++++ b/src/applet.c	2023-11-20 14:28:07.091953012 +0300
+@@ -2030,8 +2030,8 @@
+ #endif  /* WITH_APPINDICATOR */
+
+ 	/* Load the pixbuf by icon name */
+-	if (icon_name && !pixbuf)
+-		pixbuf = nma_icon_check_and_load (icon_name, applet);
++	if (icon_name /*&& !pixbuf*/) //alex: force icon_name using
++		pixbuf = nma_tray_icon_check_and_load (icon_name, applet);
+
+ 	/* Ignore setting of the same icon as is already displayed */
+ 	if (applet->icon_layers[layer] == pixbuf)
+@@ -2062,7 +2062,7 @@
+ 			                      GDK_INTERP_NEAREST, 255);
+ 		}
+ 	} else
+-		pixbuf = nma_icon_check_and_load ("nm-no-connection", applet);
++		pixbuf = nma_tray_icon_check_and_load ("nm-no-connection", applet); //alex
+
+ 	gtk_status_icon_set_from_pixbuf (applet->status_icon, pixbuf);
+ }
+@@ -2145,6 +2145,9 @@
+
+ 	dclass = get_device_class (device, applet);
+
++	// Save the reason for informing the user later.
++	applet->state_reason = reason;
++
+ 	if (dclass && dclass->device_state_changed)
+ 		dclass->device_state_changed (device, new_state, old_state, reason, applet);
+
+@@ -2198,10 +2201,23 @@
+
+ 	switch (nm_client_get_state (client)) {
+ 	case NM_STATE_DISCONNECTED:
+-		applet_do_notify (applet, _("Disconnected"),
+-		                  _("The network connection has been disconnected."),
+-		                  "nm-no-connection",
+-		                  PREF_DISABLE_DISCONNECTED_NOTIFICATIONS);
++		if (NM_DEVICE_STATE_REASON_IP_ADDRESS_DUPLICATE == applet->state_reason)
++		{
++			applet_do_notify (applet,
++				_("NetworkManager has detected an IP address conflict."),
++				_("Another computer on this network has the same IP address as this computer.\n"
++				"Contact your network administrator for help resolving this issue.\n"
++				"More details are available in the system event log."),
++				"nm-no-connection",
++				PREF_DISABLE_DISCONNECTED_NOTIFICATIONS);
++		}
++		else
++		{
++			applet_do_notify (applet, _("Disconnected"),
++			                        _("The network connection has been disconnected."),
++			                        "nm-no-connection",
++			                        PREF_DISABLE_DISCONNECTED_NOTIFICATIONS);
++		}
+ 		break;
+ 	default:
+ 		break;
+@@ -2962,6 +2978,37 @@
+ 		g_clear_object (&applet->icon_layers[i]);
+ }
+
++GdkPixbuf *  //alex
++nma_tray_icon_check_and_load (const char *name, NMApplet *applet)
++{
++	GError *error = NULL;
++	GdkPixbuf *icon;
++
++	g_assert (name != NULL);
++	g_assert (applet != NULL);
++
++	/* icon already loaded successfully */
++	if (g_hash_table_lookup_extended (applet->icon_cache_tray, name, NULL, (gpointer) &icon))
++		return icon;
++
++	/* Try to load the icon; if the load fails, log the problem, and set
++	 * the icon to the fallback icon if requested.
++	 */
++	if (!applet->icon_theme_tray)
++        return nma_icon_check_and_load (name, applet);
++
++	if (!(icon = gtk_icon_theme_load_icon (applet->icon_theme_tray, name, applet->icon_size, GTK_ICON_LOOKUP_FORCE_SIZE, &error))) {
++		g_warning ("failed to load icon \"%s\": %s", name, error->message);
++		g_clear_error (&error);
++        return nma_icon_check_and_load (name, applet); //alex
++		//icon = nm_g_object_ref (applet->fallback_icon);
++	}
++
++	g_hash_table_insert (applet->icon_cache_tray, g_strdup (name), icon);
++
++	return icon;
++}
++
+ GdkPixbuf *
+ nma_icon_check_and_load (const char *name, NMApplet *applet)
+ {
+@@ -3002,7 +3049,7 @@
+
+ 	g_return_if_fail (applet->icon_size > 0);
+
+-	g_hash_table_remove_all (applet->icon_cache);
++	g_hash_table_remove_all (applet->icon_cache_tray); //alex
+ 	nma_icons_free (applet);
+
+ 	if (applet->fallback_icon)
+@@ -3036,8 +3083,62 @@
+ 	applet_schedule_update_icon (applet);
+ }
+
++//alex: xsettings processing -----------------------------------------------------------
++static void _xsettings_notify_cb(const char *name, XSettingsAction action, XSettingsSetting *setting, void *data)
++{
++  NMApplet *applet = (NMApplet *)data;
++
++  if (!data || !setting || !name) return;
++  if (action != XSETTINGS_ACTION_NEW && action != XSETTINGS_ACTION_CHANGED) return;
++  if (strcmp(name, "Fly/TrayIconThemeName")!=0 || setting->type != XSETTINGS_TYPE_STRING) return;
++
++  //g_debug("xsettings_notify_cb, theme=%s new=%s",applet->icon_theme_tray_name,setting->data.v_string);
++  if (applet->icon_theme_tray_name) {
++    if (strcmp(applet->icon_theme_tray_name, setting->data.v_string) == 0) return;
++    free(applet->icon_theme_tray_name); applet->icon_theme_tray_name=NULL;
++  }
++
++  if (!applet->icon_theme_tray) applet->icon_theme_tray = gtk_icon_theme_new();
++  applet->icon_theme_tray_name = strdup(setting->data.v_string);
++  gtk_icon_theme_set_custom_theme (applet->icon_theme_tray,applet->icon_theme_tray_name);
++
++  nma_icon_theme_changed(applet->icon_theme_tray, applet);
++}
++
++static GdkFilterReturn _xsettings_manager_filter (GdkXEvent *xevent, GdkEvent *event, gpointer data)
++{
++  if (!data) return GDK_FILTER_CONTINUE;
++
++  XEvent *xev = xevent;
++  NMApplet  *applet = (NMApplet *)data;
++
++  //g_debug("xsettings_manager_filterb xev=%p applet=%p",xev,data);
++  if (applet->xsettings_client) xsettings_client_process_event(applet->xsettings_client, xev);
++
++  return GDK_FILTER_CONTINUE;
++}
++
++static void _xsettings_watch_cb(Window window, Bool is_start, long mask, void  *data)
++{
++  if (!data) return;
++/*
++  GdkWindow * gw = NULL;
++  gw = gdk_x11_window_foreign_new_for_display (gdk_display_get_default(), window);
++  gw = gdk_x11_window_lookup_for_display(gdk_display_get_default(), window);
++  g_debug("xsettings_watch_cb win=%d gw=%p is_start=%d data=%p",window,gw,is_start,data);
++*/
++  if (is_start) gdk_window_add_filter(NULL/*gw*/, _xsettings_manager_filter, data);
++}
++//-------------------------------------------------------------------------------------------
++
+ static void nma_icons_init (NMApplet *applet)
+ {
++	XSettingsSetting *s;
++    GdkDisplay* gd = gdk_display_get_default();
++    Display* d = GDK_DISPLAY_XDISPLAY(gd);
++
++    gdk_x11_display_set_window_scale(gd,1); //alex: workaround for invisibale tray icon when Gdk/WindowScalingFactor > 1
++
+ 	gboolean path_appended;
+
+ 	if (applet->icon_theme) {
+@@ -3052,6 +3153,23 @@
+ 	else
+ 		applet->icon_theme = gtk_icon_theme_get_default ();
+
++	//alex: load tray icon theme-------------------------------------------------------------
++    //g_debug("nma_icons_init: get white or back or none theme from xsettings");
++    if (applet->icon_theme_tray)      { g_clear_object (&applet->icon_theme_tray); applet->icon_theme_tray =NULL; }
++    if (applet->icon_theme_tray_name) { free(applet->icon_theme_tray_name); applet->icon_theme_tray_name=NULL; }
++    if (applet->xsettings_client)     { xsettings_client_destroy(applet->xsettings_client); applet->xsettings_client=NULL; }
++
++    applet->xsettings_client = xsettings_client_new(d, DefaultScreen(d), _xsettings_notify_cb, _xsettings_watch_cb, (void *)applet );
++    if (applet->xsettings_client &&
++        xsettings_client_get_setting(applet->xsettings_client,"Fly/TrayIconThemeName",&s)==XSETTINGS_SUCCESS &&
++        s->data.v_string && *(s->data.v_string))
++    {
++          applet->icon_theme_tray_name = strdup(s->data.v_string);
++          applet->icon_theme_tray = gtk_icon_theme_new();
++          gtk_icon_theme_set_custom_theme (applet->icon_theme_tray,applet->icon_theme_tray_name);
++    }
++    //----------------------------------------------------------------------------------
++
+ 	/* If not done yet, append our search path */
+ 	path_appended = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (applet->icon_theme),
+ 	                                 "NMAIconPathAppended"));
+@@ -3314,6 +3432,16 @@
+ 	                                            g_str_equal,
+ 	                                            g_free,
+ 	                                            nm_g_object_unref);
++
++	applet->icon_cache_tray = g_hash_table_new_full (g_str_hash, //alex
++	                                            	g_str_equal,
++	                                            	g_free,
++	                                            	nm_g_object_unref);
++    applet->icon_theme_tray     =NULL;
++    applet->icon_theme_tray_name=NULL;
++    applet->xsettings_client    =NULL;
++
++
+ 	nma_icons_init (applet);
+
+ 	/* Initialize device classes */
+@@ -3372,6 +3500,13 @@
+ 	g_clear_object (&applet->status_icon);
+ 	g_clear_object (&applet->menu);
+ 	g_clear_pointer (&applet->icon_cache, g_hash_table_destroy);
++
++	//alex: destoy tray icon theme and xsettings
++	g_clear_pointer (&applet->icon_cache_tray, g_hash_table_destroy);
++	if (applet->icon_theme_tray_name) free(applet->icon_theme_tray_name);
++	if (applet->xsettings_client) xsettings_client_destroy(applet->xsettings_client);
++	g_clear_object (&applet->icon_theme_tray);
++
+ 	g_clear_object (&applet->fallback_icon);
+ 	g_free (applet->tip);
+ 	nma_icons_free (applet);
+
+--- a/po/ru.po	2022-11-07 10:48:39.000000000 +0300
++++ b/po/ru.po	2023-11-20 14:40:50.667950099 +0300
+@@ -434,7 +434,6 @@
+ msgstr "Wi-Fi выключен механическим переключателем"
+
+ #: src/applet-device-wifi.c:887
+-#, fuzzy
+ msgid "_Available networks"
+ msgstr "Доступно"
+
+@@ -1052,11 +1051,25 @@
+ msgid "You are now connected to “%s”."
+ msgstr "Вы подключены к «%s»."
+
+-#: src/applet.c:2201
++#: ../src/applet.c:2207
++msgid "NetworkManager has detected an IP address conflict."
++msgstr "NetworkManager обнаружил конфликт IP-адресов."
++
++#: ../src/applet.c:2208
++msgid ""
++"Another computer on this network has the same IP address as this computer.\n"
++"Contact your network administrator for help resolving this issue.\n"
++"More details are available in the system event log."
++msgstr ""
++"В этой сети уже есть компьютер с таким же IP-адресом.\n"
++"Обратитесь к системному администратору для решения этой проблемы.\n"
++"Дополнительные сведения см. в системном журнале событий."
++
++#: src/applet.c:2216
+ msgid "Disconnected"
+ msgstr "Соединение разорвано"
+
+-#: src/applet.c:2202
++#: src/applet.c:2217
+ msgid "The network connection has been disconnected."
+ msgstr "Сетевое соединение было разорвано."
+
+--- a/src/connection-editor/ce-new-connection.ui	2022-01-19 10:55:32.000000000 +0300
++++ b/src/connection-editor/ce-new-connection.ui	2023-11-20 14:22:50.255954220 +0300
+@@ -55,7 +55,7 @@
+                 <property name="use_underline">True</property>
+               </object>
+               <packing>
+-                <property name="expand">False</property>
++                <property name="expand">True</property>
+                 <property name="fill">False</property>
+                 <property name="position">0</property>
+               </packing>
+@@ -70,14 +70,14 @@
+                 <property name="use_underline">True</property>
+               </object>
+               <packing>
+-                <property name="expand">False</property>
++                <property name="expand">True</property>
+                 <property name="fill">False</property>
+                 <property name="position">1</property>
+               </packing>
+             </child>
+           </object>
+           <packing>
+-            <property name="expand">False</property>
++            <property name="expand">True</property>
+             <property name="fill">True</property>
+             <property name="pack_type">end</property>
+             <property name="position">0</property>
+@@ -102,7 +102,7 @@
+                 <property name="icon_size">6</property>
+               </object>
+               <packing>
+-                <property name="expand">False</property>
++                <property name="expand">True</property>
+                 <property name="fill">True</property>
+                 <property name="position">0</property>
+               </packing>
+@@ -125,7 +125,7 @@
+                     </attributes>
+                   </object>
+                   <packing>
+-                    <property name="expand">False</property>
++                    <property name="expand">True</property>
+                     <property name="fill">False</property>
+                     <property name="position">0</property>
+                   </packing>
+@@ -142,7 +142,7 @@
+                     <property name="xalign">0</property>
+                   </object>
+                   <packing>
+-                    <property name="expand">False</property>
++                    <property name="expand">True</property>
+                     <property name="fill">False</property>
+                     <property name="position">1</property>
+                   </packing>
+@@ -188,7 +188,7 @@
+                     </child>
+                   </object>
+                   <packing>
+-                    <property name="expand">False</property>
++                    <property name="expand">True</property>
+                     <property name="fill">False</property>
+                     <property name="padding">6</property>
+                     <property name="position">2</property>
+@@ -203,7 +203,7 @@
+             </child>
+           </object>
+           <packing>
+-            <property name="expand">False</property>
++            <property name="expand">True</property>
+             <property name="fill">True</property>
+             <property name="position">1</property>
+           </packing>

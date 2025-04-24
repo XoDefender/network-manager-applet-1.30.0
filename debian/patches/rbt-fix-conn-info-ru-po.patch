@@ -1,0 +1,11 @@
+--- a/po/ru.po	2024-08-19 12:37:23.000000000 +0300
++++ b/po/ru.po	2024-08-19 13:11:07.527971228 +0300
+@@ -4368,7 +4368,7 @@
+ 
+ #: src/info.ui:9
+ msgid "Connection Information"
+-msgstr "Сведения соединении"
++msgstr "Сведения о соединении"
+ 
+ #: src/info.ui:30
+ msgid "_Close"

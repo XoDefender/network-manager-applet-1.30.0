@@ -1,0 +1,7 @@
+--- a/nm-applet.desktop.in	2022-09-12 13:02:02.000000000 +0300
++++ b/nm-applet.desktop.in	2024-03-27 11:40:34.459994648 +0300
+@@ -8,3 +8,4 @@
+ NoDisplay=true
+ NotShowIn=KDE;GNOME;
+ X-GNOME-UsesNotifications=true
++X-KDE-autostart-phase=2
