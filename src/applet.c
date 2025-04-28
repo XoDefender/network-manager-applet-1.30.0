@@ -999,7 +999,6 @@ nma_menu_vpn_item_clicked (GtkMenuItem *item, gpointer user_data)
 	start_animation_timeout (applet);
 }
 
-
 /*
  * nma_menu_configure_vpn_item_activate
  *
@@ -1754,6 +1753,222 @@ applet_connection_info_cb (NMApplet *applet)
 	applet_info_dialog_show (applet);
 }
 
+typedef enum {
+    CONNECTED_NOTIFICATIONS    = 0,
+    DISCONNECTED_NOTIFICATIONS = 1,
+    VPN_NOTIFICATIONS          = 2,
+} NotificationTypes;
+
+static void
+nma_menu_notification_item_clicked (GtkMenuItem *item, NMApplet *applet)
+{
+	NotificationTypes status = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(item), "connection-status"));
+	gboolean state = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item));
+	switch (status) {
+		case CONNECTED_NOTIFICATIONS:
+			g_settings_set_boolean (applet->gsettings,
+									PREF_DISABLE_CONNECTED_NOTIFICATIONS, 
+									state);
+			break;
+		case DISCONNECTED_NOTIFICATIONS:
+			g_settings_set_boolean (applet->gsettings,
+									PREF_DISABLE_DISCONNECTED_NOTIFICATIONS,
+									state);
+			break;
+		case VPN_NOTIFICATIONS:
+			g_settings_set_boolean (applet->gsettings,
+									PREF_DISABLE_VPN_NOTIFICATIONS,
+									state);
+			break;
+		default:
+			break;
+	}
+}
+
+static void 
+on_save_button_clicked(GtkButton *button, GtkWidget *dialog) 
+{
+    // GtkWidget *check1 = gtk_widget_get_parent(gtk_bin_get_child(GTK_BIN(button)));
+    // GtkWidget *check2 = g_object_get_data(G_OBJECT(check1), "check2");
+    
+    // gboolean check1_active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check1));
+    // gboolean check2_active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check2));
+    
+    // if (check1_active) {
+    //     g_print("Check 1 is selected.\n");
+    // }
+    // if (check2_active) {
+    //     g_print("Check 2 is selected.\n");
+    // }
+
+    // // Close the dialog after saving
+    gtk_widget_destroy(dialog);
+}
+
+static void
+nma_menu_configure_notify_item_activate (GtkMenuItem *item, gpointer user_data)
+{
+	GtkWidget *parent;
+    parent = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title(GTK_WINDOW(parent), "GTK3 Check Buttons");
+    g_signal_connect(parent, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+
+	GtkWidget *dialog, *content_area, *check, *save_button;
+    
+    dialog = gtk_dialog_new_with_buttons("Check Buttons Dialog", 
+                                        GTK_WINDOW(parent), 
+                                        GTK_DIALOG_MODAL, 
+                                        NULL);
+
+	//gtk_window_set_default_size(GTK_WINDOW(dialog), 500, 500);
+
+	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+
+	NMActiveConnectionStateReason reasons[9] = {
+		NM_ACTIVE_CONNECTION_STATE_REASON_DEVICE_DISCONNECTED, 
+		NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_STOPPED,
+		NM_ACTIVE_CONNECTION_STATE_REASON_IP_CONFIG_INVALID, 
+		NM_ACTIVE_CONNECTION_STATE_REASON_CONNECT_TIMEOUT, 
+		NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_START_TIMEOUT,
+		NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_START_FAILED,
+		NM_ACTIVE_CONNECTION_STATE_REASON_NO_SECRETS,
+		NM_ACTIVE_CONNECTION_STATE_REASON_LOGIN_FAILED,
+		NM_ACTIVE_CONNECTION_STATE_REASON_USER_DISCONNECTED,
+	};
+
+	for(int i = 0; i < sizeof(reasons) / sizeof(reasons[0]); i++) 
+	{
+		switch (reasons[i]) {
+		case NM_ACTIVE_CONNECTION_STATE_REASON_DEVICE_DISCONNECTED:
+			check = gtk_check_button_new_with_label("Отключить уведомление о перывании соединения");
+			break;
+		case NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_STOPPED:
+			check = gtk_check_button_new_with_label("Отключить уведомление о неожиданном завершении работы службы VPN");
+			break;
+		case NM_ACTIVE_CONNECTION_STATE_REASON_IP_CONFIG_INVALID:
+			check = gtk_check_button_new_with_label("Отключить уведомление о недопустимой конфигурации службы VPN");
+			break;
+		case NM_ACTIVE_CONNECTION_STATE_REASON_CONNECT_TIMEOUT:
+			check = gtk_check_button_new_with_label("Отключить уведомление о превышении времени ожидания");
+			break;
+		case NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_START_TIMEOUT:
+			check = gtk_check_button_new_with_label("Отключить уведомление о том, что служба VPN не была запущена вовремя");
+			break;
+		case NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_START_FAILED:
+			check = gtk_check_button_new_with_label("Отключить уведомление о сбое запуска службы VPN");
+			break;
+		case NM_ACTIVE_CONNECTION_STATE_REASON_NO_SECRETS:
+			check = gtk_check_button_new_with_label("Отключить уведомление об отсутствии действительного пароля");
+			break;
+		case NM_ACTIVE_CONNECTION_STATE_REASON_LOGIN_FAILED:
+			check = gtk_check_button_new_with_label("Отключить уведомление о недействительном пароле");
+			break;
+		case NM_ACTIVE_CONNECTION_STATE_REASON_USER_DISCONNECTED:
+			check = gtk_check_button_new_with_label("Отключить уведомление о ручном разрыве подключения");
+			break;
+		default:
+			break;
+		}
+
+		gtk_box_pack_start(GTK_BOX(content_area), check, TRUE, TRUE, 0);
+		//g_signal_connect (check, "activate", G_CALLBACK (nma_menu_notification_item_clicked), applet);
+	}
+
+    save_button = gtk_button_new_with_label("Save");
+    g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_button_clicked), dialog);
+	gtk_dialog_add_action_widget(GTK_DIALOG(dialog), save_button, GTK_RESPONSE_OK);
+    gtk_widget_show_all(dialog);
+    gtk_dialog_run(GTK_DIALOG(dialog));
+}
+
+static void
+nma_menu_add_notification_submenu (GtkWidget *menu, NMApplet *applet)
+{
+	GtkMenu *vpn_menu;
+	GtkMenuItem *item;
+	bool is_active;
+
+	vpn_menu = GTK_MENU (gtk_menu_new ());
+
+	item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (_("Настройки уведомлений")));
+	gtk_menu_item_set_submenu (item, GTK_WIDGET (vpn_menu));
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), GTK_WIDGET (item));
+	gtk_widget_show (GTK_WIDGET (item));
+
+	NotificationTypes types[3] = {
+		CONNECTED_NOTIFICATIONS, 
+		DISCONNECTED_NOTIFICATIONS, 
+		VPN_NOTIFICATIONS, 
+	};
+
+	for (int i = 0; i < sizeof(types) / sizeof(types[0]); i++) 
+	{
+		switch (types[i]) {
+			case CONNECTED_NOTIFICATIONS:
+				item = GTK_MENU_ITEM (gtk_check_menu_item_new_with_label ("Отключить уведомления о подключении"));
+				g_object_set_data_full(G_OBJECT(item), "connection-status", GINT_TO_POINTER(CONNECTED_NOTIFICATIONS), NULL);
+				is_active = g_settings_get_boolean (applet->gsettings, PREF_DISABLE_CONNECTED_NOTIFICATIONS);
+				break;
+			case DISCONNECTED_NOTIFICATIONS:
+				item = GTK_MENU_ITEM (gtk_check_menu_item_new_with_label ("Отключить уведомления об отключении"));
+				g_object_set_data_full(G_OBJECT(item), "connection-status", GINT_TO_POINTER(DISCONNECTED_NOTIFICATIONS), NULL);
+				is_active = g_settings_get_boolean (applet->gsettings, PREF_DISABLE_DISCONNECTED_NOTIFICATIONS);
+				break;
+			case VPN_NOTIFICATIONS:
+				item = GTK_MENU_ITEM (gtk_check_menu_item_new_with_label ("Отключить уведомление о статусе VPN"));
+				g_object_set_data_full(G_OBJECT(item), "connection-status", GINT_TO_POINTER(VPN_NOTIFICATIONS), NULL);
+				is_active = g_settings_get_boolean (applet->gsettings, PREF_DISABLE_VPN_NOTIFICATIONS);
+				break;
+			default:
+				break;
+		}
+
+		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), is_active);
+		gtk_menu_shell_append (GTK_MENU_SHELL (vpn_menu), GTK_WIDGET (item));
+		g_signal_connect (item, "activate", G_CALLBACK (nma_menu_notification_item_clicked), applet);
+		gtk_widget_show (GTK_WIDGET (item));
+		
+		// NMConnection *connection = NM_CONNECTION (list->pdata[i]);
+		// NMActiveConnection *active;
+		// const char *name;
+		// NMState state;
+
+		// name = nm_connection_get_id (connection);
+
+		// item = GTK_MENU_ITEM (gtk_check_menu_item_new_with_label (name));
+
+		// /* If no VPN connections are active, draw all menu items enabled. If
+		//  * >= 1 VPN connections are active, only the active VPN menu item is
+		//  * drawn enabled.
+		//  */
+		// active = applet_get_active_for_connection (applet, connection);
+
+		// state = nm_client_get_state (applet->nm_client);
+		// if (   state != NM_STATE_CONNECTED_LOCAL
+		//     && state != NM_STATE_CONNECTED_SITE
+		//     && state != NM_STATE_CONNECTED_GLOBAL)
+		// 	gtk_widget_set_sensitive (GTK_WIDGET (item), FALSE);
+		// else
+		// 	gtk_widget_set_sensitive (GTK_WIDGET (item), TRUE);
+
+		// gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), !!active);
+
+		// g_object_set_data_full (G_OBJECT (item), "connection",
+		//                         g_object_ref (connection),
+		//                         (GDestroyNotify) g_object_unref);
+
+		// g_signal_connect (item, "activate", G_CALLBACK (nma_menu_vpn_item_clicked), applet);
+		// gtk_menu_shell_append (GTK_MENU_SHELL (vpn_menu), GTK_WIDGET (item));
+		// gtk_widget_show (GTK_WIDGET (item));
+	}
+
+	nma_menu_add_separator_item (GTK_WIDGET (vpn_menu));
+	item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (_("Детальная настройка")));
+	g_signal_connect (item, "activate", G_CALLBACK (nma_menu_configure_notify_item_activate), applet);
+	gtk_menu_shell_append (GTK_MENU_SHELL (vpn_menu), GTK_WIDGET (item));
+	gtk_widget_show (GTK_WIDGET (item));
+}
+
 /*
  * nma_context_menu_populate
  *
@@ -1810,6 +2025,7 @@ static void nma_context_menu_populate (NMApplet *applet, GtkMenu *menu)
 
 	if (!INDICATOR_ENABLED (applet)) {
 		/* Toggle notifications item */
+		// TODO:Kirill
 		applet->notifications_enabled_item = gtk_check_menu_item_new_with_mnemonic (_("Enable N_otifications"));
 		id = g_signal_connect (applet->notifications_enabled_item,
 			                   "toggled",
@@ -1820,6 +2036,9 @@ static void nma_context_menu_populate (NMApplet *applet, GtkMenu *menu)
 
 		nma_menu_add_separator_item (GTK_WIDGET (menu_shell));
 	}
+
+	// TODO:Kirill
+	nma_menu_add_notification_submenu(GTK_WIDGET (menu_shell), applet);
 
 	/* 'Connection Information' item */
 	applet->info_menu_item = gtk_menu_item_new_with_mnemonic (_("Connection _Information"));
