@@ -59,6 +59,16 @@ typedef struct {
 #define PREF_SUPPRESS_WIFI_NETWORKS_AVAILABLE     "suppress-wireless-networks-available"
 #define PREF_SHOW_APPLET                          "show-applet"
 
+#define PREF_DISABLE_REASON_DEVICE_DISCONNECTED     "disable-device-disconnected-notification"
+#define PREF_DISABLE_REASON_SERVICE_STOPPED         "disable-service-stopped-notification"
+#define PREF_DISABLE_REASON_IP_CONFIG_INVALID       "disable-ip-config-invalid-notification"
+#define PREF_DISABLE_REASON_CONNECT_TIMEOUT         "disable-connect-timeout-notification"
+#define PREF_DISABLE_REASON_SERVICE_START_TIMEOUT   "disable-service-start-timeout-notification"
+#define PREF_DISABLE_REASON_SERVICE_START_FAILED    "disable-service-start-failed-notification"
+#define PREF_DISABLE_REASON_NO_SECRETS              "disable-no-secrets-notification"
+#define PREF_DISABLE_REASON_LOGIN_FAILED            "disable-login-failed-notification"
+#define PREF_DISABLE_REASON_USER_DISCONNECTED       "disable-user-disconnected-notification"
+
 #define ICON_LAYER_LINK                           0
 #define ICON_LAYER_VPN                            1
 #define ICON_LAYER_MAX                            ICON_LAYER_VPN

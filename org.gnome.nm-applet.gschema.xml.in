@@ -16,6 +16,51 @@
       <summary>Disable VPN notifications</summary>
       <description>Set this to true to disable notifications when connecting to or disconnecting from a VPN.</description>
     </key>
+    <key name="disable-device-disconnected-notification" type="b">
+      <default>false</default>
+      <summary>Show the applet in notification area</summary>
+      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+    </key>
+    <key name="disable-service-stopped-notification" type="b">
+      <default>false</default>
+      <summary>Show the applet in notification area</summary>
+      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+    </key>
+    <key name="disable-ip-config-invalid-notification" type="b">
+      <default>false</default>
+      <summary>Show the applet in notification area</summary>
+      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+    </key>
+    <key name="disable-connect-timeout-notification" type="b">
+      <default>false</default>
+      <summary>Show the applet in notification area</summary>
+      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+    </key>
+    <key name="disable-service-start-timeout-notification" type="b">
+      <default>false</default>
+      <summary>Show the applet in notification area</summary>
+      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+    </key>
+    <key name="disable-service-start-failed-notification" type="b">
+      <default>false</default>
+      <summary>Show the applet in notification area</summary>
+      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+    </key>
+    <key name="disable-no-secrets-notification" type="b">
+      <default>false</default>
+      <summary>Show the applet in notification area</summary>
+      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+    </key>
+    <key name="disable-login-failed-notification" type="b">
+      <default>false</default>
+      <summary>Show the applet in notification area</summary>
+      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+    </key>
+    <key name="disable-user-disconnected-notification" type="b">
+      <default>false</default>
+      <summary>Show the applet in notification area</summary>
+      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+    </key>
     <key name="suppress-wireless-networks-available" type="b">
       <default>false</default>
       <summary>Suppress networks available notifications</summary>
