@@ -1039,7 +1039,7 @@ msgstr "Включить _мобильную широкополосную свя
 #. Toggle notifications item
 #: src/applet.c:1813
 msgid "Enable N_otifications"
-msgstr "Включить _уведомления"
+msgstr "Включить все _уведомления"
 
 #. 'Connection Information' item
 #: src/applet.c:1825

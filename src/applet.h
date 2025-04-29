@@ -162,6 +162,8 @@ typedef struct {
 	GSList *        secrets_reqs;
 
 	guint           wifi_scan_id;
+
+	GtkMenu *notification_menu;
 } NMApplet;
 
 typedef void (*AppletNewAutoConnectionCallback) (NMConnection *connection,

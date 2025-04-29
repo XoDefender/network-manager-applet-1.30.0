@@ -1537,6 +1537,15 @@ nma_set_networking_enabled_cb (GtkWidget *widget, NMApplet *applet)
 	nm_client_networking_set_enabled (applet->nm_client, state, NULL);
 }
 
+static void 
+set_notification_menu_item_state(GtkWidget *widget, gpointer data) 
+{
+	gboolean state;
+	state = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (data));
+    if (GTK_IS_CHECK_MENU_ITEM(widget)) {
+		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (widget), !state);
+    }
+}
 
 static void
 nma_set_notifications_enabled_cb (GtkWidget *widget, NMApplet *applet)
@@ -1559,6 +1568,8 @@ nma_set_notifications_enabled_cb (GtkWidget *widget, NMApplet *applet)
 	g_settings_set_boolean (applet->gsettings,
 	                        PREF_SUPPRESS_WIFI_NETWORKS_AVAILABLE,
 	                        !state);
+
+	gtk_container_foreach(GTK_CONTAINER(applet->notification_menu), set_notification_menu_item_state, widget);
 }
 
 static gboolean
@@ -1960,13 +1971,13 @@ create_notification_menu_item(NMApplet *applet, NotificationTypes type)
 static void
 nma_menu_add_notification_submenu (GtkWidget *menu, NMApplet *applet)
 {
-	GtkMenu *vpn_menu;
+	GtkMenu *notification_menu;
 	GtkMenuItem *item;
 
-	vpn_menu = GTK_MENU (gtk_menu_new ());
+	notification_menu = GTK_MENU (gtk_menu_new ());
 
 	item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (_("Настройки уведомлений")));
-	gtk_menu_item_set_submenu (item, GTK_WIDGET (vpn_menu));
+	gtk_menu_item_set_submenu (item, GTK_WIDGET (notification_menu));
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), GTK_WIDGET (item));
 	gtk_widget_show (GTK_WIDGET (item));
 
@@ -1974,16 +1985,18 @@ nma_menu_add_notification_submenu (GtkWidget *menu, NMApplet *applet)
 	{
 		item = create_notification_menu_item(applet, i);
 		if(item){
-			gtk_menu_shell_append (GTK_MENU_SHELL (vpn_menu), GTK_WIDGET (item));
+			gtk_menu_shell_append (GTK_MENU_SHELL (notification_menu), GTK_WIDGET (item));
 			gtk_widget_show (GTK_WIDGET (item));
 		}
 	}
 
-	nma_menu_add_separator_item (GTK_WIDGET (vpn_menu));
+	nma_menu_add_separator_item (GTK_WIDGET (notification_menu));
 	item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (_("Детальная настройка уведомлений VPN")));
 	g_signal_connect (item, "activate", G_CALLBACK (nma_menu_configure_notify_item_activate), applet);
-	gtk_menu_shell_append (GTK_MENU_SHELL (vpn_menu), GTK_WIDGET (item));
+	gtk_menu_shell_append (GTK_MENU_SHELL (notification_menu), GTK_WIDGET (item));
 	gtk_widget_show (GTK_WIDGET (item));
+
+	applet->notification_menu = notification_menu;
 }
 
 /*
@@ -2042,7 +2055,6 @@ static void nma_context_menu_populate (NMApplet *applet, GtkMenu *menu)
 
 	if (!INDICATOR_ENABLED (applet)) {
 		/* Toggle notifications item */
-		// TODO:Kirill
 		applet->notifications_enabled_item = gtk_check_menu_item_new_with_mnemonic (_("Enable N_otifications"));
 		id = g_signal_connect (applet->notifications_enabled_item,
 			                   "toggled",
@@ -2054,7 +2066,6 @@ static void nma_context_menu_populate (NMApplet *applet, GtkMenu *menu)
 		nma_menu_add_separator_item (GTK_WIDGET (menu_shell));
 	}
 
-	// TODO:Kirill
 	nma_menu_add_notification_submenu(GTK_WIDGET (menu_shell), applet);
 
 	/* 'Connection Information' item */
