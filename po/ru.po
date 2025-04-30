@@ -1038,8 +1038,20 @@ msgstr "Включить _мобильную широкополосную свя
 
 #. Toggle notifications item
 #: src/applet.c:1813
-msgid "Enable N_otifications"
-msgstr "Включить все _уведомления"
+msgid "Enable all notifications"
+msgstr "Включить все уведомления"
+
+#: src/applet.c:1979
+msgid "Notification settings"
+msgstr "Настройки уведомлений"
+
+#: src/applet.c:1993
+msgid "Detailed VPN notification settings"
+msgstr "Детальная настройка уведомлений VPN"
+
+#: src/applet.c:1915
+msgid "Manage VPN notifications"
+msgstr "Управление уведомлениями VPN"
 
 #. 'Connection Information' item
 #: src/applet.c:1825

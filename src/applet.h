@@ -145,6 +145,7 @@ typedef struct {
 
 	GtkWidget *     notifications_enabled_item;
 	guint           notifications_enabled_toggled_id;
+	GtkMenu   *     notifications_menu;
 
 	GtkWidget *     networking_enabled_item;
 	guint           networking_enabled_toggled_id;
@@ -162,8 +163,6 @@ typedef struct {
 	GSList *        secrets_reqs;
 
 	guint           wifi_scan_id;
-
-	GtkMenu *notification_menu;
 } NMApplet;
 
 typedef void (*AppletNewAutoConnectionCallback) (NMConnection *connection,

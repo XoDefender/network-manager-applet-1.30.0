@@ -684,22 +684,50 @@ applet_menu_item_create_device_item_helper (NMDevice *device,
 	return item;
 }
 
-static bool 
-is_disable_vpn_notification_pref(const char *pref) 
+static const char *
+vpn_reasons_prefs[] = {
+	PREF_DISABLE_REASON_DEVICE_DISCONNECTED,
+	PREF_DISABLE_REASON_SERVICE_STOPPED,
+	PREF_DISABLE_REASON_IP_CONFIG_INVALID,
+	PREF_DISABLE_REASON_CONNECT_TIMEOUT,
+	PREF_DISABLE_REASON_SERVICE_START_TIMEOUT,
+	PREF_DISABLE_REASON_SERVICE_START_FAILED,
+	PREF_DISABLE_REASON_NO_SECRETS,
+	PREF_DISABLE_REASON_LOGIN_FAILED,
+	PREF_DISABLE_REASON_USER_DISCONNECTED
+};
+
+static NMActiveConnectionStateReason 
+vpn_reasons[] = {
+    NM_ACTIVE_CONNECTION_STATE_REASON_DEVICE_DISCONNECTED,
+    NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_STOPPED,
+    NM_ACTIVE_CONNECTION_STATE_REASON_IP_CONFIG_INVALID,
+    NM_ACTIVE_CONNECTION_STATE_REASON_CONNECT_TIMEOUT,
+    NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_START_TIMEOUT,
+    NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_START_FAILED,
+    NM_ACTIVE_CONNECTION_STATE_REASON_NO_SECRETS,
+    NM_ACTIVE_CONNECTION_STATE_REASON_LOGIN_FAILED,
+	NM_ACTIVE_CONNECTION_STATE_REASON_USER_DISCONNECTED,
+};
+
+typedef enum {
+    CONNECTED_NOTIFICATIONS    = 0,
+    DISCONNECTED_NOTIFICATIONS = 1,
+    VPN_NOTIFICATIONS          = 2,
+} BaseNotificationTypes;
+
+static gboolean 
+is_vpn_notification_pref(const char *pref) 
 {
-	if (pref == NULL) return 0;
+	g_return_val_if_fail(pref != NULL, FALSE);
 
-    if (strcmp(pref, PREF_DISABLE_REASON_DEVICE_DISCONNECTED) == 0) return 1;
-    if (strcmp(pref, PREF_DISABLE_REASON_SERVICE_STOPPED) == 0) return 1;
-    if (strcmp(pref, PREF_DISABLE_REASON_IP_CONFIG_INVALID) == 0) return 1;
-    if (strcmp(pref, PREF_DISABLE_REASON_CONNECT_TIMEOUT) == 0) return 1;
-    if (strcmp(pref, PREF_DISABLE_REASON_SERVICE_START_TIMEOUT) == 0) return 1;
-    if (strcmp(pref, PREF_DISABLE_REASON_SERVICE_START_FAILED) == 0) return 1;
-    if (strcmp(pref, PREF_DISABLE_REASON_NO_SECRETS) == 0) return 1;
-    if (strcmp(pref, PREF_DISABLE_REASON_LOGIN_FAILED) == 0) return 1;
-    if (strcmp(pref, PREF_DISABLE_REASON_USER_DISCONNECTED) == 0) return 1;
+	for (int i = 0; i < G_N_ELEMENTS (vpn_reasons_prefs); i++) {
+		if(!strcmp(pref, vpn_reasons_prefs[i])) {
+			return TRUE;
+		}
+	}
 
-    return 0;
+    return FALSE;
 }
 
 void
@@ -717,7 +745,7 @@ applet_do_notify (NMApplet *applet,
 	g_return_if_fail (title != NULL);
 	g_return_if_fail (body != NULL);
 
-	if(pref && is_disable_vpn_notification_pref(pref)) {
+	if(pref && is_vpn_notification_pref(pref)) {
 		if (g_settings_get_boolean (applet->gsettings, PREF_DISABLE_VPN_NOTIFICATIONS)) {
 			return;
 		}
@@ -1548,6 +1576,14 @@ set_notification_menu_item_state(GtkWidget *widget, gpointer data)
 }
 
 static void
+change_vpn_notifications_state(NMApplet *applet, gboolean state)
+{
+	for (int i = 0; i < G_N_ELEMENTS (vpn_reasons_prefs); i++) {
+		g_settings_set_boolean (applet->gsettings, vpn_reasons_prefs[i], state);
+	}
+}
+
+static void
 nma_set_notifications_enabled_cb (GtkWidget *widget, NMApplet *applet)
 {
 	gboolean state;
@@ -1569,7 +1605,9 @@ nma_set_notifications_enabled_cb (GtkWidget *widget, NMApplet *applet)
 	                        PREF_SUPPRESS_WIFI_NETWORKS_AVAILABLE,
 	                        !state);
 
-	gtk_container_foreach(GTK_CONTAINER(applet->notification_menu), set_notification_menu_item_state, widget);
+	change_vpn_notifications_state(applet, !state);
+
+	gtk_container_foreach(GTK_CONTAINER(applet->notifications_menu), set_notification_menu_item_state, widget);
 }
 
 static gboolean
@@ -1800,36 +1838,12 @@ applet_connection_info_cb (NMApplet *applet)
 	applet_info_dialog_show (applet);
 }
 
-typedef enum {
-    CONNECTED_NOTIFICATIONS    = 0,
-    DISCONNECTED_NOTIFICATIONS = 1,
-    VPN_NOTIFICATIONS          = 2,
-} NotificationTypes;
-
 static void
 nma_menu_notification_item_clicked (GtkMenuItem *item, NMApplet *applet)
 {
-	NotificationTypes status = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(item), "connection-status"));
+	const char *pref = g_object_get_data(G_OBJECT(item), "notification-pref");
 	gboolean state = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item));
-	switch (status) {
-		case CONNECTED_NOTIFICATIONS:
-			g_settings_set_boolean (applet->gsettings,
-									PREF_DISABLE_CONNECTED_NOTIFICATIONS, 
-									state);
-			break;
-		case DISCONNECTED_NOTIFICATIONS:
-			g_settings_set_boolean (applet->gsettings,
-									PREF_DISABLE_DISCONNECTED_NOTIFICATIONS,
-									state);
-			break;
-		case VPN_NOTIFICATIONS:
-			g_settings_set_boolean (applet->gsettings,
-									PREF_DISABLE_VPN_NOTIFICATIONS,
-									state);
-			break;
-		default:
-			break;
-	}
+	g_settings_set_boolean (applet->gsettings, pref, state);
 }
 
 static void 
@@ -1912,7 +1926,7 @@ nma_menu_configure_notify_item_activate (GtkMenuItem *item, NMApplet *applet)
 {
 	GtkWidget *dialog, *content_area;
 
-	dialog = gtk_dialog_new_with_buttons("Управление уведомлениями VPN", NULL, 
+	dialog = gtk_dialog_new_with_buttons(_("Manage VPN notifications"), NULL, 
 										 GTK_DIALOG_MODAL, "Сохранить",  
 										 GTK_RESPONSE_OK, NULL);
 
@@ -1921,10 +1935,9 @@ nma_menu_configure_notify_item_activate (GtkMenuItem *item, NMApplet *applet)
 
 	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
 
-	for(NMActiveConnectionStateReason i = NM_ACTIVE_CONNECTION_STATE_REASON_UNKNOWN; 
-		i <= NM_ACTIVE_CONNECTION_STATE_REASON_DEVICE_REMOVED; i++) 
+	for(int i = 0; i < G_N_ELEMENTS (vpn_reasons); i++) 
 	{
-		GtkWidget *check = create_check_button_for_reason(applet, i);
+		GtkWidget *check = create_check_button_for_reason(applet, vpn_reasons[i]);
         if (check) {
             gtk_box_pack_start(GTK_BOX(content_area), check, TRUE, TRUE, 0);
         }
@@ -1935,7 +1948,7 @@ nma_menu_configure_notify_item_activate (GtkMenuItem *item, NMApplet *applet)
 }
 
 static GtkMenuItem* 
-create_notification_menu_item(NMApplet *applet, NotificationTypes type)
+create_notifications_menu_item(NMApplet *applet, BaseNotificationTypes type)
 {
 	GtkMenuItem *item;
     const char *label;
@@ -1952,7 +1965,7 @@ create_notification_menu_item(NMApplet *applet, NotificationTypes type)
 			pref = PREF_DISABLE_DISCONNECTED_NOTIFICATIONS;
 			break;
 		case VPN_NOTIFICATIONS:
-			label = "Отключить уведомление о статусе VPN";
+			label = "Отключить уведомления о статусе VPN";
 			pref = PREF_DISABLE_VPN_NOTIFICATIONS;
 			break;
 		default:
@@ -1962,7 +1975,7 @@ create_notification_menu_item(NMApplet *applet, NotificationTypes type)
 	item = GTK_MENU_ITEM (gtk_check_menu_item_new_with_label (label));
 	is_active = g_settings_get_boolean (applet->gsettings, pref);
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), is_active);
-	g_object_set_data_full(G_OBJECT(item), "connection-status", GINT_TO_POINTER(type), NULL);
+	g_object_set_data_full(G_OBJECT(item), "notification-pref", GINT_TO_POINTER(pref), NULL);
 	g_signal_connect (item, "activate", G_CALLBACK (nma_menu_notification_item_clicked), applet);
 
 	return item;
@@ -1971,32 +1984,31 @@ create_notification_menu_item(NMApplet *applet, NotificationTypes type)
 static void
 nma_menu_add_notification_submenu (GtkWidget *menu, NMApplet *applet)
 {
-	GtkMenu *notification_menu;
+	GtkMenu *notifications_menu;
 	GtkMenuItem *item;
 
-	notification_menu = GTK_MENU (gtk_menu_new ());
+	notifications_menu = GTK_MENU (gtk_menu_new ());
 
-	item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (_("Настройки уведомлений")));
-	gtk_menu_item_set_submenu (item, GTK_WIDGET (notification_menu));
+	item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (_("Notification settings")));
+	gtk_menu_item_set_submenu (item, GTK_WIDGET (notifications_menu));
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), GTK_WIDGET (item));
 	gtk_widget_show (GTK_WIDGET (item));
 
-	for (NotificationTypes i = CONNECTED_NOTIFICATIONS; i <= VPN_NOTIFICATIONS; i++) 
+	for (BaseNotificationTypes i = CONNECTED_NOTIFICATIONS; i <= VPN_NOTIFICATIONS; i++) 
 	{
-		item = create_notification_menu_item(applet, i);
-		if(item){
-			gtk_menu_shell_append (GTK_MENU_SHELL (notification_menu), GTK_WIDGET (item));
-			gtk_widget_show (GTK_WIDGET (item));
+		item = create_notifications_menu_item(applet, i);
+		if(item) {
+			gtk_menu_shell_append (GTK_MENU_SHELL (notifications_menu), GTK_WIDGET (item));
 		}
 	}
 
-	nma_menu_add_separator_item (GTK_WIDGET (notification_menu));
-	item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (_("Детальная настройка уведомлений VPN")));
+	nma_menu_add_separator_item (GTK_WIDGET (notifications_menu));
+	item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (_("Detailed VPN notification settings")));
 	g_signal_connect (item, "activate", G_CALLBACK (nma_menu_configure_notify_item_activate), applet);
-	gtk_menu_shell_append (GTK_MENU_SHELL (notification_menu), GTK_WIDGET (item));
+	gtk_menu_shell_append (GTK_MENU_SHELL (notifications_menu), GTK_WIDGET (item));
 	gtk_widget_show (GTK_WIDGET (item));
 
-	applet->notification_menu = notification_menu;
+	applet->notifications_menu = notifications_menu;
 }
 
 /*
@@ -2055,7 +2067,7 @@ static void nma_context_menu_populate (NMApplet *applet, GtkMenu *menu)
 
 	if (!INDICATOR_ENABLED (applet)) {
 		/* Toggle notifications item */
-		applet->notifications_enabled_item = gtk_check_menu_item_new_with_mnemonic (_("Enable N_otifications"));
+		applet->notifications_enabled_item = gtk_check_menu_item_new_with_mnemonic (_("Enable all notifications"));
 		id = g_signal_connect (applet->notifications_enabled_item,
 			                   "toggled",
 			                   G_CALLBACK (nma_set_notifications_enabled_cb),
@@ -2063,10 +2075,10 @@ static void nma_context_menu_populate (NMApplet *applet, GtkMenu *menu)
 		applet->notifications_enabled_toggled_id = id;
 		gtk_menu_shell_append (menu_shell, applet->notifications_enabled_item);
 
+		nma_menu_add_notification_submenu(GTK_WIDGET (menu_shell), applet);
+
 		nma_menu_add_separator_item (GTK_WIDGET (menu_shell));
 	}
-
-	nma_menu_add_notification_submenu(GTK_WIDGET (menu_shell), applet);
 
 	/* 'Connection Information' item */
 	applet->info_menu_item = gtk_menu_item_new_with_mnemonic (_("Connection _Information"));

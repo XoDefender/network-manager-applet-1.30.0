@@ -1,0 +1,39 @@
+# Debian-specific files
+/debian/*.debhelper
+/debian/*.build*
+/debian/*.install
+/debian/*.log
+/debian/*.changes
+/debian/*.dsc
+/debian/*.tar.xz
+/debian/*.tar.gz
+/debian/files
+/debian/source/format
+/debian/
+# Temporary files and directories
+*.swp
+*.bak
+*.tmp
+*.~*
+*.log
+*.out
+
+# Editor-specific files
+.idea/
+.vscode/
+
+# Python specific
+__pycache__/
+*.py[cod]
+
+# Node.js specific
+node_modules/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Other possible unwanted files
+*.diff
+*.patch
+
