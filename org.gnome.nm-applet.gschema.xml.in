@@ -18,48 +18,48 @@
     </key>
     <key name="disable-device-disconnected-notification" type="b">
       <default>false</default>
-      <summary>Show the applet in notification area</summary>
-      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+      <summary>Disable device disconnected notification</summary>
+      <description>Set to FALSE to disable displaying the device disconnected notification.</description>
     </key>
     <key name="disable-service-stopped-notification" type="b">
       <default>false</default>
-      <summary>Show the applet in notification area</summary>
-      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+      <summary>Disable service stopped notification</summary>
+      <description>Set to FALSE to disable displaying the service stopped notification.</description>
     </key>
     <key name="disable-ip-config-invalid-notification" type="b">
       <default>false</default>
-      <summary>Show the applet in notification area</summary>
-      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+      <summary>Disable ip config invalid notification</summary>
+      <description>Set to FALSE to disable displaying the ip config invalid notification.</description>
     </key>
     <key name="disable-connect-timeout-notification" type="b">
       <default>false</default>
-      <summary>Show the applet in notification area</summary>
-      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+      <summary>Disable connect timeout notification</summary>
+      <description>Set to FALSE to disable connect timeout notification.</description>
     </key>
     <key name="disable-service-start-timeout-notification" type="b">
       <default>false</default>
-      <summary>Show the applet in notification area</summary>
-      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+      <summary>Disable service start timeout notification</summary>
+      <description>Set to FALSE to disable service start timeout notification.</description>
     </key>
     <key name="disable-service-start-failed-notification" type="b">
       <default>false</default>
-      <summary>Show the applet in notification area</summary>
-      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+      <summary>Disable service start failed notification</summary>
+      <description>Set to FALSE to disable service start failed notification</description>
     </key>
     <key name="disable-no-secrets-notification" type="b">
       <default>false</default>
-      <summary>Show the applet in notification area</summary>
-      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+      <summary>Disable no secrets notification</summary>
+      <description>Set to FALSE to disable no secrets notification.</description>
     </key>
     <key name="disable-login-failed-notification" type="b">
       <default>false</default>
-      <summary>Show the applet in notification area</summary>
-      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+      <summary>Disable login failed notification</summary>
+      <description>Set to FALSE to disable login failed notification.</description>
     </key>
     <key name="disable-user-disconnected-notification" type="b">
       <default>false</default>
-      <summary>Show the applet in notification area</summary>
-      <description>Set to FALSE to disable displaying the applet in the notification area.</description>
+      <summary>Disable user disconnected notification</summary>
+      <description>Set to FALSE to disable user disconnected notification.</description>
     </key>
     <key name="suppress-wireless-networks-available" type="b">
       <default>false</default>
