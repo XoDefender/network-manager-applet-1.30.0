@@ -1857,10 +1857,13 @@ update_notification_prefs(GtkWidget *widget, gpointer applet)
 }
 
 static void 
-on_save_button_clicked(GtkDialog *dialog, gint response_id, NMApplet *applet) 
+on_vpn_notifications_dialog_response(GtkDialog *dialog, gint response_id, NMApplet *applet) 
 {
-	gtk_container_foreach(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), 
-						  update_notification_prefs, applet);
+	if (response_id == GTK_RESPONSE_OK) {
+		gtk_container_foreach(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), 
+						  	  update_notification_prefs, applet);
+	}
+
 	gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
@@ -1930,7 +1933,7 @@ nma_menu_configure_notify_item_activate (GtkMenuItem *item, NMApplet *applet)
 										 GTK_DIALOG_MODAL, "Сохранить",  
 										 GTK_RESPONSE_OK, NULL);
 
-	g_signal_connect(dialog, "response", G_CALLBACK(on_save_button_clicked), applet);
+	g_signal_connect(dialog, "response", G_CALLBACK(on_vpn_notifications_dialog_response), applet);
 	gtk_window_set_default_size(GTK_WINDOW(dialog), 500, 500);
 
 	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
