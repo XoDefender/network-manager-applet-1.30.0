@@ -107,6 +107,9 @@ external_ui_dialog_response (GtkDialog *dialog, int response_id, gpointer user_d
 		    && secret->should_ask) {
 			switch (i_pw) {
 			case 0:
+				// TODO:Kirill - value is data passed in dialog
+				// value is tranfered to vpn plugin as password
+				// and got with nm_setting_vpn_get_secret(vpn, "password");
 				value = nma_vpn_password_dialog_get_password (vpn_dialog);
 				break;
 			case 1:
