@@ -211,6 +211,7 @@ external_ui_from_child_response (VpnSecretsInfo *info, GError **error)
 	/* If there are any secrets that must be asked to user,
 	 * create a dialog and display it. */
 	if (num_ask > 0) {
+		// TODO:Kirill - ask vpn secrets dialog populates here
 		dialog = (NMAVpnPasswordDialog *) nma_vpn_password_dialog_new (title, message, NULL);
 		req_data->dialog = g_object_ref_sink (dialog);
 
