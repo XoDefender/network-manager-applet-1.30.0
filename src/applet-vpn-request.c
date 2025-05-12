@@ -20,6 +20,7 @@
 #include <errno.h>
 
 #include "nma-vpn-password-dialog.h"
+#include "nma-cert-chooser.h"
 #include "nm-utils/nm-compat.h"
 #include "nm-utils/nm-shared-utils.h"
 
@@ -133,13 +134,90 @@ external_ui_dialog_response (GtkDialog *dialog, int response_id, gpointer user_d
 	complete_request (info);
 }
 
+static void 
+create_ask_password_dialog(char *title, char *message, guint i_secret, guint i_pw, 
+						   RequestData *req_data, VpnSecretsInfo *info)
+{
+	NMAVpnPasswordDialog *dialog = NULL;
+	dialog = (NMAVpnPasswordDialog *) nma_vpn_password_dialog_new (title, message, NULL);
+	nma_vpn_password_dialog_set_show_password (dialog, FALSE);
+	nma_vpn_password_dialog_set_show_password_secondary (dialog, FALSE);
+	nma_vpn_password_dialog_set_show_password_ternary (dialog, FALSE);
+	req_data->dialog = g_object_ref_sink (dialog);
+	for (i_secret = 0, i_pw = 0; req_data->eui_secrets[i_secret].name; i_secret++) 
+	{
+		EuiSecret *secret = &req_data->eui_secrets[i_secret];
+		if (secret->is_secret && secret->should_ask) 
+		{
+			switch (i_pw) {
+			case 0:
+				nma_vpn_password_dialog_set_show_password (dialog, TRUE);
+				nma_vpn_password_dialog_set_password_label (dialog, secret->label);
+				if (secret->value)
+					nma_vpn_password_dialog_set_password (dialog, secret->value);
+				break;
+			case 1:
+				nma_vpn_password_dialog_set_show_password_secondary (dialog, TRUE);
+				nma_vpn_password_dialog_set_password_secondary_label (dialog, secret->label);
+				if (secret->value)
+					nma_vpn_password_dialog_set_password_secondary (dialog, secret->value);
+				break;
+			case 2:
+				nma_vpn_password_dialog_set_show_password_ternary (dialog, TRUE);
+				nma_vpn_password_dialog_set_password_ternary_label (dialog, secret->label);
+				if (secret->value)
+					nma_vpn_password_dialog_set_password_ternary (dialog, secret->value);
+				break;
+			default:
+				g_warning ("Skipping entry: more than 3 passwords not supported\n");
+				continue;
+			}
+			i_pw++;
+		}
+	}
+	g_signal_connect (dialog,
+	                  "response",
+	                  G_CALLBACK (external_ui_dialog_response),
+	                  info);
+	gtk_widget_show (GTK_WIDGET (dialog));
+}
+
+static void 
+on_save_button(GtkWidget *widget, gpointer data) {
+    gtk_widget_destroy(GTK_WIDGET(data));
+}
+
+static void 
+create_ask_cert_dialog(void)
+{
+	GtkWidget *window;
+    GtkWidget *vbox;
+	GtkWidget *cert_chooser;
+	GtkWidget *save_button;
+
+	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+
+	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    gtk_container_add(GTK_CONTAINER(window), vbox);
+
+	cert_chooser = nma_cert_chooser_new ("User", 1);
+	gtk_container_add(GTK_CONTAINER(window), cert_chooser);
+	gtk_box_pack_start(GTK_BOX(vbox), cert_chooser, TRUE, TRUE, 0);
+
+	save_button = gtk_button_new_with_label("Сохранить");
+    g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_button), window);
+    gtk_box_pack_start(GTK_BOX(vbox), save_button, TRUE, TRUE, 0);
+
+	gtk_widget_show_all(window);
+}
+
 static gboolean
 external_ui_from_child_response (VpnSecretsInfo *info, GError **error)
 {
 	RequestData *req_data = info->req_data;
 	gs_unref_keyfile GKeyFile *keyfile = NULL;
 	gs_strfreev char **groups = NULL;
-	NMAVpnPasswordDialog *dialog = NULL;
 	gs_free char *version = NULL;
 	gs_free char *title = NULL;
 	gs_free char *message = NULL;
@@ -213,51 +291,16 @@ external_ui_from_child_response (VpnSecretsInfo *info, GError **error)
 
 	/* If there are any secrets that must be asked to user,
 	 * create a dialog and display it. */
-	if (num_ask > 0) {
+	if (num_ask > 0) 
+	{
 		// TODO:Kirill - ask vpn secrets dialog populates here
-		dialog = (NMAVpnPasswordDialog *) nma_vpn_password_dialog_new (title, message, NULL);
-		req_data->dialog = g_object_ref_sink (dialog);
-
-		nma_vpn_password_dialog_set_show_password (dialog, FALSE);
-		nma_vpn_password_dialog_set_show_password_secondary (dialog, FALSE);
-		nma_vpn_password_dialog_set_show_password_ternary (dialog, FALSE);
-
-		for (i_secret = 0, i_pw = 0; req_data->eui_secrets[i_secret].name; i_secret++) {
-			EuiSecret *secret = &req_data->eui_secrets[i_secret];
-
-			if (   secret->is_secret
-			    && secret->should_ask) {
-				switch (i_pw) {
-				case 0:
-					nma_vpn_password_dialog_set_show_password (dialog, TRUE);
-					nma_vpn_password_dialog_set_password_label (dialog, secret->label);
-					if (secret->value)
-						nma_vpn_password_dialog_set_password (dialog, secret->value);
-					break;
-				case 1:
-					nma_vpn_password_dialog_set_show_password_secondary (dialog, TRUE);
-					nma_vpn_password_dialog_set_password_secondary_label (dialog, secret->label);
-					if (secret->value)
-						nma_vpn_password_dialog_set_password_secondary (dialog, secret->value);
-					break;
-				case 2:
-					nma_vpn_password_dialog_set_show_password_ternary (dialog, TRUE);
-					nma_vpn_password_dialog_set_password_ternary_label (dialog, secret->label);
-					if (secret->value)
-						nma_vpn_password_dialog_set_password_ternary (dialog, secret->value);
-					break;
-				default:
-					g_warning ("Skipping entry: more than 3 passwords not supported\n");
-					continue;
-				}
-				i_pw++;
-			}
+		if(!strcmp(req_data->eui_secrets[0].name, "cert")) {
+			create_ask_cert_dialog();
 		}
-		g_signal_connect (dialog,
-		                  "response",
-		                  G_CALLBACK (external_ui_dialog_response),
-		                  info);
-		gtk_widget_show (GTK_WIDGET (dialog));
+		else if(!strcmp(req_data->eui_secrets[0].name, "password")) {
+			create_ask_password_dialog(title, message, i_secret, i_pw, req_data, info);
+		}
+
 		return TRUE;
 	}
 
