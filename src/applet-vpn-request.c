@@ -182,34 +182,99 @@ create_ask_password_dialog(char *title, char *message, guint i_secret, guint i_p
 	gtk_widget_show (GTK_WIDGET (dialog));
 }
 
-static void 
-on_save_button(GtkWidget *widget, gpointer data) {
-    gtk_widget_destroy(GTK_WIDGET(data));
+static void
+format_some_bytes (GString *output, gconstpointer bytes, gulong length)
+{
+    guchar ch;
+    const guchar *data = bytes;
+    gulong i;
+    if (bytes == NULL) {
+        g_string_append (output, "NULL");
+        return;
+    }
+    for (i = 0; i < length && i < 128; i++) {
+        ch = data[i];
+        if(i) {
+                g_string_append (output, ":");
+        }
+        g_string_append_printf (output, "%02x", ch);
+    }
 }
 
 static void 
-create_ask_cert_dialog(void)
+save_cert_chooser_data(GtkWidget *widget, gpointer _info) 
 {
-	GtkWidget *window;
+    if (NMA_IS_CERT_CHOOSER(widget)) 
+	{
+        VpnSecretsInfo *info = _info;
+		RequestData *req_data = info->req_data;
+		
+		EuiSecret *secret;
+		const char *value;
+    	gchar *uri, *id_bytes;
+		NMSetting8021xCKScheme scheme;
+		
+    	uri = nma_cert_chooser_get_cert (NMA_CERT_CHOOSER (widget), &scheme);
+    	if(uri && scheme == NM_SETTING_802_1X_CK_SCHEME_PKCS11) 
+    	{
+    	    id_bytes = nma_cert_chooser_get_cert_id (NMA_CERT_CHOOSER (widget), uri);
+    	    if(id_bytes) 
+    	    {
+    	        ulong id_length = *(ulong*)id_bytes;
+    	        GString* id_formated = g_string_new(NULL);
+    	        format_some_bytes(id_formated, id_bytes + sizeof(id_length), id_length);
+				secret->value = g_strdup(id_formated->str);
+    	        g_string_free(id_formated, TRUE);
+    	        g_free(id_bytes);
+    	    }
+    	    g_free(uri);
+    	}
+
+		g_clear_object (&req_data->dialog);
+		external_ui_add_secrets (info);
+		complete_request (info);
+    }
+}
+
+static void
+process_cert_chooser(GtkDialog *dialog, gint response_id, gpointer _info) 
+{
+	if (response_id == GTK_RESPONSE_OK) {
+		gtk_container_foreach(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), 
+							  save_cert_chooser_data, _info);
+	}
+
+	gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+static void 
+create_ask_cert_dialog(RequestData *req_data, VpnSecretsInfo *info)
+{
+	GtkWidget *dialog;
     GtkWidget *vbox;
-	GtkWidget *cert_chooser;
-	GtkWidget *save_button;
+    GtkWidget *cert_chooser;
+    GtkWidget *save_button;
+	GtkWidget *content_area;
 
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+	dialog = gtk_dialog_new_with_buttons(_("Certificate chooser"), NULL, 
+										 GTK_DIALOG_MODAL, "Сохранить",  
+										 GTK_RESPONSE_OK, NULL);
 
-	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
-    gtk_container_add(GTK_CONTAINER(window), vbox);
+	g_signal_connect(dialog, "response", G_CALLBACK(process_cert_chooser), info);
+
+	req_data->dialog = g_object_ref_sink (dialog);
+
+	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
 
 	cert_chooser = nma_cert_chooser_new ("User", 1);
-	gtk_container_add(GTK_CONTAINER(window), cert_chooser);
-	gtk_box_pack_start(GTK_BOX(vbox), cert_chooser, TRUE, TRUE, 0);
+	nma_cert_chooser_setup_cert_password_storage (NMA_CERT_CHOOSER(cert_chooser),
+                                                  NM_SETTING_SECRET_FLAG_NOT_REQUIRED, 
+                                                  NULL, NM_SETTING_802_1X_CLIENT_CERT_PASSWORD,
+                                                  TRUE, NMA_CERT_CHOOSER_FLAG_PASSWORDS);
+	gtk_box_pack_start(GTK_BOX(content_area), cert_chooser, TRUE, TRUE, 0);
 
-	save_button = gtk_button_new_with_label("Сохранить");
-    g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_button), window);
-    gtk_box_pack_start(GTK_BOX(vbox), save_button, TRUE, TRUE, 0);
-
-	gtk_widget_show_all(window);
+	gtk_widget_show_all(dialog);
+    gtk_dialog_run(GTK_DIALOG(dialog));
 }
 
 static gboolean
@@ -295,7 +360,7 @@ external_ui_from_child_response (VpnSecretsInfo *info, GError **error)
 	{
 		// TODO:Kirill - ask vpn secrets dialog populates here
 		if(!strcmp(req_data->eui_secrets[0].name, "cert")) {
-			create_ask_cert_dialog();
+			create_ask_cert_dialog(req_data, info);
 		}
 		else if(!strcmp(req_data->eui_secrets[0].name, "password")) {
 			create_ask_password_dialog(title, message, i_secret, i_pw, req_data, info);
