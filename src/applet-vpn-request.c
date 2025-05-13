@@ -222,6 +222,7 @@ save_cert_chooser_data(GtkWidget *widget, gpointer _info)
     	    {
     	        ulong id_length = *(ulong*)id_bytes;
     	        GString* id_formated = g_string_new(NULL);
+				// TODO:Fix segfault
     	        format_some_bytes(id_formated, id_bytes + sizeof(id_length), id_length);
 				secret->value = g_strdup(id_formated->str);
     	        g_string_free(id_formated, TRUE);
