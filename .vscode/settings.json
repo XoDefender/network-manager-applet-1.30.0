@@ -1,5 +1,12 @@
 {
     "files.associations": {
-        "system_error": "c"
+        "system_error": "c",
+        "string_view": "c",
+        "array": "c",
+        "functional": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "nm-shared-utils.h": "c"
     }
 }

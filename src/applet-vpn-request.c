@@ -20,7 +20,7 @@
 #include <errno.h>
 
 #include "nma-vpn-password-dialog.h"
-#include "nma-cert-chooser.h"
+#include "/usr/include/libnma/nma-cert-chooser.h"
 #include "nm-utils/nm-compat.h"
 #include "nm-utils/nm-shared-utils.h"
 
@@ -220,11 +220,12 @@ save_cert_chooser_data(GtkWidget *widget, gpointer _info)
     	    id_bytes = nma_cert_chooser_get_cert_id (NMA_CERT_CHOOSER (widget), uri);
     	    if(id_bytes) 
     	    {
-    	        ulong id_length = *(ulong*)id_bytes;
+				secret = &req_data->eui_secrets[0];
+    	        gulong id_length = *(gulong*)id_bytes;
     	        GString* id_formated = g_string_new(NULL);
-				// TODO:Fix segfault
     	        format_some_bytes(id_formated, id_bytes + sizeof(id_length), id_length);
 				secret->value = g_strdup(id_formated->str);
+
     	        g_string_free(id_formated, TRUE);
     	        g_free(id_bytes);
     	    }
