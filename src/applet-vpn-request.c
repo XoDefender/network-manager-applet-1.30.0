@@ -148,13 +148,8 @@ add_cert_chooser(GtkWidget *dialog, RequestData *req_data, VpnSecretsInfo *info)
 
 	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
 
-	cert_chooser = nma_cert_chooser_new ("User", 1);
-	nma_cert_chooser_setup_cert_password_storage (NMA_CERT_CHOOSER(cert_chooser),
-                                                  NM_SETTING_SECRET_FLAG_NOT_REQUIRED, 
-                                                  NULL, NM_SETTING_802_1X_CLIENT_CERT_PASSWORD,
-                                                  TRUE, NMA_CERT_CHOOSER_FLAG_PASSWORDS);
+	cert_chooser = nma_cert_chooser_new ("User", 9);
 	gtk_box_pack_start(GTK_BOX(content_area), cert_chooser, TRUE, TRUE, 0);
-
 	gtk_widget_show(cert_chooser);
 }
 
