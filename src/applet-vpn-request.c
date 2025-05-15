@@ -137,6 +137,10 @@ save_cert_chooser_data(GtkWidget *widget, gpointer _secret)
     	    }
     	    g_free(uri);
     	}
+		else {
+			g_free(secret->value);
+			secret->value = g_strdup ("");
+		}
     }
 }
 
