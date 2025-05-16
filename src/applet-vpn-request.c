@@ -301,7 +301,7 @@ external_ui_from_child_response (VpnSecretsInfo *info, GError **error)
 			if (secret->is_secret && secret->should_ask) 
 			{
 				if(!strcmp(secret->name, "usercert-id")) {
-					add_cert_chooser(dialog, req_data, info);
+					add_cert_chooser(GTK_WIDGET(dialog), req_data, info);
 					continue;
 				}
 
