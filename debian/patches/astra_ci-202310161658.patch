@@ -1,6 +1,39 @@
---- a/Makefile.am	2022-11-07 10:00:36.000000000 +0300
-+++ b/Makefile.am	2023-11-20 13:27:49.587966811 +0300
-@@ -523,6 +523,7 @@
+Description: <short summary of the patch>
+ TODO: Put a short summary on the line above and replace this paragraph
+ with a longer explanation of this change. Complete the meta-information
+ with other relevant fields (see below for details). To make it easier, the
+ information below has been extracted from the changelog. Adjust it or drop
+ it.
+ .
+ network-manager-applet (1.20.0-3+ci202310161658+astra7) unstable; urgency=medium
+ .
+   *  Add a notification about NetworkManager has detected an IP address
+     conflict (BT-21199).
+   *  workaround for invisibale tray icon when Gdk/WindowScalingFactor >
+     1 (BT-25391)
+   *  fix margins in info dialog (BT-17377)
+   *  desktop entry translation (BT-15076)
+   *  fix new connection dialog black margins (BT-9836)
+   *  tray icon theme
+   *  Fix meson.build buildfix
+Author: Aleksey V. Kolin <support@astralinux.ru>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: https://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: 2023-10-16
+
+--- network-manager-applet-1.20.0.orig/Makefile.am
++++ network-manager-applet-1.20.0/Makefile.am
+@@ -500,6 +500,7 @@ src_nm_applet_CPPFLAGS = \
  	$(LIBNMA_CFLAGS) \
  	$(LIBNM_CFLAGS) \
  	$(LIBSECRET_CFLAGS) \
@@ -8,7 +41,7 @@
  	$(NOTIFY_CFLAGS) \
  	$(MM_GLIB_CFLAGS) \
  	$(APPINDICATOR_CFLAGS)
-@@ -533,6 +534,7 @@
+@@ -510,6 +511,7 @@ src_nm_applet_LDADD = \
  	$(LIBNM_LIBS) \
  	$(LIBNMA_LIBS) \
  	$(LIBSECRET_LIBS) \
@@ -16,132 +49,114 @@
  	$(NOTIFY_LIBS) \
  	$(MM_GLIB_LIBS) \
  	$(APPINDICATOR_LIBS) \
-
---- a/configure.ac	2022-11-07 10:47:39.000000000 +0300
-+++ b/configure.ac	2023-11-20 13:28:22.863966684 +0300
-@@ -49,6 +49,8 @@
+--- network-manager-applet-1.20.0.orig/configure.ac
++++ network-manager-applet-1.20.0/configure.ac
+@@ -49,6 +49,8 @@ dnl Checks for typedefs, structures, and
  dnl
  AC_TYPE_PID_T
-
+ 
 +PKG_CHECK_MODULES(LIBXSETTINGS, [libxsettings-client])
 +
  dnl
  dnl translation support
  dnl
-
---- a/meson.build	2022-11-07 10:47:42.000000000 +0300
-+++ b/meson.build	2023-11-20 14:43:53.447949402 +0300
-@@ -108,6 +108,7 @@
+--- network-manager-applet-1.20.0.orig/meson.build
++++ network-manager-applet-1.20.0/meson.build
+@@ -108,6 +108,7 @@ gio_dep = dependency('gio-2.0', version:
  gmodule_export_dep = dependency('gmodule-export-2.0')
  libsecret_dep = dependency('libsecret-1', version: '>= 0.18')
  libnma_dep = dependency('libnma', version: '>= 1.8.27')
 +libxsettings_dep = dependency('libxsettings-client')
-
+ 
  m_dep = cc.find_library('m')
-
---- a/src/meson.build	2022-11-07 10:00:04.000000000 +0300
-+++ b/src/meson.build	2023-11-20 14:20:43.315954704 +0300
-@@ -49,6 +49,7 @@
-   libnma_dep,
-   libsecret_dep,
-   m_dep,
-+  libxsettings_dep,
-   libutils_libnm_dep
- ]
-
---- a/src/applet.h	2022-11-07 10:00:04.000000000 +0300
-+++ b/src/applet.h	2023-11-20 14:17:26.807955454 +0300
-@@ -31,6 +31,9 @@
- #include <libmm-glib.h>
- #endif
-
-+//alex
-+#include <xsettings-client.h>
+ 
+@@ -252,9 +253,7 @@ desktop_files = [
+ desktop_file_validate = find_program('desktop-file-validate', required: false)
+ 
+ foreach desktop: desktop_files
+-  i18n.merge_file(
+-    desktop + '-desktop',
+-    input: desktop + '.desktop.in',
++  i18n.merge_file(input: desktop + '.desktop.in',
+     output: desktop + '.desktop',
+     install: true,
+     install_dir: nma_appdir,
+@@ -273,9 +272,7 @@ endforeach
+ 
+ appdata = 'nm-connection-editor.appdata.xml'
+ 
+-i18n.merge_file(
+-  'desktop',
+-  input: appdata + '.in',
++i18n.merge_file(input: appdata + '.in',
+   output: appdata,
+   install: true,
+   install_dir: join_paths(nma_datadir, 'metainfo'),
+--- network-manager-applet-1.20.0.orig/po/ru.po
++++ network-manager-applet-1.20.0/po/ru.po
+@@ -971,6 +971,20 @@ msgstr "_О программе"
+ msgid "You are now connected to “%s”."
+ msgstr "Вы подключены к «%s»."
+ 
++#: ../src/applet.c:2253
++msgid "NetworkManager has detected an IP address conflict."
++msgstr "NetworkManager обнаружил конфликт IP-адресов."
 +
- #define NM_TYPE_APPLET              (nma_get_type())
- #define NM_APPLET(object)           (G_TYPE_CHECK_INSTANCE_CAST((object), NM_TYPE_APPLET, NMApplet))
- #define NM_APPLET_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass), NM_TYPE_APPLET, NMAppletClass))
-@@ -74,6 +77,9 @@
-
- 	GSettings *gsettings;
-
-+	// For detect an IP address conflict
-+	NMDeviceStateReason state_reason;
++#: ../src/applet.c:2254
++msgid ""
++"Another computer on this network has the same IP address as this computer.\n"
++"Contact your network administrator for help resolving this issue.\n"
++"More details are available in the system event log."
++msgstr ""
++"В этой сети уже есть компьютер с таким же IP-адресом.\n"
++"Обратитесь к системному администратору для решения этой проблемы.\n"
++"Дополнительные сведения см. в системном журнале событий."
 +
- #if WITH_WWAN
- 	MMManager *mm1;
- 	gboolean   mm1_running;
-@@ -103,9 +109,14 @@
- #define NUM_VPN_CONNECTING_FRAMES 14
-
- 	GtkIconTheme *  icon_theme;
--	GHashTable *    icon_cache;
--	GdkPixbuf *     fallback_icon;
--	int             icon_size;
-+	GtkIconTheme *  icon_theme_tray; //alex
-+	char * icon_theme_tray_name; //alex
-+ 	GHashTable *    icon_cache;
-+	GHashTable *    icon_cache_tray; //alex
-+ 	GdkPixbuf *     fallback_icon;
-+ 	int             icon_size;
-+
-+    XSettingsClient *xsettings_client; //alex
-
- 	/* Active status icon pixbufs */
- 	GdkPixbuf *     icon_layers[ICON_LAYER_MAX + 1];
-@@ -269,6 +280,8 @@
-
- GdkPixbuf * nma_icon_check_and_load (const char *name,
-                                      NMApplet *applet);
-+GdkPixbuf * nma_tray_icon_check_and_load (const char *name,
-+                                     NMApplet *applet);
-
- gboolean applet_wifi_connect_to_hidden_network (NMApplet *applet);
- gboolean applet_wifi_create_wifi_network (NMApplet *applet);
-
---- a/src/applet.c	2023-11-20 12:36:33.000000000 +0300
-+++ b/src/applet.c	2023-11-20 14:28:07.091953012 +0300
-@@ -2030,8 +2030,8 @@
+ #: src/applet.c:2270
+ msgid "Disconnected"
+ msgstr "Соединение разорвано"
+--- network-manager-applet-1.20.0.orig/src/applet.c
++++ network-manager-applet-1.20.0/src/applet.c
+@@ -2124,8 +2124,8 @@ foo_set_icon (NMApplet *applet, guint32
  #endif  /* WITH_APPINDICATOR */
-
+ 
  	/* Load the pixbuf by icon name */
 -	if (icon_name && !pixbuf)
 -		pixbuf = nma_icon_check_and_load (icon_name, applet);
 +	if (icon_name /*&& !pixbuf*/) //alex: force icon_name using
 +		pixbuf = nma_tray_icon_check_and_load (icon_name, applet);
-
+ 
  	/* Ignore setting of the same icon as is already displayed */
  	if (applet->icon_layers[layer] == pixbuf)
-@@ -2062,7 +2062,7 @@
+@@ -2156,7 +2156,7 @@ foo_set_icon (NMApplet *applet, guint32
  			                      GDK_INTERP_NEAREST, 255);
  		}
  	} else
 -		pixbuf = nma_icon_check_and_load ("nm-no-connection", applet);
 +		pixbuf = nma_tray_icon_check_and_load ("nm-no-connection", applet); //alex
-
+ 
  	gtk_status_icon_set_from_pixbuf (applet->status_icon, pixbuf);
  }
-@@ -2145,6 +2145,9 @@
-
+@@ -2239,6 +2239,9 @@ foo_device_state_changed_cb (NMDevice *d
+ 
  	dclass = get_device_class (device, applet);
-
+ 
 +	// Save the reason for informing the user later.
 +	applet->state_reason = reason;
 +
  	if (dclass && dclass->device_state_changed)
  		dclass->device_state_changed (device, new_state, old_state, reason, applet);
-
-@@ -2198,10 +2201,23 @@
-
+ 
+@@ -2292,10 +2295,21 @@ foo_client_state_changed_cb (NMClient *c
+ 
  	switch (nm_client_get_state (client)) {
  	case NM_STATE_DISCONNECTED:
--		applet_do_notify (applet, _("Disconnected"),
--		                  _("The network connection has been disconnected."),
--		                  "nm-no-connection",
--		                  PREF_DISABLE_DISCONNECTED_NOTIFICATIONS);
-+		if (NM_DEVICE_STATE_REASON_IP_ADDRESS_DUPLICATE == applet->state_reason)
-+		{
-+			applet_do_notify (applet,
+-		applet_do_notify_with_pref (applet, _("Disconnected"),
+-		                            _("The network connection has been disconnected."),
+-		                            "nm-no-connection",
+-		                            PREF_DISABLE_DISCONNECTED_NOTIFICATIONS);
++		if (NM_DEVICE_STATE_REASON_IP_ADDRESS_DUPLICATE == applet->state_reason) {
++			applet_do_notify_with_pref (applet,
 +				_("NetworkManager has detected an IP address conflict."),
 +				_("Another computer on this network has the same IP address as this computer.\n"
 +				"Contact your network administrator for help resolving this issue.\n"
@@ -149,20 +164,19 @@
 +				"nm-no-connection",
 +				PREF_DISABLE_DISCONNECTED_NOTIFICATIONS);
 +		}
-+		else
-+		{
-+			applet_do_notify (applet, _("Disconnected"),
-+			                        _("The network connection has been disconnected."),
-+			                        "nm-no-connection",
-+			                        PREF_DISABLE_DISCONNECTED_NOTIFICATIONS);
++		else {
++			applet_do_notify_with_pref (applet, _("Disconnected"),
++			                            _("The network connection has been disconnected."),
++			                            "nm-no-connection",
++			                            PREF_DISABLE_DISCONNECTED_NOTIFICATIONS);
 +		}
  		break;
  	default:
  		break;
-@@ -2962,6 +2978,37 @@
+@@ -3054,6 +3068,37 @@ static void nma_icons_free (NMApplet *ap
  		g_clear_object (&applet->icon_layers[i]);
  }
-
+ 
 +GdkPixbuf *  //alex
 +nma_tray_icon_check_and_load (const char *name, NMApplet *applet)
 +{
@@ -181,7 +195,7 @@
 +	 */
 +	if (!applet->icon_theme_tray)
 +        return nma_icon_check_and_load (name, applet);
-+
++	 
 +	if (!(icon = gtk_icon_theme_load_icon (applet->icon_theme_tray, name, applet->icon_size, GTK_ICON_LOOKUP_FORCE_SIZE, &error))) {
 +		g_warning ("failed to load icon \"%s\": %s", name, error->message);
 +		g_clear_error (&error);
@@ -197,19 +211,18 @@
  GdkPixbuf *
  nma_icon_check_and_load (const char *name, NMApplet *applet)
  {
-@@ -3002,7 +3049,7 @@
-
+@@ -3095,6 +3140,7 @@ nma_icons_reload (NMApplet *applet)
  	g_return_if_fail (applet->icon_size > 0);
-
--	g_hash_table_remove_all (applet->icon_cache);
+ 
+ 	g_hash_table_remove_all (applet->icon_cache);
 +	g_hash_table_remove_all (applet->icon_cache_tray); //alex
  	nma_icons_free (applet);
-
+ 
  	if (applet->fallback_icon)
-@@ -3036,8 +3083,62 @@
+@@ -3128,8 +3174,62 @@ static void nma_icon_theme_changed (GtkI
  	applet_schedule_update_icon (applet);
  }
-
+ 
 +//alex: xsettings processing -----------------------------------------------------------
 +static void _xsettings_notify_cb(const char *name, XSettingsAction action, XSettingsSetting *setting, void *data)
 +{
@@ -260,20 +273,20 @@
 +
  static void nma_icons_init (NMApplet *applet)
  {
-+	XSettingsSetting *s;
++    XSettingsSetting *s;
 +    GdkDisplay* gd = gdk_display_get_default();
 +    Display* d = GDK_DISPLAY_XDISPLAY(gd);
 +
 +    gdk_x11_display_set_window_scale(gd,1); //alex: workaround for invisibale tray icon when Gdk/WindowScalingFactor > 1
 +
  	gboolean path_appended;
-
+ 
  	if (applet->icon_theme) {
-@@ -3052,6 +3153,23 @@
+@@ -3144,6 +3244,23 @@ static void nma_icons_init (NMApplet *ap
  	else
  		applet->icon_theme = gtk_icon_theme_get_default ();
-
-+	//alex: load tray icon theme-------------------------------------------------------------
+ 
++    //alex: load tray icon theme-------------------------------------------------------------
 +    //g_debug("nma_icons_init: get white or back or none theme from xsettings");
 +    if (applet->icon_theme_tray)      { g_clear_object (&applet->icon_theme_tray); applet->icon_theme_tray =NULL; }
 +    if (applet->icon_theme_tray_name) { free(applet->icon_theme_tray_name); applet->icon_theme_tray_name=NULL; }
@@ -293,78 +306,84 @@
  	/* If not done yet, append our search path */
  	path_appended = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (applet->icon_theme),
  	                                 "NMAIconPathAppended"));
-@@ -3314,6 +3432,16 @@
+@@ -3380,6 +3497,14 @@ applet_startup (GApplication *app, gpoin
  	                                            g_str_equal,
  	                                            g_free,
  	                                            nm_g_object_unref);
-+
 +	applet->icon_cache_tray = g_hash_table_new_full (g_str_hash, //alex
-+	                                            	g_str_equal,
-+	                                            	g_free,
-+	                                            	nm_g_object_unref);
++	                                            g_str_equal,
++	                                            g_free,
++	                                            nm_g_object_unref);
 +    applet->icon_theme_tray     =NULL;
 +    applet->icon_theme_tray_name=NULL;
 +    applet->xsettings_client    =NULL;
 +
-+
  	nma_icons_init (applet);
-
- 	/* Initialize device classes */
-@@ -3372,6 +3500,13 @@
+ 
+ 	if (!notify_is_initted ())
+@@ -3441,6 +3566,13 @@ static void finalize (GObject *object)
  	g_clear_object (&applet->status_icon);
  	g_clear_object (&applet->menu);
  	g_clear_pointer (&applet->icon_cache, g_hash_table_destroy);
-+
++	
 +	//alex: destoy tray icon theme and xsettings
 +	g_clear_pointer (&applet->icon_cache_tray, g_hash_table_destroy);
 +	if (applet->icon_theme_tray_name) free(applet->icon_theme_tray_name);
 +	if (applet->xsettings_client) xsettings_client_destroy(applet->xsettings_client);
 +	g_clear_object (&applet->icon_theme_tray);
-+
++	
  	g_clear_object (&applet->fallback_icon);
  	g_free (applet->tip);
  	nma_icons_free (applet);
-
---- a/po/ru.po	2022-11-07 10:48:39.000000000 +0300
-+++ b/po/ru.po	2023-11-20 14:40:50.667950099 +0300
-@@ -434,7 +434,6 @@
- msgstr "Wi-Fi выключен механическим переключателем"
-
- #: src/applet-device-wifi.c:887
--#, fuzzy
- msgid "_Available networks"
- msgstr "Доступно"
-
-@@ -1052,11 +1051,25 @@
- msgid "You are now connected to “%s”."
- msgstr "Вы подключены к «%s»."
-
--#: src/applet.c:2201
-+#: ../src/applet.c:2207
-+msgid "NetworkManager has detected an IP address conflict."
-+msgstr "NetworkManager обнаружил конфликт IP-адресов."
+--- network-manager-applet-1.20.0.orig/src/applet.h
++++ network-manager-applet-1.20.0/src/applet.h
+@@ -33,6 +33,9 @@
+ #include <libmm-glib.h>
+ #endif
+ 
++//alex
++#include <xsettings-client.h>
 +
-+#: ../src/applet.c:2208
-+msgid ""
-+"Another computer on this network has the same IP address as this computer.\n"
-+"Contact your network administrator for help resolving this issue.\n"
-+"More details are available in the system event log."
-+msgstr ""
-+"В этой сети уже есть компьютер с таким же IP-адресом.\n"
-+"Обратитесь к системному администратору для решения этой проблемы.\n"
-+"Дополнительные сведения см. в системном журнале событий."
+ #define NM_TYPE_APPLET              (nma_get_type())
+ #define NM_APPLET(object)           (G_TYPE_CHECK_INSTANCE_CAST((object), NM_TYPE_APPLET, NMApplet))
+ #define NM_APPLET_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass), NM_TYPE_APPLET, NMAppletClass))
+@@ -76,6 +79,9 @@ typedef struct {
+ 
+ 	GSettings *gsettings;
+ 
++	// For detect an IP address conflict
++	NMDeviceStateReason state_reason;
 +
-+#: src/applet.c:2216
- msgid "Disconnected"
- msgstr "Соединение разорвано"
-
--#: src/applet.c:2202
-+#: src/applet.c:2217
- msgid "The network connection has been disconnected."
- msgstr "Сетевое соединение было разорвано."
-
---- a/src/connection-editor/ce-new-connection.ui	2022-01-19 10:55:32.000000000 +0300
-+++ b/src/connection-editor/ce-new-connection.ui	2023-11-20 14:22:50.255954220 +0300
+ #if WITH_WWAN
+ 	MMManager *mm1;
+ 	gboolean   mm1_running;
+@@ -105,10 +111,15 @@ typedef struct {
+ #define NUM_VPN_CONNECTING_FRAMES 14
+ 
+ 	GtkIconTheme *  icon_theme;
++	GtkIconTheme *  icon_theme_tray; //alex
++	char * icon_theme_tray_name; //alex
+ 	GHashTable *    icon_cache;
++	GHashTable *    icon_cache_tray; //alex
+ 	GdkPixbuf *     fallback_icon;
+ 	int             icon_size;
+ 
++    XSettingsClient *xsettings_client; //alex
++
+ 	/* Active status icon pixbufs */
+ 	GdkPixbuf *     icon_layers[ICON_LAYER_MAX + 1];
+ 
+@@ -282,6 +293,8 @@ GtkWidget * applet_new_menu_item_helper
+ 
+ GdkPixbuf * nma_icon_check_and_load (const char *name,
+                                      NMApplet *applet);
++GdkPixbuf * nma_tray_icon_check_and_load (const char *name,
++                                     NMApplet *applet);
+ 
+ gboolean applet_wifi_connect_to_hidden_network (NMApplet *applet);
+ gboolean applet_wifi_create_wifi_network (NMApplet *applet);
+--- network-manager-applet-1.20.0.orig/src/connection-editor/ce-new-connection.ui
++++ network-manager-applet-1.20.0/src/connection-editor/ce-new-connection.ui
 @@ -55,7 +55,7 @@
                  <property name="use_underline">True</property>
                </object>
@@ -409,7 +428,7 @@
                      <property name="fill">False</property>
                      <property name="position">0</property>
                    </packing>
-@@ -142,7 +142,7 @@
+@@ -142,7 +142,7 @@ If you are creating a VPN, and the VPN c
                      <property name="xalign">0</property>
                    </object>
                    <packing>
@@ -418,7 +437,7 @@
                      <property name="fill">False</property>
                      <property name="position">1</property>
                    </packing>
-@@ -188,7 +188,7 @@
+@@ -188,7 +188,7 @@ If you are creating a VPN, and the VPN c
                      </child>
                    </object>
                    <packing>
@@ -427,7 +446,7 @@
                      <property name="fill">False</property>
                      <property name="padding">6</property>
                      <property name="position">2</property>
-@@ -203,7 +203,7 @@
+@@ -203,7 +203,7 @@ If you are creating a VPN, and the VPN c
              </child>
            </object>
            <packing>
@@ -436,3 +455,13 @@
              <property name="fill">True</property>
              <property name="position">1</property>
            </packing>
+--- network-manager-applet-1.20.0.orig/src/meson.build
++++ network-manager-applet-1.20.0/src/meson.build
+@@ -48,6 +48,7 @@ deps = [
+   libnotify_dep,
+   libsecret_dep,
+   m_dep,
++  libxsettings_dep,
+   libutils_libnm_dep
+ ]
+ 

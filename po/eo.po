@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: network-manager-applet\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/network-manager-"
 "applet/\n"
-"POT-Creation-Date: 2022-11-07 08:48+0100\n"
+"POT-Creation-Date: 2021-02-03 09:54+0100\n"
 "PO-Revision-Date: 2018-01-06 01:51+0200\n"
 "Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <gnome-eo-list@gnome.org>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "X-Generator: Virtaal 0.7.1\n"
 "X-Project-Style: gnome\n"
 
-#: nm-applet.desktop.in:3 src/applet-dialogs.c:724 src/applet.c:3166
+#: nm-applet.desktop.in:3 src/applet-dialogs.c:724 src/applet.c:3223
 msgid "Network"
 msgstr "Reto"
 
@@ -69,76 +69,6 @@ msgstr "Aktivaj retkonektoj"
 msgid "Manage and change your network connection settings"
 msgstr "Administri kaj ŝanĝi viajn retkonektajn agordojn"
 
-#: org.gnome.nm-applet.gschema.xml.in:6
-msgid "Disable connected notifications"
-msgstr "Elŝalti atentigojn pri konektoj"
-
-#: org.gnome.nm-applet.gschema.xml.in:7
-msgid "Set this to true to disable notifications when connecting to a network."
-msgstr ""
-"Agordi ĉi tiun al 'vera' por elŝalti atentigojn kiam konektanta al reto."
-
-#: org.gnome.nm-applet.gschema.xml.in:11
-msgid "Disable disconnected notifications"
-msgstr "Elŝalti atentigojn pri malkonektoj"
-
-#: org.gnome.nm-applet.gschema.xml.in:12
-msgid ""
-"Set this to true to disable notifications when disconnecting from a network."
-msgstr ""
-"Agordi ĉi tiun al 'vera' por elŝalti atentigojn kiam malkonektanta al reto."
-
-#: org.gnome.nm-applet.gschema.xml.in:16
-msgid "Disable VPN notifications"
-msgstr "Elŝalti VPN-atentigojn"
-
-#: org.gnome.nm-applet.gschema.xml.in:17
-msgid ""
-"Set this to true to disable notifications when connecting to or "
-"disconnecting from a VPN."
-msgstr ""
-"Agordi ĉi tiun al 'vera' por elŝalti atentigojn kiam konektante aŭ "
-"malkonektante de VPN."
-
-#: org.gnome.nm-applet.gschema.xml.in:21
-msgid "Suppress networks available notifications"
-msgstr "Nuligi atentigon pri disponeblaj retoj"
-
-#: org.gnome.nm-applet.gschema.xml.in:22
-msgid ""
-"Set this to true to disable notifications when Wi-Fi networks are available."
-msgstr ""
-"Agordi ĉi tiun al 'vera' por elŝalti atentigojn kiam sendrataj retoj "
-"disponeblas."
-
-#: org.gnome.nm-applet.gschema.xml.in:26
-msgid "Stamp"
-msgstr "Stampo"
-
-#: org.gnome.nm-applet.gschema.xml.in:27
-msgid "Used to determine whether settings should be migrated to a new version."
-msgstr "Uzita por determini ĉu agordoj devus esti migrigita al nova versio."
-
-#: org.gnome.nm-applet.gschema.xml.in:31
-#, fuzzy
-msgid "Disable WiFi Create"
-msgstr "Elŝalti kreon de sendrataj konektoj"
-
-#: org.gnome.nm-applet.gschema.xml.in:32
-msgid ""
-"Set to true to disable creation of adhoc networks when using the applet."
-msgstr ""
-"Agordi tion ĉi \"vera\", se vi volas elŝalti la kreadon de por-okazaj retoj "
-"per la aplikaĵeto."
-
-#: org.gnome.nm-applet.gschema.xml.in:36
-msgid "Show the applet in notification area"
-msgstr ""
-
-#: org.gnome.nm-applet.gschema.xml.in:37
-msgid "Set to FALSE to disable displaying the applet in the notification area."
-msgstr ""
-
 #: shared/nm-utils/nm-shared-utils.c:793
 #, c-format
 msgid "object class '%s' has no property named '%s'"
@@ -172,7 +102,7 @@ msgid ""
 "type '%s'"
 msgstr ""
 
-#: src/8021x.ui:7 src/ethernet-dialog.c:90
+#: src/8021x.ui:11 src/ethernet-dialog.c:87
 msgid "802.1X authentication"
 msgstr "802.1X-aŭtentigo"
 
@@ -206,16 +136,12 @@ msgstr "K_onekti"
 msgid "_Network name"
 msgstr "Ret_nomo:"
 
-#: src/ap-menu-item.c:68
+#: src/ap-menu-item.c:67
 msgid "ad-hoc"
 msgstr "provizore"
 
-#: src/ap-menu-item.c:73
+#: src/ap-menu-item.c:72
 msgid "secure."
-msgstr ""
-
-#: src/ap-menu-item.c:77
-msgid "insecure."
 msgstr ""
 
 #: src/applet-device-broadband.c:147
@@ -244,7 +170,7 @@ msgid "Mobile Broadband"
 msgstr "Poŝtelefona larĝkapacita reto"
 
 #: src/applet-device-broadband.c:780 src/applet-device-bt.c:61
-#: src/applet-device-ethernet.c:107
+#: src/applet-device-ethernet.c:107 src/applet-device-wifi.c:890
 msgid "Available"
 msgstr "Disponeble"
 
@@ -254,7 +180,7 @@ msgid "New Mobile Broadband connection…"
 msgstr "Nova poŝtelefona larĝkapacita konekto…"
 
 #: src/applet-device-broadband.c:809 src/applet-device-bt.c:75
-#: src/applet-device-ethernet.c:124 src/applet-device-wifi.c:1251
+#: src/applet-device-ethernet.c:124 src/applet-device-wifi.c:1293
 msgid "Connection Established"
 msgstr "Konekto estas starigita"
 
@@ -295,7 +221,7 @@ msgstr "Agordas poŝtelefonan larĝkapacitan konekton “%s”…"
 msgid "User authentication required for mobile broadband connection “%s”…"
 msgstr "Movebla larĝkapacita konekto “%s” necesas aŭtentigon de uzanto…"
 
-#: src/applet-device-bt.c:113 src/applet.c:2510 src/mobile-helpers.c:593
+#: src/applet-device-bt.c:113 src/applet.c:2579 src/mobile-helpers.c:593
 #, c-format
 msgid "Requesting a network address for “%s”…"
 msgstr "Petanta retan adreson por “%s”…"
@@ -328,7 +254,7 @@ msgid "Ethernet Network"
 msgstr "Drata reto"
 
 #. Notify user of unmanaged or unavailable device
-#: src/applet-device-ethernet.c:99 src/applet.c:1265
+#: src/applet-device-ethernet.c:99 src/applet.c:1328
 msgid "disconnected"
 msgstr "nekonektite"
 
@@ -389,100 +315,104 @@ msgstr "Krei _novan sendratan reton…"
 msgid "(none)"
 msgstr "(neniu)"
 
-#: src/applet-device-wifi.c:523 src/applet-device-wifi.c:1349
+#: src/applet-device-wifi.c:519 src/applet-device-wifi.c:1393
 msgid "Failed to add new connection"
 msgstr "Malsukcesis aldoni novan konekton"
 
-#: src/applet-device-wifi.c:524
+#: src/applet-device-wifi.c:520
 msgid "Insufficient privileges."
 msgstr ""
 
-#: src/applet-device-wifi.c:526 src/applet-device-wifi.c:1332
-#: src/applet-device-wifi.c:1352 src/applet.c:414 src/applet.c:497
+#: src/applet-device-wifi.c:522 src/applet-device-wifi.c:1375
+#: src/applet-device-wifi.c:1398 src/applet.c:417 src/applet.c:506
 msgid "Connection failure"
 msgstr "Konekto malsukcesis"
 
-#: src/applet-device-wifi.c:827
+#: src/applet-device-wifi.c:822
 #, c-format
 msgid "Wi-Fi Networks (%s)"
 msgstr "Sendrataj retoj (%s)"
 
-#: src/applet-device-wifi.c:829
+#: src/applet-device-wifi.c:824
 #, c-format
 msgid "Wi-Fi Network (%s)"
 msgstr "Sendrata reto (%s)"
 
-#: src/applet-device-wifi.c:831
+#: src/applet-device-wifi.c:826
 msgid "Wi-Fi Network"
 msgid_plural "Wi-Fi Networks"
 msgstr[0] "Sendrata reto"
 msgstr[1] "Sendrataj retoj"
 
-#: src/applet-device-wifi.c:860
+#: src/applet-device-wifi.c:855
 msgid "Wi-Fi is disabled"
 msgstr "Sendrata reto estas elŝaltite"
 
-#: src/applet-device-wifi.c:861
+#: src/applet-device-wifi.c:856
 #, fuzzy
 msgid "Wi-Fi is disabled by hardware switch"
 msgstr "WiMAX estas elŝaltite per aparatara ŝaltilo"
 
-#: src/applet-device-wifi.c:887
-#, fuzzy
-msgid "_Available networks"
-msgstr "Disponebla al ĉiuj uzantoj"
+#: src/applet-device-wifi.c:917
+msgid "More networks"
+msgstr "Pliaj retoj"
 
-#: src/applet-device-wifi.c:1066
+#: src/applet-device-wifi.c:1107
 #, fuzzy
 msgid "Wi-Fi Networks Available"
 msgstr "Sendrataj retoj estas disponeblaj"
 
-#: src/applet-device-wifi.c:1067
+#: src/applet-device-wifi.c:1108
 #, fuzzy
 msgid "Use the network menu to connect to a Wi-Fi network"
 msgstr "Uzi la retmenuon por konekti al sendrata reto"
 
-#: src/applet-device-wifi.c:1249
+#: src/applet-device-wifi.c:1111 src/applet.c:828
+#, fuzzy
+msgid "Don’t show this message again"
+msgstr "Ne remontri tiun mesaĝon"
+
+#: src/applet-device-wifi.c:1292
 #, fuzzy, c-format
 msgid "You are now connected to the Wi-Fi network “%s”."
 msgstr "Vi estas nun konektite al la sendrata reto “%s”."
 
-#: src/applet-device-wifi.c:1286
+#: src/applet-device-wifi.c:1327
 #, fuzzy, c-format
 msgid "Preparing Wi-Fi network connection “%s”…"
 msgstr "Agordanta retkonekton “%s”…"
 
-#: src/applet-device-wifi.c:1289
+#: src/applet-device-wifi.c:1330
 #, fuzzy, c-format
 msgid "Configuring Wi-Fi network connection “%s”…"
 msgstr "Agordanta drat-retan konekton “%s”…"
 
-#: src/applet-device-wifi.c:1292
+#: src/applet-device-wifi.c:1333
 #, fuzzy, c-format
 msgid "User authentication required for Wi-Fi network “%s”…"
 msgstr "Sendrata reto “%s” necesas legitimadon de la uzanto…"
 
-#: src/applet-device-wifi.c:1295
+#: src/applet-device-wifi.c:1336
 #, fuzzy, c-format
 msgid "Requesting a Wi-Fi network address for “%s”…"
 msgstr "Petanta retan adreson por “%s”…"
 
-#: src/applet-device-wifi.c:1306
+#: src/applet-device-wifi.c:1347
 #, fuzzy, c-format
 msgid "Wi-Fi network connection “%s” active: %s (%d%%)"
 msgstr "Sendrat-reta konekto “%s” aktiva: %s (%d%%)"
 
-#: src/applet-device-wifi.c:1310
+#: src/applet-device-wifi.c:1351
 #, fuzzy, c-format
 msgid "Wi-Fi network connection “%s” active"
 msgstr "Drat-reta konekto “%s” aktiva"
 
-#: src/applet-device-wifi.c:1329
+#: src/applet-device-wifi.c:1370
 msgid "Failed to activate connection"
 msgstr "Malsukcesis aktivigi konekton"
 
-#: src/applet-device-wifi.c:1330 src/applet-device-wifi.c:1350 src/applet.c:412
-#: src/applet.c:463 src/applet.c:495
+#: src/applet-device-wifi.c:1372 src/applet-device-wifi.c:1395 src/applet.c:414
+#: src/applet.c:468 src/applet.c:503
 msgid "Unknown error"
 msgstr "Nekonata eraro"
 
@@ -490,7 +420,7 @@ msgstr "Nekonata eraro"
 msgid "Error displaying connection information:"
 msgstr "Eraro montrante konekt-informojn:"
 
-#: src/applet-dialogs.c:60 src/connection-editor/page-wifi-security.c:384
+#: src/applet-dialogs.c:60 src/connection-editor/page-wifi-security.c:369
 msgid "LEAP"
 msgstr "LEAP"
 
@@ -498,7 +428,7 @@ msgstr "LEAP"
 msgid "Dynamic WEP"
 msgstr "Dinamika WEP"
 
-#: src/applet-dialogs.c:64 src/applet-dialogs.c:226
+#: src/applet-dialogs.c:64 src/applet-dialogs.c:226 src/applet-dialogs.c:228
 msgid "WPA/WPA2"
 msgstr "WPA/WPA2"
 
@@ -512,17 +442,12 @@ msgstr "Adresoj"
 msgid "WEP"
 msgstr "WEP"
 
-#: src/applet-dialogs.c:228
-#, fuzzy
-msgid "WPA/WPA2/WPA3"
-msgstr "WPA/WPA2"
-
 #: src/applet-dialogs.c:230
 msgid "WPA3"
 msgstr ""
 
 #: src/applet-dialogs.c:234 src/applet-dialogs.c:243
-#: src/connection-editor/page-wifi-security.c:327
+#: src/connection-editor/page-wifi-security.c:320
 msgctxt "Wi-Fi/Ethernet security"
 msgid "None"
 msgstr "Neniu"
@@ -810,28 +735,23 @@ msgstr "Malsukcesis krei DUN-konekton: %s (%d)"
 msgid "Failed to write connection to VPN UI: incomplete write"
 msgstr ""
 
-#: src/applet.c:411
+#: src/applet.c:412
 msgid "Failed to add/activate connection"
 msgstr "Malsukcesis aldoni/aktivigi konekton"
 
-#: src/applet.c:462
+#: src/applet.c:466
 msgid "Device disconnect failed"
 msgstr ""
 
-#: src/applet.c:465
+#: src/applet.c:471
 msgid "Disconnect failure"
 msgstr "Malkonekto malsukcesis"
 
-#: src/applet.c:494
+#: src/applet.c:501
 msgid "Connection activation failed"
 msgstr "Konekto-aktivigo malsukcesis"
 
-#: src/applet.c:731
-#, fuzzy
-msgid "Don’t show this message again"
-msgstr "Ne remontri tiun mesaĝon"
-
-#: src/applet.c:831
+#: src/applet.c:918
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -841,7 +761,7 @@ msgstr ""
 "\n"
 "Malkonektiĝis VPN-konekto “%s” ĉar retkonekto estis interrompita."
 
-#: src/applet.c:833
+#: src/applet.c:920
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -851,7 +771,7 @@ msgstr ""
 "\n"
 "Malsukcesis VPN-konekto “%s” ĉar retkonekto estis interrompita."
 
-#: src/applet.c:835
+#: src/applet.c:922
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -860,7 +780,7 @@ msgstr ""
 "\n"
 "Malsukcesis VPN-konekto “%s” ĉar VPN-servo haltigis neatendite."
 
-#: src/applet.c:837
+#: src/applet.c:924
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -870,7 +790,7 @@ msgstr ""
 "\n"
 "Malsukcesis VPN-konekto “%s” ĉar VPN-servo revenigis nevalidan agordon."
 
-#: src/applet.c:839
+#: src/applet.c:926
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -879,7 +799,7 @@ msgstr ""
 "\n"
 "Malsukcesis VPN-konekto “%s” ĉar la konekta provo eltempiĝis."
 
-#: src/applet.c:841
+#: src/applet.c:928
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -888,7 +808,7 @@ msgstr ""
 "\n"
 "Malsukcesis VPN-konekto “%s” ĉar la VPN-servo ne komencis tempe."
 
-#: src/applet.c:843
+#: src/applet.c:930
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -897,7 +817,7 @@ msgstr ""
 "\n"
 "Malsukcesis VPN-konekto “%s” ĉar la VPN-servo malsukcesis je la komenco."
 
-#: src/applet.c:845
+#: src/applet.c:932
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -906,7 +826,7 @@ msgstr ""
 "\n"
 "Malsukcesis VPN-konekto “%s” ĉar ne estis validaj VPN-sekretaĵoj."
 
-#: src/applet.c:847
+#: src/applet.c:934
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -915,7 +835,7 @@ msgstr ""
 "\n"
 "Malsukcesis VPN-konekto “%s” ĉar estis nevalidaj VPN-sekretaĵoj."
 
-#: src/applet.c:852
+#: src/applet.c:939
 #, c-format
 msgid ""
 "\n"
@@ -924,7 +844,7 @@ msgstr ""
 "\n"
 "La VPN-konekto “%s” malsukcesis."
 
-#: src/applet.c:879
+#: src/applet.c:966
 #, c-format
 msgid ""
 "VPN connection has been successfully established.\n"
@@ -932,19 +852,19 @@ msgid ""
 "%s\n"
 msgstr ""
 
-#: src/applet.c:881
+#: src/applet.c:968
 msgid "VPN connection has been successfully established.\n"
 msgstr ""
 
-#: src/applet.c:883
+#: src/applet.c:970
 msgid "VPN Login Message"
 msgstr "VPN-ensalutmesaĝo"
 
-#: src/applet.c:891 src/applet.c:931
+#: src/applet.c:978 src/applet.c:1018
 msgid "VPN Connection Failed"
 msgstr "Malsukcesis VPN-konekto"
 
-#: src/applet.c:935
+#: src/applet.c:1022
 #, c-format
 msgid ""
 "\n"
@@ -957,7 +877,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/applet.c:938
+#: src/applet.c:1025
 #, c-format
 msgid ""
 "\n"
@@ -970,134 +890,134 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/applet.c:1253
+#: src/applet.c:1316
 msgid "device not ready (firmware missing)"
 msgstr "aparato ne pretas (mikroprogramaro mankas)"
 
-#: src/applet.c:1255
+#: src/applet.c:1318
 msgid "device not ready"
 msgstr "aparato ne pretas"
 
-#: src/applet.c:1281
+#: src/applet.c:1344
 msgid "Disconnect"
 msgstr "Malkonekti"
 
-#: src/applet.c:1295
+#: src/applet.c:1358
 msgid "device not managed"
 msgstr "aparato ne administrita"
 
-#: src/applet.c:1369
+#: src/applet.c:1432
 msgid "No network devices available"
 msgstr "Neniuj retaparatoj disponeblaj"
 
-#: src/applet.c:1415
+#: src/applet.c:1484
 msgid "_VPN Connections"
 msgstr "_VPN-konektoj"
 
-#: src/applet.c:1459
+#: src/applet.c:1528
 #, fuzzy
 msgid "_Configure VPN…"
 msgstr "_Agordi na VPN…"
 
-#: src/applet.c:1462
+#: src/applet.c:1531
 msgid "_Add a VPN connection…"
 msgstr "_Aldoni VPN-konekton…"
 
-#: src/applet.c:1568
+#: src/applet.c:1637
 #, fuzzy
 msgid "NetworkManager is not running…"
 msgstr "NetworkManager ne estas rulanta…"
 
-#: src/applet.c:1573 src/applet.c:2641
+#: src/applet.c:1642 src/applet.c:2710
 msgid "Networking disabled"
 msgstr "Retkonektado elŝaltitas"
 
 #. 'Enable Networking' item
-#: src/applet.c:1783
+#: src/applet.c:1852
 msgid "Enable _Networking"
 msgstr "Enŝalti _reton"
 
 #. 'Enable Wi-Fi' item
-#: src/applet.c:1792
+#: src/applet.c:1861
 msgid "Enable _Wi-Fi"
 msgstr "Enŝalti _sendratan reton"
 
 #. 'Enable Mobile Broadband' item
-#: src/applet.c:1801
+#: src/applet.c:1870
 msgid "Enable _Mobile Broadband"
 msgstr "Enŝalti _moveblan larĝkapacitan konekton"
 
 #. Toggle notifications item
-#: src/applet.c:1813
+#: src/applet.c:1882
 msgid "Enable N_otifications"
 msgstr "Enŝalti atentig_ojn"
 
 #. 'Connection Information' item
-#: src/applet.c:1825
+#: src/applet.c:1894
 msgid "Connection _Information"
 msgstr "Konektaj _informoj"
 
 #. 'Edit Connections...' item
-#: src/applet.c:1833
+#: src/applet.c:1902
 msgid "Edit Connections…"
 msgstr "Redakti konektojn…"
 
-#: src/applet.c:1847
+#: src/applet.c:1916
 msgid "_About"
 msgstr "_Pri"
 
-#: src/applet.c:2161
+#: src/applet.c:2230
 #, c-format
 msgid "You are now connected to “%s”."
 msgstr "Nun vi estas konektita al “%s”."
 
-#: src/applet.c:2201
+#: src/applet.c:2270
 msgid "Disconnected"
 msgstr "Malkonektita"
 
-#: src/applet.c:2202
+#: src/applet.c:2271
 msgid "The network connection has been disconnected."
 msgstr "La retkonekto estas malkonektigita."
 
-#: src/applet.c:2504
+#: src/applet.c:2573
 #, c-format
 msgid "Preparing network connection “%s”…"
 msgstr "Preparante retkonekton “%s”…"
 
-#: src/applet.c:2507
+#: src/applet.c:2576
 #, c-format
 msgid "User authentication required for network connection “%s”…"
 msgstr "Retkonekto “%s” necesas uzantan aŭtentigon…"
 
-#: src/applet.c:2513
+#: src/applet.c:2582
 #, c-format
 msgid "Network connection “%s” active"
 msgstr "Retkonekto “%s” estas aktiva"
 
-#: src/applet.c:2586
+#: src/applet.c:2655
 #, fuzzy, c-format
 msgid "Starting VPN connection “%s”…"
 msgstr "Komencanta VPN-konekton “%s”…"
 
-#: src/applet.c:2589
+#: src/applet.c:2658
 #, fuzzy, c-format
 msgid "User authentication required for VPN connection “%s”…"
 msgstr "VPN-retkonekto “%s” necesas uzantan aŭtentigon…"
 
-#: src/applet.c:2592
+#: src/applet.c:2661
 #, fuzzy, c-format
 msgid "Requesting a VPN address for “%s”…"
 msgstr "Petanta VPN-adreson por “%s”…"
 
-#: src/applet.c:2595
+#: src/applet.c:2664
 msgid "VPN connection active"
 msgstr "VPN-konekto estas aktiva"
 
-#: src/applet.c:2645
+#: src/applet.c:2714
 msgid "No network connection"
 msgstr "Neniu retkonekto"
 
-#: src/applet.c:3280
+#: src/applet.c:3324
 msgid "NetworkManager Applet"
 msgstr "Apleto por NetworkManager"
 
@@ -1229,7 +1149,7 @@ msgid "Bonded _connections"
 msgstr "Drataj _konektoj:"
 
 #: src/connection-editor/ce-page-bond.ui:105
-#: src/connection-editor/ce-page-wifi.ui:294
+#: src/connection-editor/ce-page-wifi.ui:400
 #, fuzzy
 msgid "M_ode"
 msgstr "Reĝim_o:"
@@ -1289,7 +1209,7 @@ msgstr "_Unuarang:"
 #: src/connection-editor/ce-page-bond.ui:495
 msgid ""
 "The interface name of the primary device. If set, this device will always be "
-"the active port when it is available."
+"the active slave when it is available."
 msgstr ""
 
 #: src/connection-editor/ce-page-bond.ui:507
@@ -2101,10 +2021,10 @@ msgstr ""
 msgid ""
 "If enabled, it makes the kernel generate a temporary IPv6 address in "
 "addition to the public one generated from MAC address. This enhances "
-"privacy, but could cause problems in some applications. If set to "
-"\"Default\", the value from NetworkManager global configuration is used. If "
-"that is also unset, use the kernel default value read from file \"/proc/sys/"
-"net/ipv6/conf/default/use_tempaddr\""
+"privacy, but could cause problems in some applications. If set to \"Default"
+"\", the value from NetworkManager global configuration is used. If that is "
+"also unset, use the kernel default value read from file \"/proc/sys/net/ipv6/"
+"conf/default/use_tempaddr\""
 msgstr ""
 
 #: src/connection-editor/ce-page-ip6.ui:323
@@ -2197,7 +2117,7 @@ msgid "C_KN"
 msgstr ""
 
 #: src/connection-editor/ce-page-macsec.ui:206
-msgid "The pre-shared Connectivity-association Key Name"
+msgid " The pre-shared Connectivity-association Key Name"
 msgstr ""
 
 #: src/connection-editor/ce-page-macsec.ui:217
@@ -2894,22 +2814,40 @@ msgstr ""
 msgid "Ad-hoc"
 msgstr "Provizore"
 
-#: src/connection-editor/ce-page-wifi.ui:205
+#: src/connection-editor/ce-page-wifi.ui:203
+msgid "mW"
+msgstr "mW"
+
+#: src/connection-editor/ce-page-wifi.ui:222
+#, fuzzy
+msgid "Transmission po_wer"
+msgstr "Senda po_vumo:"
+
+#: src/connection-editor/ce-page-wifi.ui:256
+msgid "Mb/s"
+msgstr "Mb/s"
+
+#: src/connection-editor/ce-page-wifi.ui:275
+#, fuzzy
+msgid "_Rate"
+msgstr "_Rapido:"
+
+#: src/connection-editor/ce-page-wifi.ui:311
 #, fuzzy
 msgid "_BSSID"
 msgstr "_BSSID:"
 
-#: src/connection-editor/ce-page-wifi.ui:230
+#: src/connection-editor/ce-page-wifi.ui:336
 #, fuzzy
 msgid "C_hannel"
 msgstr "_Kanalo:"
 
-#: src/connection-editor/ce-page-wifi.ui:262
+#: src/connection-editor/ce-page-wifi.ui:368
 #, fuzzy
 msgid "Ban_d"
 msgstr "Ben_do:"
 
-#: src/connection-editor/ce-page-wifi.ui:308
+#: src/connection-editor/ce-page-wifi.ui:414
 #, fuzzy
 msgid "SS_ID"
 msgstr "SS_ID:"
@@ -3268,7 +3206,7 @@ msgstr "Drata"
 
 #: src/connection-editor/connection-helpers.c:112
 #: src/connection-editor/connection-helpers.c:374
-#: src/connection-editor/page-vpn.c:92
+#: src/connection-editor/page-vpn.c:86
 msgid "VPN"
 msgstr "VPN"
 
@@ -3439,11 +3377,11 @@ msgid ""
 "editor. They will be cleared upon save."
 msgstr ""
 
-#: src/connection-editor/nm-connection-editor.c:751
+#: src/connection-editor/nm-connection-editor.c:749
 msgid "Error initializing editor"
 msgstr "Eraro dum pravalorizado de redaktilo"
 
-#: src/connection-editor/nm-connection-editor.c:1176
+#: src/connection-editor/nm-connection-editor.c:1159
 msgid "Connection add failed"
 msgstr "Aldono de konekto malsukcesis"
 
@@ -3622,16 +3560,16 @@ msgstr "Retkonektoj"
 msgid "Add a new connection"
 msgstr "Aldoni novan konekton"
 
-#: src/connection-editor/page-8021x-security.c:97
+#: src/connection-editor/page-8021x-security.c:96
 msgid "802.1X Security"
 msgstr "802.1X-sekureco"
 
-#: src/connection-editor/page-8021x-security.c:99
+#: src/connection-editor/page-8021x-security.c:98
 #, fuzzy
 msgid "Could not load 802.1X Security user interface."
 msgstr "Ne eblis ŝargi uzantinterfacon por la sekureco de sendrataj konektoj."
 
-#: src/connection-editor/page-8021x-security.c:113
+#: src/connection-editor/page-8021x-security.c:112
 msgid "Use 802.1_X security for this connection"
 msgstr "Uzi 802.1_X-sekurecon por ĉi tiu konekto"
 
@@ -3940,24 +3878,24 @@ msgstr "MACSEC-konekto %d"
 
 #: src/connection-editor/page-master.c:221
 #: src/connection-editor/page-master.c:232
-msgid "Duplicate ports"
+msgid "Duplicate slaves"
 msgstr ""
 
 #: src/connection-editor/page-master.c:222
 #, c-format
-msgid "Ports “%s” and “%s” both apply to device “%s”"
+msgid "Slaves “%s” and “%s” both apply to device “%s”"
 msgstr ""
 
 #: src/connection-editor/page-master.c:233
 #, c-format
 msgid ""
-"Ports “%s” and “%s” apply to different virtual ports (“%s” and “%s”) of the "
+"Slaves “%s” and “%s” apply to different virtual ports (“%s” and “%s”) of the "
 "same physical device."
 msgstr ""
 
 #: src/connection-editor/page-master.c:357
 #, c-format
-msgid "%s port %d"
+msgid "%s slave %d"
 msgstr ""
 
 #: src/connection-editor/page-mobile.c:297
@@ -4108,25 +4046,25 @@ msgstr "Ne eblis ŝargi VPN-kromprograman servon por “%s” (%s)."
 msgid "unknown failure"
 msgstr "nekonata paneo"
 
-#: src/connection-editor/page-vpn.c:94
+#: src/connection-editor/page-vpn.c:88
 msgid "Could not load VPN user interface."
 msgstr "Ne eblis ŝargi VPN-uzantointerfacon."
 
-#: src/connection-editor/page-vpn.c:109
+#: src/connection-editor/page-vpn.c:103
 #, c-format
 msgid "Could not find VPN plugin for “%s”."
 msgstr "Ne eblis trovi VPN-kromprogramon por “%s”."
 
-#: src/connection-editor/page-vpn.c:191
+#: src/connection-editor/page-vpn.c:185
 #, c-format
 msgid "VPN connection %d"
 msgstr "VPN-konekto %d"
 
-#: src/connection-editor/page-vpn.c:197
+#: src/connection-editor/page-vpn.c:191
 msgid "Choose a VPN Connection Type"
 msgstr "Elekti VPN-konekttipon"
 
-#: src/connection-editor/page-vpn.c:198
+#: src/connection-editor/page-vpn.c:192
 #, fuzzy
 msgid ""
 "Select the type of VPN you wish to use for the new connection. If the type "
@@ -4137,59 +4075,56 @@ msgstr ""
 "dezirata VPN-speco ne disponeblas en la listo, eble vi ne instalis la ĝustan "
 "VPN-kromprogramon."
 
-#: src/connection-editor/page-wifi-security.c:359
+#: src/connection-editor/page-wifi-security.c:346
 msgid "WEP 40/128-bit Key (Hex or ASCII)"
 msgstr "WEP 40/128-bita ŝlosilo (Deksesuma aŭ ASCII)"
 
-#: src/connection-editor/page-wifi-security.c:372
+#: src/connection-editor/page-wifi-security.c:356
 msgid "WEP 128-bit Passphrase"
 msgstr "128-bita WEP-pasfrazo"
 
-#: src/connection-editor/page-wifi-security.c:397
+#: src/connection-editor/page-wifi-security.c:382
 msgid "Dynamic WEP (802.1X)"
 msgstr "Dinamika WEP (802.1X)"
 
-#: src/connection-editor/page-wifi-security.c:410
-#, fuzzy
-msgid "WPA/WPA2/WPA3 Personal"
+#: src/connection-editor/page-wifi-security.c:395
+msgid "WPA & WPA2 Personal"
 msgstr "WPA kaj WPA2 por personoj"
 
-#: src/connection-editor/page-wifi-security.c:423
-#, fuzzy
-msgid "WPA/WPA2 Enterprise"
+#: src/connection-editor/page-wifi-security.c:408
+msgid "WPA & WPA2 Enterprise"
 msgstr "WPA kaj WPA2 por enterprenoj"
 
-#: src/connection-editor/page-wifi-security.c:436
+#: src/connection-editor/page-wifi-security.c:421
 #, fuzzy
 msgid "WPA3 Personal"
 msgstr "WPA kaj WPA2 por personoj"
 
-#: src/connection-editor/page-wifi-security.c:449
-#: src/connection-editor/page-wifi-security.c:457
+#: src/connection-editor/page-wifi-security.c:431
 msgid "Enhanced Open"
 msgstr ""
 
-#: src/connection-editor/page-wifi-security.c:503
+#: src/connection-editor/page-wifi-security.c:476
 #, fuzzy
 msgid "Could not load Wi-Fi security user interface; missing Wi-Fi setting."
 msgstr ""
 "Ne eblis ŝargi uzantinterfacon por la sekureco de sendrataj konektoj ĉar "
 "mankas agordojn por sendrataj konektoj."
 
-#: src/connection-editor/page-wifi-security.c:514
+#: src/connection-editor/page-wifi-security.c:487
 msgid "Wi-Fi Security"
 msgstr "Sekureco de sendrataj konektoj"
 
-#: src/connection-editor/page-wifi-security.c:516
+#: src/connection-editor/page-wifi-security.c:489
 #, fuzzy
 msgid "Could not load Wi-Fi security user interface."
 msgstr "Ne eblis ŝargi uzantinterfacon por la sekureco de sendrataj konektoj."
 
-#: src/connection-editor/page-wifi-security.c:597
+#: src/connection-editor/page-wifi-security.c:570
 msgid "missing SSID"
 msgstr ""
 
-#: src/connection-editor/page-wifi-security.c:603
+#: src/connection-editor/page-wifi-security.c:576
 msgid "Security not compatible with Ad-Hoc mode"
 msgstr ""
 
@@ -4311,9 +4246,9 @@ msgid "Usage:"
 msgstr "Uzo:"
 
 #: src/main.c:30
-#, fuzzy
 msgid ""
-"This program is a component of NetworkManager (https://networkmanager.dev)."
+"This program is a component of NetworkManager (https://wiki.gnome.org/"
+"Projects/NetworkManager/)."
 msgstr ""
 "Tiu ĉi programo estas parto de NetworkManager (https://wiki.gnome.org/"
 "Projects/NetworkManager/)."
@@ -4444,23 +4379,6 @@ msgid "DER, PEM, or PKCS#12 private keys (*.der, *.pem, *.p12, *.key)"
 msgstr ""
 "Privataj ŝlosiloj de specoj DER, PEM aŭ PKCS#12 (*.der, *.pem, *.p12, *.key)"
 
-#~ msgid "mW"
-#~ msgstr "mW"
-
-#, fuzzy
-#~ msgid "Transmission po_wer"
-#~ msgstr "Senda po_vumo:"
-
-#~ msgid "Mb/s"
-#~ msgstr "Mb/s"
-
-#, fuzzy
-#~ msgid "_Rate"
-#~ msgstr "_Rapido:"
-
-#~ msgid "More networks"
-#~ msgstr "Pliaj retoj"
-
 #~ msgid "GTC"
 #~ msgstr "GTC"
 
@@ -4571,6 +4489,61 @@ msgstr ""
 #, fuzzy
 #~ msgid "WEP inde_x"
 #~ msgstr "WEP-inde_kso:"
+
+#~ msgid "Disable connected notifications"
+#~ msgstr "Elŝalti atentigojn pri konektoj"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when connecting to a network."
+#~ msgstr ""
+#~ "Agordi ĉi tiun al 'vera' por elŝalti atentigojn kiam konektanta al reto."
+
+#~ msgid "Disable disconnected notifications"
+#~ msgstr "Elŝalti atentigojn pri malkonektoj"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when disconnecting from a "
+#~ "network."
+#~ msgstr ""
+#~ "Agordi ĉi tiun al 'vera' por elŝalti atentigojn kiam malkonektanta al "
+#~ "reto."
+
+#~ msgid "Disable VPN notifications"
+#~ msgstr "Elŝalti VPN-atentigojn"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when connecting to or "
+#~ "disconnecting from a VPN."
+#~ msgstr ""
+#~ "Agordi ĉi tiun al 'vera' por elŝalti atentigojn kiam konektante aŭ "
+#~ "malkonektante de VPN."
+
+#~ msgid "Suppress networks available notifications"
+#~ msgstr "Nuligi atentigon pri disponeblaj retoj"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when Wi-Fi networks are "
+#~ "available."
+#~ msgstr ""
+#~ "Agordi ĉi tiun al 'vera' por elŝalti atentigojn kiam sendrataj retoj "
+#~ "disponeblas."
+
+#~ msgid "Stamp"
+#~ msgstr "Stampo"
+
+#~ msgid ""
+#~ "Used to determine whether settings should be migrated to a new version."
+#~ msgstr "Uzita por determini ĉu agordoj devus esti migrigita al nova versio."
+
+#, fuzzy
+#~ msgid "Disable WiFi Create"
+#~ msgstr "Elŝalti kreon de sendrataj konektoj"
+
+#~ msgid ""
+#~ "Set to true to disable creation of adhoc networks when using the applet."
+#~ msgstr ""
+#~ "Agordi tion ĉi \"vera\", se vi volas elŝalti la kreadon de por-okazaj "
+#~ "retoj per la aplikaĵeto."
 
 #~ msgid "Ignore CA certificate"
 #~ msgstr "Ignori CA-atestilon"
@@ -5333,6 +5306,9 @@ msgstr ""
 
 #~ msgid "Wireless"
 #~ msgstr "Sendrata"
+
+#~ msgid "A_vailable to all users"
+#~ msgstr "Disponebla al ĉiuj uzantoj"
 
 #~ msgid "An unknown error occurred."
 #~ msgstr "Okazis nekonata eraro."

@@ -57,10 +57,9 @@ permission_changed_cb (NMClient *client,
                        GtkWidget *widget)
 {
 	CePolkitData *data = g_object_get_data (G_OBJECT (widget), "ce-polkit-data");
-	if (permission == data->permission) {
-		data->permission_result = result;
-		update_widget (widget);
-	}
+
+	data->permission_result = result;
+	update_widget (widget);
 }
 
 void ce_polkit_set_widget_validation_error (GtkWidget *widget,

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: NetworkManager.HEAD2\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/network-manager-"
 "applet/\n"
-"POT-Creation-Date: 2022-11-07 08:48+0100\n"
+"POT-Creation-Date: 2021-02-03 09:54+0100\n"
 "PO-Revision-Date: 2018-03-23 22:08+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "2);\n"
 "X-Generator: Lokalize 2.0\n"
 
-#: nm-applet.desktop.in:3 src/applet-dialogs.c:724 src/applet.c:3166
+#: nm-applet.desktop.in:3 src/applet-dialogs.c:724 src/applet.c:3223
 msgid "Network"
 msgstr "Tīkls"
 
@@ -69,78 +69,6 @@ msgstr "Neapstrādāta konfigurācija"
 msgid "Manage and change your network connection settings"
 msgstr "Pārvaldiet un mainiet tīkla savienojumu iestatījumus"
 
-#: org.gnome.nm-applet.gschema.xml.in:6
-msgid "Disable connected notifications"
-msgstr "Izslēgt paziņojumus par savienošanos"
-
-#: org.gnome.nm-applet.gschema.xml.in:7
-msgid "Set this to true to disable notifications when connecting to a network."
-msgstr ""
-"Iestatiet to kā “patiess”, lai izslēgtu paziņojumus, kad savienojas ar tīklu."
-
-#: org.gnome.nm-applet.gschema.xml.in:11
-msgid "Disable disconnected notifications"
-msgstr "Izslēgt paziņojumus par atvienošanos"
-
-#: org.gnome.nm-applet.gschema.xml.in:12
-msgid ""
-"Set this to true to disable notifications when disconnecting from a network."
-msgstr ""
-"Iestatiet to kā “patiess”, lai izslēgtu paziņojumus, kad atvienojas no tīkla."
-
-#: org.gnome.nm-applet.gschema.xml.in:16
-msgid "Disable VPN notifications"
-msgstr "Izslēgt VPN paziņojumus"
-
-#: org.gnome.nm-applet.gschema.xml.in:17
-msgid ""
-"Set this to true to disable notifications when connecting to or "
-"disconnecting from a VPN."
-msgstr ""
-"Iestatiet to kā “patiess”, lai izslēgtu paziņojumus, kad savienojas vai "
-"atvienojas no VPN."
-
-#: org.gnome.nm-applet.gschema.xml.in:21
-msgid "Suppress networks available notifications"
-msgstr "Noklusēt tīklu pieejamības paziņojumus"
-
-#: org.gnome.nm-applet.gschema.xml.in:22
-msgid ""
-"Set this to true to disable notifications when Wi-Fi networks are available."
-msgstr ""
-"Iestatiet šo kā “patiess”, lai izslēgtu paziņojumus, kad ir pieejams bezvadu "
-"tīkls."
-
-#: org.gnome.nm-applet.gschema.xml.in:26
-msgid "Stamp"
-msgstr "Spiedogs"
-
-#: org.gnome.nm-applet.gschema.xml.in:27
-msgid "Used to determine whether settings should be migrated to a new version."
-msgstr ""
-"Izmanto, lai noteiktu, vai iestatījumus vajadzētu pārnest uz jauno versiju."
-
-#: org.gnome.nm-applet.gschema.xml.in:31
-#, fuzzy
-msgid "Disable WiFi Create"
-msgstr "Izslēgt Wi-Fi izveidošanu"
-
-#: org.gnome.nm-applet.gschema.xml.in:32
-msgid ""
-"Set to true to disable creation of adhoc networks when using the applet."
-msgstr ""
-"Iestatiet to kā “patiess”, lai izslēgtu ekspromta tīklu veidošanu, kad "
-"izmanot šo sīklietotni."
-
-#: org.gnome.nm-applet.gschema.xml.in:36
-msgid "Show the applet in notification area"
-msgstr "Rādīt sīklietotni paziņojumu laukā"
-
-#: org.gnome.nm-applet.gschema.xml.in:37
-msgid "Set to FALSE to disable displaying the applet in the notification area."
-msgstr ""
-"Iestatiet uz APLAMS, lai izslēgtu sīklietotnes rādīšanu paziņojumu laukā."
-
 #: shared/nm-utils/nm-shared-utils.c:793
 #, c-format
 msgid "object class '%s' has no property named '%s'"
@@ -178,7 +106,7 @@ msgstr ""
 "tipa “%2$s” vērtība “%1$s” nav derīga vai ir ārpus tipa “%4$s” īpašības "
 "“%3$s” apgabala"
 
-#: src/8021x.ui:7 src/ethernet-dialog.c:90
+#: src/8021x.ui:11 src/ethernet-dialog.c:87
 msgid "802.1X authentication"
 msgstr "802.1X autentifikācija"
 
@@ -212,17 +140,12 @@ msgstr "Savien_oties"
 msgid "_Network name"
 msgstr "Tīkla _nosaukums:"
 
-#: src/ap-menu-item.c:68
+#: src/ap-menu-item.c:67
 msgid "ad-hoc"
 msgstr "ekspromta"
 
-#: src/ap-menu-item.c:73
+#: src/ap-menu-item.c:72
 msgid "secure."
-msgstr "drošs."
-
-#: src/ap-menu-item.c:77
-#, fuzzy
-msgid "insecure."
 msgstr "drošs."
 
 #: src/applet-device-broadband.c:147
@@ -250,7 +173,7 @@ msgid "Mobile Broadband"
 msgstr "Mobilā platjosla"
 
 #: src/applet-device-broadband.c:780 src/applet-device-bt.c:61
-#: src/applet-device-ethernet.c:107
+#: src/applet-device-ethernet.c:107 src/applet-device-wifi.c:890
 msgid "Available"
 msgstr "Pieejams"
 
@@ -260,7 +183,7 @@ msgid "New Mobile Broadband connection…"
 msgstr "Jauns mobilās platjoslas tīkla savienojums…"
 
 #: src/applet-device-broadband.c:809 src/applet-device-bt.c:75
-#: src/applet-device-ethernet.c:124 src/applet-device-wifi.c:1251
+#: src/applet-device-ethernet.c:124 src/applet-device-wifi.c:1293
 msgid "Connection Established"
 msgstr "Savienojums ir izveidots"
 
@@ -301,7 +224,7 @@ msgstr ""
 "Mobilās platjoslas savienojumam “%s” ir nepieciešama lietotāja "
 "autentifikācija…"
 
-#: src/applet-device-bt.c:113 src/applet.c:2510 src/mobile-helpers.c:593
+#: src/applet-device-bt.c:113 src/applet.c:2579 src/mobile-helpers.c:593
 #, c-format
 msgid "Requesting a network address for “%s”…"
 msgstr "Tiek pieprasīta “%s” tīkla adrese…"
@@ -334,7 +257,7 @@ msgid "Ethernet Network"
 msgstr "Vadu tīkls"
 
 #. Notify user of unmanaged or unavailable device
-#: src/applet-device-ethernet.c:99 src/applet.c:1265
+#: src/applet-device-ethernet.c:99 src/applet.c:1328
 msgid "disconnected"
 msgstr "atvienots"
 
@@ -395,99 +318,102 @@ msgstr "Izveidot jau_nu bezvadu tīklu…"
 msgid "(none)"
 msgstr "(nav)"
 
-#: src/applet-device-wifi.c:523 src/applet-device-wifi.c:1349
+#: src/applet-device-wifi.c:519 src/applet-device-wifi.c:1393
 msgid "Failed to add new connection"
 msgstr "Neizdevās pievienot jaunu savienojumu"
 
-#: src/applet-device-wifi.c:524
+#: src/applet-device-wifi.c:520
 msgid "Insufficient privileges."
 msgstr "Nepietiekamas privilēģijas."
 
-#: src/applet-device-wifi.c:526 src/applet-device-wifi.c:1332
-#: src/applet-device-wifi.c:1352 src/applet.c:414 src/applet.c:497
+#: src/applet-device-wifi.c:522 src/applet-device-wifi.c:1375
+#: src/applet-device-wifi.c:1398 src/applet.c:417 src/applet.c:506
 msgid "Connection failure"
 msgstr "Savienojums neizdevās"
 
-#: src/applet-device-wifi.c:827
+#: src/applet-device-wifi.c:822
 #, c-format
 msgid "Wi-Fi Networks (%s)"
 msgstr "Bezvadu tīkli (%s)"
 
-#: src/applet-device-wifi.c:829
+#: src/applet-device-wifi.c:824
 #, c-format
 msgid "Wi-Fi Network (%s)"
 msgstr "Bezvadu tīkls (%s)"
 
-#: src/applet-device-wifi.c:831
+#: src/applet-device-wifi.c:826
 msgid "Wi-Fi Network"
 msgid_plural "Wi-Fi Networks"
 msgstr[0] "Bezvadu tīkls"
 msgstr[1] "Bezvadu tīkli"
 msgstr[2] "Bezvadu tīklu"
 
-#: src/applet-device-wifi.c:860
+#: src/applet-device-wifi.c:855
 msgid "Wi-Fi is disabled"
 msgstr "Bezvadu tīkls ir izslēgts"
 
-#: src/applet-device-wifi.c:861
+#: src/applet-device-wifi.c:856
 msgid "Wi-Fi is disabled by hardware switch"
 msgstr "Bezvadu tīkls ir izslēgts ar slēdzi datorā"
 
-#: src/applet-device-wifi.c:887
-#, fuzzy
-msgid "_Available networks"
-msgstr "Pieejams _visiem lietotajiem"
+#: src/applet-device-wifi.c:917
+msgid "More networks"
+msgstr "Vairāk tīklu"
 
-#: src/applet-device-wifi.c:1066
+#: src/applet-device-wifi.c:1107
 msgid "Wi-Fi Networks Available"
 msgstr "Pieejamie bezvadu tīkli"
 
-#: src/applet-device-wifi.c:1067
+#: src/applet-device-wifi.c:1108
 msgid "Use the network menu to connect to a Wi-Fi network"
 msgstr "Izmantojiet tīkla izvēlni, lai savienotos ar bezvadu tīklu"
 
-#: src/applet-device-wifi.c:1249
+#: src/applet-device-wifi.c:1111 src/applet.c:828
+msgid "Don’t show this message again"
+msgstr "Vairs nerādīt šo ziņojumu"
+
+#: src/applet-device-wifi.c:1292
 #, c-format
 msgid "You are now connected to the Wi-Fi network “%s”."
 msgstr "Ir savienojums ar bezvadu tīklu “%s”.no"
 
-#: src/applet-device-wifi.c:1286
+#: src/applet-device-wifi.c:1327
 #, c-format
 msgid "Preparing Wi-Fi network connection “%s”…"
 msgstr "Gatavo bezvadu tīkla savienojumu “%s”…"
 
-#: src/applet-device-wifi.c:1289
+#: src/applet-device-wifi.c:1330
 #, c-format
 msgid "Configuring Wi-Fi network connection “%s”…"
 msgstr "Konfigurē bezvadu tīklu savienojumu “%s”…"
 
-#: src/applet-device-wifi.c:1292
+#: src/applet-device-wifi.c:1333
 #, c-format
 msgid "User authentication required for Wi-Fi network “%s”…"
 msgstr ""
 "Bezvadu tīkla savienojumam “%s” ir nepieciešama lietotāja autentifikācija…"
 
-#: src/applet-device-wifi.c:1295
+#: src/applet-device-wifi.c:1336
 #, c-format
 msgid "Requesting a Wi-Fi network address for “%s”…"
 msgstr "Tiek pieprasīta “%s” bezvadu tīkla adrese…"
 
-#: src/applet-device-wifi.c:1306
+#: src/applet-device-wifi.c:1347
 #, c-format
 msgid "Wi-Fi network connection “%s” active: %s (%d%%)"
 msgstr "Bezvadu tīkla savienojums “%s” ir aktīvs — %s (%d%%)"
 
-#: src/applet-device-wifi.c:1310
+#: src/applet-device-wifi.c:1351
 #, c-format
 msgid "Wi-Fi network connection “%s” active"
 msgstr "Bezvadu tīkla savienojums “%s” ir aktīvs"
 
-#: src/applet-device-wifi.c:1329
+#: src/applet-device-wifi.c:1370
 msgid "Failed to activate connection"
 msgstr "Neizdevās aktivizēt savienojumu"
 
-#: src/applet-device-wifi.c:1330 src/applet-device-wifi.c:1350 src/applet.c:412
-#: src/applet.c:463 src/applet.c:495
+#: src/applet-device-wifi.c:1372 src/applet-device-wifi.c:1395 src/applet.c:414
+#: src/applet.c:468 src/applet.c:503
 msgid "Unknown error"
 msgstr "Nezināma kļūda"
 
@@ -495,7 +421,7 @@ msgstr "Nezināma kļūda"
 msgid "Error displaying connection information:"
 msgstr "Kļūda, rādot informāciju par savienojumu:"
 
-#: src/applet-dialogs.c:60 src/connection-editor/page-wifi-security.c:384
+#: src/applet-dialogs.c:60 src/connection-editor/page-wifi-security.c:369
 msgid "LEAP"
 msgstr "LEAP"
 
@@ -503,7 +429,7 @@ msgstr "LEAP"
 msgid "Dynamic WEP"
 msgstr "Dinamiskais WEP"
 
-#: src/applet-dialogs.c:64 src/applet-dialogs.c:226
+#: src/applet-dialogs.c:64 src/applet-dialogs.c:226 src/applet-dialogs.c:228
 msgid "WPA/WPA2"
 msgstr "WPA/WPA2"
 
@@ -516,17 +442,12 @@ msgstr "Vairāk adrešu"
 msgid "WEP"
 msgstr "WEP"
 
-#: src/applet-dialogs.c:228
-#, fuzzy
-msgid "WPA/WPA2/WPA3"
-msgstr "WPA/WPA2"
-
 #: src/applet-dialogs.c:230
 msgid "WPA3"
 msgstr ""
 
 #: src/applet-dialogs.c:234 src/applet-dialogs.c:243
-#: src/connection-editor/page-wifi-security.c:327
+#: src/connection-editor/page-wifi-security.c:320
 msgctxt "Wi-Fi/Ethernet security"
 msgid "None"
 msgstr "Nekāda"
@@ -811,27 +732,23 @@ msgstr "Neizdevās rakstīt savienojumu uz VPN UI — %s (%d)"
 msgid "Failed to write connection to VPN UI: incomplete write"
 msgstr "Neizdevās rakstīt savienojumu uz VPN UI — nepilnīga rakstīšana"
 
-#: src/applet.c:411
+#: src/applet.c:412
 msgid "Failed to add/activate connection"
 msgstr "Neizdevās pievienot/aktivizēt savienojumu"
 
-#: src/applet.c:462
+#: src/applet.c:466
 msgid "Device disconnect failed"
 msgstr "Neizdevās ierīces atvienošana"
 
-#: src/applet.c:465
+#: src/applet.c:471
 msgid "Disconnect failure"
 msgstr "Atvienošanās neizdevās"
 
-#: src/applet.c:494
+#: src/applet.c:501
 msgid "Connection activation failed"
 msgstr "Savienojuma ieslēgšana neizdevās"
 
-#: src/applet.c:731
-msgid "Don’t show this message again"
-msgstr "Vairs nerādīt šo ziņojumu"
-
-#: src/applet.c:831
+#: src/applet.c:918
 #, c-format
 msgid ""
 "\n"
@@ -841,7 +758,7 @@ msgstr ""
 "\n"
 "VPN savienojums “%s” atvienojās, jo tika pārtraukts tīkla savienojums."
 
-#: src/applet.c:833
+#: src/applet.c:920
 #, c-format
 msgid ""
 "\n"
@@ -851,7 +768,7 @@ msgstr ""
 "\n"
 "VPN savienojums “%s” neizdevās, jo tika pārtraukts tīkla savienojums."
 
-#: src/applet.c:835
+#: src/applet.c:922
 #, c-format
 msgid ""
 "\n"
@@ -860,7 +777,7 @@ msgstr ""
 "\n"
 "VPN savienojums “%s” neizdevās, jo VPN pakalpojums negaidīti apstājās."
 
-#: src/applet.c:837
+#: src/applet.c:924
 #, c-format
 msgid ""
 "\n"
@@ -871,7 +788,7 @@ msgstr ""
 "VPN savienojums “%s” neizdevās, jo VPN pakalpojums atgrieza nederīgu "
 "konfigurāciju."
 
-#: src/applet.c:839
+#: src/applet.c:926
 #, c-format
 msgid ""
 "\n"
@@ -880,7 +797,7 @@ msgstr ""
 "\n"
 "VPN savienojums “%s” neizdevās, jo savienošanās mēģinājumam iestājās noildze."
 
-#: src/applet.c:841
+#: src/applet.c:928
 #, c-format
 msgid ""
 "\n"
@@ -889,7 +806,7 @@ msgstr ""
 "\n"
 "VPN savienojums “%s” neizdevās, jo VPN pakalpojums laicīgi nepalaidās."
 
-#: src/applet.c:843
+#: src/applet.c:930
 #, c-format
 msgid ""
 "\n"
@@ -898,7 +815,7 @@ msgstr ""
 "\n"
 "VPN savienojums “%s” neizdevās, jo VPN pakalpojumam neizdevās palaisties."
 
-#: src/applet.c:845
+#: src/applet.c:932
 #, c-format
 msgid ""
 "\n"
@@ -907,7 +824,7 @@ msgstr ""
 "\n"
 "VPN savienojums “%s” neizdevās, jo nebija derīgu VPN noslēpumu (secrets)."
 
-#: src/applet.c:847
+#: src/applet.c:934
 #, c-format
 msgid ""
 "\n"
@@ -916,7 +833,7 @@ msgstr ""
 "\n"
 "VPN savienojums “%s” neizdevās nederīgu VPN noslēpumu (secrets) dēļ."
 
-#: src/applet.c:852
+#: src/applet.c:939
 #, c-format
 msgid ""
 "\n"
@@ -925,7 +842,7 @@ msgstr ""
 "\n"
 "VPN savienojums “%s” neizdevās."
 
-#: src/applet.c:879
+#: src/applet.c:966
 #, c-format
 msgid ""
 "VPN connection has been successfully established.\n"
@@ -936,19 +853,19 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/applet.c:881
+#: src/applet.c:968
 msgid "VPN connection has been successfully established.\n"
 msgstr "VPN savienojums ir veiksmīgi izveidots.\n"
 
-#: src/applet.c:883
+#: src/applet.c:970
 msgid "VPN Login Message"
 msgstr "VPN pieteikšanās ziņojums"
 
-#: src/applet.c:891 src/applet.c:931
+#: src/applet.c:978 src/applet.c:1018
 msgid "VPN Connection Failed"
 msgstr "VPN savienojums neizdevās"
 
-#: src/applet.c:935
+#: src/applet.c:1022
 #, c-format
 msgid ""
 "\n"
@@ -961,7 +878,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/applet.c:938
+#: src/applet.c:1025
 #, c-format
 msgid ""
 "\n"
@@ -974,132 +891,132 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/applet.c:1253
+#: src/applet.c:1316
 msgid "device not ready (firmware missing)"
 msgstr "ierīce nav gatava (trūkst aparātprogrammatūras)"
 
-#: src/applet.c:1255
+#: src/applet.c:1318
 msgid "device not ready"
 msgstr "ierīce nav gatava"
 
-#: src/applet.c:1281
+#: src/applet.c:1344
 msgid "Disconnect"
 msgstr "Atvienoties"
 
-#: src/applet.c:1295
+#: src/applet.c:1358
 msgid "device not managed"
 msgstr "ierīce nav pārvaldīta"
 
-#: src/applet.c:1369
+#: src/applet.c:1432
 msgid "No network devices available"
 msgstr "Nav pieejamu tīkla ierīču"
 
-#: src/applet.c:1415
+#: src/applet.c:1484
 msgid "_VPN Connections"
 msgstr "_VPN savienojumi"
 
-#: src/applet.c:1459
+#: src/applet.c:1528
 msgid "_Configure VPN…"
 msgstr "_Konfigurēt VPN…"
 
-#: src/applet.c:1462
+#: src/applet.c:1531
 msgid "_Add a VPN connection…"
 msgstr "Pievienot VPN s_avienojumu…"
 
-#: src/applet.c:1568
+#: src/applet.c:1637
 msgid "NetworkManager is not running…"
 msgstr "NetworkManager nav palaists…"
 
-#: src/applet.c:1573 src/applet.c:2641
+#: src/applet.c:1642 src/applet.c:2710
 msgid "Networking disabled"
 msgstr "Tīklošana izslēgta"
 
 #. 'Enable Networking' item
-#: src/applet.c:1783
+#: src/applet.c:1852
 msgid "Enable _Networking"
 msgstr "Ieslēgt tīkloša_nu"
 
 #. 'Enable Wi-Fi' item
-#: src/applet.c:1792
+#: src/applet.c:1861
 msgid "Enable _Wi-Fi"
 msgstr "Ieslēgt bez_vadu tīklošanu"
 
 #. 'Enable Mobile Broadband' item
-#: src/applet.c:1801
+#: src/applet.c:1870
 msgid "Enable _Mobile Broadband"
 msgstr "Ieslēgt _mobilo platjoslas tīklu"
 
 #. Toggle notifications item
-#: src/applet.c:1813
+#: src/applet.c:1882
 msgid "Enable N_otifications"
 msgstr "Ieslēgt paziņ_ojumus"
 
 #. 'Connection Information' item
-#: src/applet.c:1825
+#: src/applet.c:1894
 msgid "Connection _Information"
 msgstr "Savienojuma _informācija"
 
 #. 'Edit Connections...' item
-#: src/applet.c:1833
+#: src/applet.c:1902
 msgid "Edit Connections…"
 msgstr "Rediģēt savienojumus…"
 
-#: src/applet.c:1847
+#: src/applet.c:1916
 msgid "_About"
 msgstr "P_ar"
 
-#: src/applet.c:2161
+#: src/applet.c:2230
 #, c-format
 msgid "You are now connected to “%s”."
 msgstr "Tagad ir savienojums ar “%s”."
 
-#: src/applet.c:2201
+#: src/applet.c:2270
 msgid "Disconnected"
 msgstr "Atvienots"
 
-#: src/applet.c:2202
+#: src/applet.c:2271
 msgid "The network connection has been disconnected."
 msgstr "Tīkla savienojums tika atvienots."
 
-#: src/applet.c:2504
+#: src/applet.c:2573
 #, c-format
 msgid "Preparing network connection “%s”…"
 msgstr "Gatavo tīkla savienojumu “%s”…"
 
-#: src/applet.c:2507
+#: src/applet.c:2576
 #, c-format
 msgid "User authentication required for network connection “%s”…"
 msgstr "Tīkla savienojumam “%s” ir nepieciešama lietotāja autentifikācija…"
 
-#: src/applet.c:2513
+#: src/applet.c:2582
 #, c-format
 msgid "Network connection “%s” active"
 msgstr "Tīkla savienojums “%s” ir aktīvs"
 
-#: src/applet.c:2586
+#: src/applet.c:2655
 #, c-format
 msgid "Starting VPN connection “%s”…"
 msgstr "Startē VPN savienojumu “%s”…"
 
-#: src/applet.c:2589
+#: src/applet.c:2658
 #, c-format
 msgid "User authentication required for VPN connection “%s”…"
 msgstr "VPN savienojumam “%s” ir nepieciešama lietotāja autentifikācija…"
 
-#: src/applet.c:2592
+#: src/applet.c:2661
 #, c-format
 msgid "Requesting a VPN address for “%s”…"
 msgstr "Tiek pieprasīta “%s” VPN adrese…"
 
-#: src/applet.c:2595
+#: src/applet.c:2664
 msgid "VPN connection active"
 msgstr "VPN savienojums ir aktīvs"
 
-#: src/applet.c:2645
+#: src/applet.c:2714
 msgid "No network connection"
 msgstr "Nav tīkla savienojuma"
 
-#: src/applet.c:3280
+#: src/applet.c:3324
 msgid "NetworkManager Applet"
 msgstr "NetworkManager sīklietotne"
 
@@ -1227,7 +1144,7 @@ msgid "Bonded _connections"
 msgstr "Saistītie _savienojumi"
 
 #: src/connection-editor/ce-page-bond.ui:105
-#: src/connection-editor/ce-page-wifi.ui:294
+#: src/connection-editor/ce-page-wifi.ui:400
 msgid "M_ode"
 msgstr "R_ežīms"
 
@@ -1284,10 +1201,9 @@ msgid "_Primary"
 msgstr "_Primārais"
 
 #: src/connection-editor/ce-page-bond.ui:495
-#, fuzzy
 msgid ""
 "The interface name of the primary device. If set, this device will always be "
-"the active port when it is available."
+"the active slave when it is available."
 msgstr ""
 "Primārās ierīces saskarnes nosaukums. Ja ir iestatīts, šī ierīce vienmēr būs "
 "aktīvais sekotājs, kad tā ir pieejama."
@@ -2099,10 +2015,10 @@ msgstr "IPv6 _privātuma paplašinājumi"
 msgid ""
 "If enabled, it makes the kernel generate a temporary IPv6 address in "
 "addition to the public one generated from MAC address. This enhances "
-"privacy, but could cause problems in some applications. If set to "
-"\"Default\", the value from NetworkManager global configuration is used. If "
-"that is also unset, use the kernel default value read from file \"/proc/sys/"
-"net/ipv6/conf/default/use_tempaddr\""
+"privacy, but could cause problems in some applications. If set to \"Default"
+"\", the value from NetworkManager global configuration is used. If that is "
+"also unset, use the kernel default value read from file \"/proc/sys/net/ipv6/"
+"conf/default/use_tempaddr\""
 msgstr ""
 
 #: src/connection-editor/ce-page-ip6.ui:323
@@ -2200,8 +2116,7 @@ msgid "C_KN"
 msgstr ""
 
 #: src/connection-editor/ce-page-macsec.ui:206
-#, fuzzy
-msgid "The pre-shared Connectivity-association Key Name"
+msgid " The pre-shared Connectivity-association Key Name"
 msgstr " Iepriekš koplietotās savienojumu asociācijas atslēgas (CAK) nosaukums"
 
 #: src/connection-editor/ce-page-macsec.ui:217
@@ -2916,19 +2831,35 @@ msgstr "Klients"
 msgid "Ad-hoc"
 msgstr "Ekspromta"
 
-#: src/connection-editor/ce-page-wifi.ui:205
+#: src/connection-editor/ce-page-wifi.ui:203
+msgid "mW"
+msgstr "mW"
+
+#: src/connection-editor/ce-page-wifi.ui:222
+msgid "Transmission po_wer"
+msgstr "Pārraides ja_uda"
+
+#: src/connection-editor/ce-page-wifi.ui:256
+msgid "Mb/s"
+msgstr "Mb/s"
+
+#: src/connection-editor/ce-page-wifi.ui:275
+msgid "_Rate"
+msgstr "Āt_rums"
+
+#: src/connection-editor/ce-page-wifi.ui:311
 msgid "_BSSID"
 msgstr "_BSSID"
 
-#: src/connection-editor/ce-page-wifi.ui:230
+#: src/connection-editor/ce-page-wifi.ui:336
 msgid "C_hannel"
 msgstr "_Kanāls"
 
-#: src/connection-editor/ce-page-wifi.ui:262
+#: src/connection-editor/ce-page-wifi.ui:368
 msgid "Ban_d"
 msgstr "_Josla"
 
-#: src/connection-editor/ce-page-wifi.ui:308
+#: src/connection-editor/ce-page-wifi.ui:414
 msgid "SS_ID"
 msgstr "_SSID"
 
@@ -3285,7 +3216,7 @@ msgstr "Vadu"
 
 #: src/connection-editor/connection-helpers.c:112
 #: src/connection-editor/connection-helpers.c:374
-#: src/connection-editor/page-vpn.c:92
+#: src/connection-editor/page-vpn.c:86
 msgid "VPN"
 msgstr "VPN"
 
@@ -3455,11 +3386,11 @@ msgstr ""
 "Brīdinājums — savienojums satur īpašības, kuras redaktors neatbalsta. "
 "Saglabāšanas laikā tās tiks attīrītas."
 
-#: src/connection-editor/nm-connection-editor.c:751
+#: src/connection-editor/nm-connection-editor.c:749
 msgid "Error initializing editor"
 msgstr "Kļūda, inicializējot redaktoru"
 
-#: src/connection-editor/nm-connection-editor.c:1176
+#: src/connection-editor/nm-connection-editor.c:1159
 msgid "Connection add failed"
 msgstr "Neizdevās pievienot savienojumu"
 
@@ -3645,15 +3576,15 @@ msgstr "Tīkla savienojumi"
 msgid "Add a new connection"
 msgstr "Pievienot jaunu savienojumu"
 
-#: src/connection-editor/page-8021x-security.c:97
+#: src/connection-editor/page-8021x-security.c:96
 msgid "802.1X Security"
 msgstr "802.1X drošība"
 
-#: src/connection-editor/page-8021x-security.c:99
+#: src/connection-editor/page-8021x-security.c:98
 msgid "Could not load 802.1X Security user interface."
 msgstr "Nevarēja ielādēt 802.1X drošības lietotāja saskarni."
 
-#: src/connection-editor/page-8021x-security.c:113
+#: src/connection-editor/page-8021x-security.c:112
 msgid "Use 802.1_X security for this connection"
 msgstr "Šim savienojumam izmantot 802.1_X drošību"
 
@@ -3950,19 +3881,18 @@ msgstr "MACSEC savienojums %d"
 
 #: src/connection-editor/page-master.c:221
 #: src/connection-editor/page-master.c:232
-#, fuzzy
-msgid "Duplicate ports"
+msgid "Duplicate slaves"
 msgstr "Dublēt sekotājus"
 
 #: src/connection-editor/page-master.c:222
-#, fuzzy, c-format
-msgid "Ports “%s” and “%s” both apply to device “%s”"
+#, c-format
+msgid "Slaves “%s” and “%s” both apply to device “%s”"
 msgstr "Abi sekotāji “%s” un “%s” attiecas uz ierīci “%s”"
 
 #: src/connection-editor/page-master.c:233
-#, fuzzy, c-format
+#, c-format
 msgid ""
-"Ports “%s” and “%s” apply to different virtual ports (“%s” and “%s”) of the "
+"Slaves “%s” and “%s” apply to different virtual ports (“%s” and “%s”) of the "
 "same physical device."
 msgstr ""
 "Sekotāji “%s” un “%s” attiecas uz dažādiem virtuālajiem portiem (“%s” un "
@@ -3970,8 +3900,8 @@ msgstr ""
 
 #: src/connection-editor/page-master.c:357
 #, c-format
-msgid "%s port %d"
-msgstr ""
+msgid "%s slave %d"
+msgstr "%s sekotājs %d"
 
 #: src/connection-editor/page-mobile.c:297
 msgid "Could not load mobile broadband user interface."
@@ -4116,25 +4046,25 @@ msgstr "Nevarēja ielādēt redaktora VPN spraudni servisam “%s” (%s)."
 msgid "unknown failure"
 msgstr "nezināma kļūme"
 
-#: src/connection-editor/page-vpn.c:94
+#: src/connection-editor/page-vpn.c:88
 msgid "Could not load VPN user interface."
 msgstr "Nevarēja ielādēt VPN lietotāja saskarni."
 
-#: src/connection-editor/page-vpn.c:109
+#: src/connection-editor/page-vpn.c:103
 #, c-format
 msgid "Could not find VPN plugin for “%s”."
 msgstr "Nevarēja atrast VPN spraudni servisam “%s”."
 
-#: src/connection-editor/page-vpn.c:191
+#: src/connection-editor/page-vpn.c:185
 #, c-format
 msgid "VPN connection %d"
 msgstr "VPN savienojums %d"
 
-#: src/connection-editor/page-vpn.c:197
+#: src/connection-editor/page-vpn.c:191
 msgid "Choose a VPN Connection Type"
 msgstr "Izvēlieties VPN savienojumu veidu"
 
-#: src/connection-editor/page-vpn.c:198
+#: src/connection-editor/page-vpn.c:192
 msgid ""
 "Select the type of VPN you wish to use for the new connection. If the type "
 "of VPN connection you wish to create does not appear in the list, you may "
@@ -4144,59 +4074,56 @@ msgstr ""
 "vajadzīgais VPN savienojuma veids, iespējams, ka nav uzinstalēts vajadzīgais "
 "VPN spraudnis."
 
-#: src/connection-editor/page-wifi-security.c:359
+#: src/connection-editor/page-wifi-security.c:346
 msgid "WEP 40/128-bit Key (Hex or ASCII)"
 msgstr "WEP 40/128 bitu atslēga (Hex vai ASCII)"
 
-#: src/connection-editor/page-wifi-security.c:372
+#: src/connection-editor/page-wifi-security.c:356
 msgid "WEP 128-bit Passphrase"
 msgstr "WEP 128 bitu parole"
 
-#: src/connection-editor/page-wifi-security.c:397
+#: src/connection-editor/page-wifi-security.c:382
 msgid "Dynamic WEP (802.1X)"
 msgstr "Dinamiskais WEP (802.1X)"
 
-#: src/connection-editor/page-wifi-security.c:410
-#, fuzzy
-msgid "WPA/WPA2/WPA3 Personal"
+#: src/connection-editor/page-wifi-security.c:395
+msgid "WPA & WPA2 Personal"
 msgstr "WPA un WPA2 Personal"
 
-#: src/connection-editor/page-wifi-security.c:423
-#, fuzzy
-msgid "WPA/WPA2 Enterprise"
+#: src/connection-editor/page-wifi-security.c:408
+msgid "WPA & WPA2 Enterprise"
 msgstr "WPA un WPA2 Enterprise"
 
-#: src/connection-editor/page-wifi-security.c:436
+#: src/connection-editor/page-wifi-security.c:421
 #, fuzzy
 msgid "WPA3 Personal"
 msgstr "WPA un WPA2 Personal"
 
-#: src/connection-editor/page-wifi-security.c:449
-#: src/connection-editor/page-wifi-security.c:457
+#: src/connection-editor/page-wifi-security.c:431
 msgid "Enhanced Open"
 msgstr ""
 
-#: src/connection-editor/page-wifi-security.c:503
+#: src/connection-editor/page-wifi-security.c:476
 msgid "Could not load Wi-Fi security user interface; missing Wi-Fi setting."
 msgstr ""
 "Nevarēja ielādēt bezvadu tīkla drošības lietotāja saskarni — pietrūkst "
 "bezvadu tīkla iestatījumu."
 
-#: src/connection-editor/page-wifi-security.c:514
+#: src/connection-editor/page-wifi-security.c:487
 msgid "Wi-Fi Security"
 msgstr "Bezvadu tīkla drošība"
 
-#: src/connection-editor/page-wifi-security.c:516
+#: src/connection-editor/page-wifi-security.c:489
 msgid "Could not load Wi-Fi security user interface."
 msgstr ""
 "Nevarēja ielādēt bezvadu tīkla drošības lietotāja saskarni. Trūkst bezvadu "
 "iestatījumu."
 
-#: src/connection-editor/page-wifi-security.c:597
+#: src/connection-editor/page-wifi-security.c:570
 msgid "missing SSID"
 msgstr "trūkstošs SSID"
 
-#: src/connection-editor/page-wifi-security.c:603
+#: src/connection-editor/page-wifi-security.c:576
 msgid "Security not compatible with Ad-Hoc mode"
 msgstr "Drošība nav savietojama ar Ad-Hoc režīmu"
 
@@ -4313,9 +4240,9 @@ msgid "Usage:"
 msgstr "Lietojums:"
 
 #: src/main.c:30
-#, fuzzy
 msgid ""
-"This program is a component of NetworkManager (https://networkmanager.dev)."
+"This program is a component of NetworkManager (https://wiki.gnome.org/"
+"Projects/NetworkManager/)."
 msgstr ""
 "Šī programmatūra ir daļa no NetworkManager (https://wiki.gnome.org/Projects/"
 "NetworkManager/)."
@@ -4441,21 +4368,6 @@ msgstr "PEM sertifikāti (*pem, *.crt, *.cer)"
 #: src/utils/utils.c:546
 msgid "DER, PEM, or PKCS#12 private keys (*.der, *.pem, *.p12, *.key)"
 msgstr "DER, PEM vai PKCS#12 privātās atslēgas (*.der, *.pem, *.p12, *.key)"
-
-#~ msgid "mW"
-#~ msgstr "mW"
-
-#~ msgid "Transmission po_wer"
-#~ msgstr "Pārraides ja_uda"
-
-#~ msgid "Mb/s"
-#~ msgstr "Mb/s"
-
-#~ msgid "_Rate"
-#~ msgstr "Āt_rums"
-
-#~ msgid "More networks"
-#~ msgstr "Vairāk tīklu"
 
 #~ msgid "missing EAP-FAST PAC file"
 #~ msgstr "trūkst EAP-FAST PAC datnes"
@@ -4653,6 +4565,72 @@ msgstr "DER, PEM vai PKCS#12 privātās atslēgas (*.der, *.pem, *.p12, *.key)"
 #~ msgid "invalid wpa-psk: cannot interpret key with 64 bytes as hex"
 #~ msgstr ""
 #~ "nederīgs wpa-psk: nevar interpretēt atslēgu ar 64 baitiem kā heksadecimālu"
+
+#~ msgid "Disable connected notifications"
+#~ msgstr "Izslēgt paziņojumus par savienošanos"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when connecting to a network."
+#~ msgstr ""
+#~ "Iestatiet to kā “patiess”, lai izslēgtu paziņojumus, kad savienojas ar "
+#~ "tīklu."
+
+#~ msgid "Disable disconnected notifications"
+#~ msgstr "Izslēgt paziņojumus par atvienošanos"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when disconnecting from a "
+#~ "network."
+#~ msgstr ""
+#~ "Iestatiet to kā “patiess”, lai izslēgtu paziņojumus, kad atvienojas no "
+#~ "tīkla."
+
+#~ msgid "Disable VPN notifications"
+#~ msgstr "Izslēgt VPN paziņojumus"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when connecting to or "
+#~ "disconnecting from a VPN."
+#~ msgstr ""
+#~ "Iestatiet to kā “patiess”, lai izslēgtu paziņojumus, kad savienojas vai "
+#~ "atvienojas no VPN."
+
+#~ msgid "Suppress networks available notifications"
+#~ msgstr "Noklusēt tīklu pieejamības paziņojumus"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when Wi-Fi networks are "
+#~ "available."
+#~ msgstr ""
+#~ "Iestatiet šo kā “patiess”, lai izslēgtu paziņojumus, kad ir pieejams "
+#~ "bezvadu tīkls."
+
+#~ msgid "Stamp"
+#~ msgstr "Spiedogs"
+
+#~ msgid ""
+#~ "Used to determine whether settings should be migrated to a new version."
+#~ msgstr ""
+#~ "Izmanto, lai noteiktu, vai iestatījumus vajadzētu pārnest uz jauno "
+#~ "versiju."
+
+#, fuzzy
+#~ msgid "Disable WiFi Create"
+#~ msgstr "Izslēgt Wi-Fi izveidošanu"
+
+#~ msgid ""
+#~ "Set to true to disable creation of adhoc networks when using the applet."
+#~ msgstr ""
+#~ "Iestatiet to kā “patiess”, lai izslēgtu ekspromta tīklu veidošanu, kad "
+#~ "izmanot šo sīklietotni."
+
+#~ msgid "Show the applet in notification area"
+#~ msgstr "Rādīt sīklietotni paziņojumu laukā"
+
+#~ msgid ""
+#~ "Set to FALSE to disable displaying the applet in the notification area."
+#~ msgstr ""
+#~ "Iestatiet uz APLAMS, lai izslēgtu sīklietotnes rādīšanu paziņojumu laukā."
 
 #~ msgid "Ignore CA certificate"
 #~ msgstr "Ignorēt CA sertifikātu"
@@ -5454,6 +5432,9 @@ msgstr "DER, PEM vai PKCS#12 privātās atslēgas (*.der, *.pem, *.p12, *.key)"
 
 #~ msgid "Don't _warn me again"
 #~ msgstr "_Vairs nebrīdināt"
+
+#~ msgid "A_vailable to all users"
+#~ msgstr "Pieejams _visiem lietotajiem"
 
 #~ msgid "Wireless Networks (%s)"
 #~ msgstr "Bezvadu tīkli (%s)"

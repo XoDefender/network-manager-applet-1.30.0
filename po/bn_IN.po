@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/network-manager-"
 "applet/\n"
-"POT-Creation-Date: 2022-11-07 08:48+0100\n"
+"POT-Creation-Date: 2021-02-03 09:54+0100\n"
 "PO-Revision-Date: 2014-12-02 01:55-0500\n"
 "Last-Translator: \n"
 "Language-Team: Bengali (India) <anubad@lists.ankur.org.in>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Zanata 3.5.1\n"
 
-#: nm-applet.desktop.in:3 src/applet-dialogs.c:724 src/applet.c:3166
+#: nm-applet.desktop.in:3 src/applet-dialogs.c:724 src/applet.c:3223
 #, fuzzy
 msgid "Network"
 msgstr "%s নেটওয়ার্ক"
@@ -69,86 +69,6 @@ msgstr "নেটওয়ার্ক সংযোগ"
 msgid "Manage and change your network connection settings"
 msgstr "আপনার নেটওয়ার্ক সংযোগ বৈশিষ্ট্য সম্পাদন ও পরিবর্তন করুন"
 
-#: org.gnome.nm-applet.gschema.xml.in:6
-msgid "Disable connected notifications"
-msgstr "সংযুক্ত হওয়ার বিজ্ঞপ্তি নিষ্ক্রিয় করা হবে"
-
-#: org.gnome.nm-applet.gschema.xml.in:7
-#, fuzzy
-msgid "Set this to true to disable notifications when connecting to a network."
-msgstr ""
-"নেটওয়ার্কের সাথে সংযুক্ত করার সময় বিজ্ঞপ্তি প্রদানের ব্যবস্থা নিষ্ক্রিয় করার জন্য এই "
-"মান TRUE হিসাবে নির্ধারণ করুন।"
-
-#: org.gnome.nm-applet.gschema.xml.in:11
-msgid "Disable disconnected notifications"
-msgstr "বিচ্ছিন্ন হওয়ার বিজ্ঞপ্তি নিষ্ক্রিয় করা হবে"
-
-#: org.gnome.nm-applet.gschema.xml.in:12
-#, fuzzy
-msgid ""
-"Set this to true to disable notifications when disconnecting from a network."
-msgstr ""
-"নেটওয়ার্কের সাথে সংযোগ বিচ্ছিন্ন করার সময় বিজ্ঞপ্তি প্রদানের ব্যবস্থা নিষ্ক্রিয় করার "
-"জন্য এই মান TRUE হিসাবে নির্ধারণ করুন।"
-
-#: org.gnome.nm-applet.gschema.xml.in:16
-#, fuzzy
-msgid "Disable VPN notifications"
-msgstr "সংযুক্ত হওয়ার বিজ্ঞপ্তি নিষ্ক্রিয় করা হবে"
-
-#: org.gnome.nm-applet.gschema.xml.in:17
-#, fuzzy
-msgid ""
-"Set this to true to disable notifications when connecting to or "
-"disconnecting from a VPN."
-msgstr ""
-"নেটওয়ার্কের সাথে সংযোগ বিচ্ছিন্ন করার সময় বিজ্ঞপ্তি প্রদানের ব্যবস্থা নিষ্ক্রিয় করার "
-"জন্য এই মান TRUE হিসাবে নির্ধারণ করুন।"
-
-#: org.gnome.nm-applet.gschema.xml.in:21
-msgid "Suppress networks available notifications"
-msgstr "উপলব্ধ নেটওয়ার্কের বিজ্ঞপ্তি প্রদর্শন আড়াল করা হবে"
-
-#: org.gnome.nm-applet.gschema.xml.in:22
-#, fuzzy
-msgid ""
-"Set this to true to disable notifications when Wi-Fi networks are available."
-msgstr ""
-"বেতার নেটওয়ার্ক উপলব্ধ থাকলে বিজ্ঞপ্তি প্রদানের ব্যবস্থা নিষ্ক্রিয় করার জন্য এই মান "
-"TRUE হিসাবে নির্ধারণ করুন।"
-
-#: org.gnome.nm-applet.gschema.xml.in:26
-msgid "Stamp"
-msgstr "স্ট্যাম্প"
-
-#: org.gnome.nm-applet.gschema.xml.in:27
-msgid "Used to determine whether settings should be migrated to a new version."
-msgstr ""
-"নতুন সংস্করণের মধ্যে বৈশিষ্ট্য মাইগ্রেট করা হবে কি না নির্ধারণ করতে এটি ব্যবহার করা "
-"হয়।"
-
-#: org.gnome.nm-applet.gschema.xml.in:31
-#, fuzzy
-msgid "Disable WiFi Create"
-msgstr "ওয়াই-ফাই নির্মাণ নিষ্ক্রিয় করুন"
-
-#: org.gnome.nm-applet.gschema.xml.in:32
-#, fuzzy
-msgid ""
-"Set to true to disable creation of adhoc networks when using the applet."
-msgstr ""
-"এই অ্যাপ্লেট সহযোগে অ্যাড-হক নেটওয়ার্ক নির্মাণের ব্যবস্থা নিষ্ক্রিয় করার জন্য এই মান "
-"TRUE হিসাবে নির্ধারণ করুন।"
-
-#: org.gnome.nm-applet.gschema.xml.in:36
-msgid "Show the applet in notification area"
-msgstr ""
-
-#: org.gnome.nm-applet.gschema.xml.in:37
-msgid "Set to FALSE to disable displaying the applet in the notification area."
-msgstr ""
-
 #: shared/nm-utils/nm-shared-utils.c:793
 #, c-format
 msgid "object class '%s' has no property named '%s'"
@@ -182,7 +102,7 @@ msgid ""
 "type '%s'"
 msgstr ""
 
-#: src/8021x.ui:7 src/ethernet-dialog.c:90
+#: src/8021x.ui:11 src/ethernet-dialog.c:87
 #, fuzzy
 msgid "802.1X authentication"
 msgstr "তারযুক্ত 802.1X অনুমোদন ব্যবস্থা"
@@ -217,17 +137,13 @@ msgstr "সংযোগ করুন (_o)"
 msgid "_Network name"
 msgstr "নেটওয়ার্কের নাম: (_N)"
 
-#: src/ap-menu-item.c:68
+#: src/ap-menu-item.c:67
 #, fuzzy
 msgid "ad-hoc"
 msgstr "অ্যাড-হক"
 
-#: src/ap-menu-item.c:73
+#: src/ap-menu-item.c:72
 msgid "secure."
-msgstr ""
-
-#: src/ap-menu-item.c:77
-msgid "insecure."
 msgstr ""
 
 #: src/applet-device-broadband.c:147
@@ -256,7 +172,7 @@ msgid "Mobile Broadband"
 msgstr "মোবাইল ব্রড-ব্যান্ড"
 
 #: src/applet-device-broadband.c:780 src/applet-device-bt.c:61
-#: src/applet-device-ethernet.c:107
+#: src/applet-device-ethernet.c:107 src/applet-device-wifi.c:890
 msgid "Available"
 msgstr "উপলব্ধ"
 
@@ -267,7 +183,7 @@ msgid "New Mobile Broadband connection…"
 msgstr "নতুন মোবাইল ব্রড-ব্যান্ড সংযোগ"
 
 #: src/applet-device-broadband.c:809 src/applet-device-bt.c:75
-#: src/applet-device-ethernet.c:124 src/applet-device-wifi.c:1251
+#: src/applet-device-ethernet.c:124 src/applet-device-wifi.c:1293
 msgid "Connection Established"
 msgstr "সংযোগ স্থাপন করা হয়েছে"
 
@@ -310,7 +226,7 @@ msgstr "'%s' ব্রড-ব্যান্ড সংযোগ কনফিগ�
 msgid "User authentication required for mobile broadband connection “%s”…"
 msgstr "'%s' মোবাইল ব্রড-ব্যান্ড সংযোগের ক্ষেত্রে ব্যবহারকারীর অনুমোদন প্রয়োজন..."
 
-#: src/applet-device-bt.c:113 src/applet.c:2510 src/mobile-helpers.c:593
+#: src/applet-device-bt.c:113 src/applet.c:2579 src/mobile-helpers.c:593
 #, fuzzy, c-format
 msgid "Requesting a network address for “%s”…"
 msgstr "'%s'-র জন্য নেটওয়ার্ক ঠিকানা অনুরোধ করা হচ্ছে..."
@@ -345,7 +261,7 @@ msgid "Ethernet Network"
 msgstr "তারযুক্ত নেটওয়ার্ক"
 
 #. Notify user of unmanaged or unavailable device
-#: src/applet-device-ethernet.c:99 src/applet.c:1265
+#: src/applet-device-ethernet.c:99 src/applet.c:1328
 msgid "disconnected"
 msgstr "সংযোগ বিচ্ছিন্ন"
 
@@ -408,104 +324,108 @@ msgstr "নতুন বেতার নেটওয়ার্ক তৈরি �
 msgid "(none)"
 msgstr "(শূণ্য)"
 
-#: src/applet-device-wifi.c:523 src/applet-device-wifi.c:1349
+#: src/applet-device-wifi.c:519 src/applet-device-wifi.c:1393
 #, fuzzy
 msgid "Failed to add new connection"
 msgstr "নতুন সংযোগ নির্মাণ করা সম্ভব হয়নি"
 
-#: src/applet-device-wifi.c:524
+#: src/applet-device-wifi.c:520
 msgid "Insufficient privileges."
 msgstr ""
 
-#: src/applet-device-wifi.c:526 src/applet-device-wifi.c:1332
-#: src/applet-device-wifi.c:1352 src/applet.c:414 src/applet.c:497
+#: src/applet-device-wifi.c:522 src/applet-device-wifi.c:1375
+#: src/applet-device-wifi.c:1398 src/applet.c:417 src/applet.c:506
 #, fuzzy
 msgid "Connection failure"
 msgstr "সংযোগ যোগ করতে ব্যর্থ"
 
-#: src/applet-device-wifi.c:827
+#: src/applet-device-wifi.c:822
 #, fuzzy, c-format
 msgid "Wi-Fi Networks (%s)"
 msgstr "তারযুক্ত নেটওয়ার্ক (%s)"
 
-#: src/applet-device-wifi.c:829
+#: src/applet-device-wifi.c:824
 #, fuzzy, c-format
 msgid "Wi-Fi Network (%s)"
 msgstr "তারযুক্ত নেটওয়ার্ক (%s)"
 
-#: src/applet-device-wifi.c:831
+#: src/applet-device-wifi.c:826
 #, fuzzy
 msgid "Wi-Fi Network"
 msgid_plural "Wi-Fi Networks"
 msgstr[0] "তারযুক্ত নেটওয়ার্ক"
 msgstr[1] "তারযুক্ত নেটওয়ার্ক"
 
-#: src/applet-device-wifi.c:860
+#: src/applet-device-wifi.c:855
 #, fuzzy
 msgid "Wi-Fi is disabled"
 msgstr "বেতার নিষ্ক্রিয় করা হয়েছে"
 
-#: src/applet-device-wifi.c:861
+#: src/applet-device-wifi.c:856
 msgid "Wi-Fi is disabled by hardware switch"
 msgstr ""
 
-#: src/applet-device-wifi.c:887
-#, fuzzy
-msgid "_Available networks"
-msgstr "সকল ব্যবহারকারীর জন্য উপস্থিত"
+#: src/applet-device-wifi.c:917
+msgid "More networks"
+msgstr "অতিরিক্ত নেটওয়ার্ক"
 
-#: src/applet-device-wifi.c:1066
+#: src/applet-device-wifi.c:1107
 #, fuzzy
 msgid "Wi-Fi Networks Available"
 msgstr "বেতার নেটওয়ার্ক উপলব্ধ রয়েছে"
 
-#: src/applet-device-wifi.c:1067
+#: src/applet-device-wifi.c:1108
 #, fuzzy
 msgid "Use the network menu to connect to a Wi-Fi network"
 msgstr "বেতার নেটওয়ার্কের সাথে সংযোগ স্থাপনের জন্য এই আইকনের উপর ক্লিক করুন"
 
-#: src/applet-device-wifi.c:1249
+#: src/applet-device-wifi.c:1111 src/applet.c:828
+#, fuzzy
+msgid "Don’t show this message again"
+msgstr "এই বার্তা পুনরায় প্রদর্শন করা হবে না"
+
+#: src/applet-device-wifi.c:1292
 #, fuzzy, c-format
 msgid "You are now connected to the Wi-Fi network “%s”."
 msgstr "অাপনি এখন '%s' Wi-Fi নেটওয়ার্কের সাথে সংযুক্ত।"
 
-#: src/applet-device-wifi.c:1286
+#: src/applet-device-wifi.c:1327
 #, fuzzy, c-format
 msgid "Preparing Wi-Fi network connection “%s”…"
 msgstr "'%s' নেটওয়ার্ক সংযোগ প্রস্তুত করা হচ্ছে..."
 
-#: src/applet-device-wifi.c:1289
+#: src/applet-device-wifi.c:1330
 #, fuzzy, c-format
 msgid "Configuring Wi-Fi network connection “%s”…"
 msgstr "তারযুক্ত নেটওয়ার্ক সংযোগ '%s' কনফিগার করা হচ্ছে..."
 
-#: src/applet-device-wifi.c:1292
+#: src/applet-device-wifi.c:1333
 #, fuzzy, c-format
 msgid "User authentication required for Wi-Fi network “%s”…"
 msgstr "'%s' বেতার নেটওয়ার্কের জন্য ব্যবহারকারীর অনুমোদন প্রয়োজন..."
 
-#: src/applet-device-wifi.c:1295
+#: src/applet-device-wifi.c:1336
 #, fuzzy, c-format
 msgid "Requesting a Wi-Fi network address for “%s”…"
 msgstr "'%s'-র জন্য নেটওয়ার্ক ঠিকানা অনুরোধ করা হচ্ছে..."
 
-#: src/applet-device-wifi.c:1306
+#: src/applet-device-wifi.c:1347
 #, fuzzy, c-format
 msgid "Wi-Fi network connection “%s” active: %s (%d%%)"
 msgstr "'%s' বেতার নেটওয়ার্ক সংযোগ বর্তমানে সক্রিয়: %s (%d%%)"
 
-#: src/applet-device-wifi.c:1310
+#: src/applet-device-wifi.c:1351
 #, fuzzy, c-format
 msgid "Wi-Fi network connection “%s” active"
 msgstr "তারযুক্ত নেটওয়ার্ক সংযোগ '%s' বর্তমানে সক্রিয়"
 
-#: src/applet-device-wifi.c:1329
+#: src/applet-device-wifi.c:1370
 #, fuzzy
 msgid "Failed to activate connection"
 msgstr "সংযোগ তৈরি করা সম্ভব হয়নি"
 
-#: src/applet-device-wifi.c:1330 src/applet-device-wifi.c:1350 src/applet.c:412
-#: src/applet.c:463 src/applet.c:495
+#: src/applet-device-wifi.c:1372 src/applet-device-wifi.c:1395 src/applet.c:414
+#: src/applet.c:468 src/applet.c:503
 #, fuzzy
 msgid "Unknown error"
 msgstr "অজানা"
@@ -514,7 +434,7 @@ msgstr "অজানা"
 msgid "Error displaying connection information:"
 msgstr "সংযোগ সংক্রান্ত তথ্য প্রদর্শন করতে সমস্যা:"
 
-#: src/applet-dialogs.c:60 src/connection-editor/page-wifi-security.c:384
+#: src/applet-dialogs.c:60 src/connection-editor/page-wifi-security.c:369
 msgid "LEAP"
 msgstr "LEAP"
 
@@ -522,7 +442,7 @@ msgstr "LEAP"
 msgid "Dynamic WEP"
 msgstr "ডাইনামিক WEP"
 
-#: src/applet-dialogs.c:64 src/applet-dialogs.c:226
+#: src/applet-dialogs.c:64 src/applet-dialogs.c:226 src/applet-dialogs.c:228
 msgid "WPA/WPA2"
 msgstr "WPA/WPA2"
 
@@ -535,17 +455,12 @@ msgstr ""
 msgid "WEP"
 msgstr "WEP"
 
-#: src/applet-dialogs.c:228
-#, fuzzy
-msgid "WPA/WPA2/WPA3"
-msgstr "WPA/WPA2"
-
 #: src/applet-dialogs.c:230
 msgid "WPA3"
 msgstr ""
 
 #: src/applet-dialogs.c:234 src/applet-dialogs.c:243
-#: src/connection-editor/page-wifi-security.c:327
+#: src/connection-editor/page-wifi-security.c:320
 #, fuzzy
 msgctxt "Wi-Fi/Ethernet security"
 msgid "None"
@@ -847,32 +762,27 @@ msgstr "সংযোগ তৈরি করা সম্ভব হয়নি"
 msgid "Failed to write connection to VPN UI: incomplete write"
 msgstr ""
 
-#: src/applet.c:411
+#: src/applet.c:412
 #, fuzzy
 msgid "Failed to add/activate connection"
 msgstr "সংযোগ তৈরি করা সম্ভব হয়নি"
 
-#: src/applet.c:462
+#: src/applet.c:466
 #, fuzzy
 msgid "Device disconnect failed"
 msgstr "সংযোগ বিচ্ছিন্ন"
 
-#: src/applet.c:465
+#: src/applet.c:471
 #, fuzzy
 msgid "Disconnect failure"
 msgstr "সংযোগ বিচ্ছিন্ন"
 
-#: src/applet.c:494
+#: src/applet.c:501
 #, fuzzy
 msgid "Connection activation failed"
 msgstr "সংযোগ যোগ করতে ব্যর্থ"
 
-#: src/applet.c:731
-#, fuzzy
-msgid "Don’t show this message again"
-msgstr "এই বার্তা পুনরায় প্রদর্শন করা হবে না"
-
-#: src/applet.c:831
+#: src/applet.c:918
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -882,7 +792,7 @@ msgstr ""
 "\n"
 "নেটওয়ার্ক সংযোগ বিঘ্নিত হওয়ার ফলে VPN সংযোগ '%s'-র সাথে সংযোগ বিচ্ছিন্ন হয়েছে।"
 
-#: src/applet.c:833
+#: src/applet.c:920
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -892,7 +802,7 @@ msgstr ""
 "\n"
 "নেটওয়ার্ক সংযোগ বিঘ্নিত হওয়ার ফলে VPN সংযোগ '%s' বিফল হয়েছে।"
 
-#: src/applet.c:835
+#: src/applet.c:922
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -901,7 +811,7 @@ msgstr ""
 "\n"
 "VPN পরিসেবা অপ্রত্যাশিতভাবে বন্ধ হওয়ার ফলে VPN সংযোগ '%s' বিফল হয়েছে।"
 
-#: src/applet.c:837
+#: src/applet.c:924
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -911,7 +821,7 @@ msgstr ""
 "\n"
 "VPN পরিসেবা থেকে অবৈধ কনফিগারেশন প্রাপ্ত হওয়ার ফলে VPN সংযোগ '%s' বিফল হয়েছে।"
 
-#: src/applet.c:839
+#: src/applet.c:926
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -920,7 +830,7 @@ msgstr ""
 "\n"
 "সংযোগের সময়সীমা উত্তীর্ণ হওয়ার ফলে VPN সংযোগ '%s' বিফল হয়েছে।"
 
-#: src/applet.c:841
+#: src/applet.c:928
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -929,7 +839,7 @@ msgstr ""
 "\n"
 "যথাযত সময়ে VPN পরিসেবা আরম্ভ না হওয়ার ফলে VPN সংযোগ '%s' বিফল হয়েছে।"
 
-#: src/applet.c:843
+#: src/applet.c:930
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -938,7 +848,7 @@ msgstr ""
 "\n"
 "VPN পরিসেবা আরম্ভ না হওয়ার ফলে VPN সংযোগ '%s' বিফল হয়েছে।"
 
-#: src/applet.c:845
+#: src/applet.c:932
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -947,7 +857,7 @@ msgstr ""
 "\n"
 "VPN-র বৈধ গোপনীয় তথ্য উপস্থিত না থাকার ফলে VPN সংযোগ '%s' বিফল হয়েছে।"
 
-#: src/applet.c:847
+#: src/applet.c:934
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -956,7 +866,7 @@ msgstr ""
 "\n"
 "VPN-র অবৈধ গোপন তথ্যের ফলে '%s' VPN সংযোগ বিফল হয়েছে।"
 
-#: src/applet.c:852
+#: src/applet.c:939
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -965,7 +875,7 @@ msgstr ""
 "\n"
 "'%s' VPN সংযোগ বিফল।"
 
-#: src/applet.c:879
+#: src/applet.c:966
 #, c-format
 msgid ""
 "VPN connection has been successfully established.\n"
@@ -973,19 +883,19 @@ msgid ""
 "%s\n"
 msgstr ""
 
-#: src/applet.c:881
+#: src/applet.c:968
 msgid "VPN connection has been successfully established.\n"
 msgstr ""
 
-#: src/applet.c:883
+#: src/applet.c:970
 msgid "VPN Login Message"
 msgstr "VPN লগ-ইনের বার্তা"
 
-#: src/applet.c:891 src/applet.c:931
+#: src/applet.c:978 src/applet.c:1018
 msgid "VPN Connection Failed"
 msgstr "VPN সংযোগ বিফল"
 
-#: src/applet.c:935
+#: src/applet.c:1022
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -997,7 +907,7 @@ msgstr ""
 "VPN পরিসেবা আরম্ভ না হওয়ার ফলে VPN সংযোগ '%s' বিফল হয়েছে।\n"
 "%s"
 
-#: src/applet.c:938
+#: src/applet.c:1025
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -1010,138 +920,138 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/applet.c:1253
+#: src/applet.c:1316
 msgid "device not ready (firmware missing)"
 msgstr "ডিভাইস প্রস্তুত নয় (ফার্মওয়্যার অনুপস্থিত)"
 
-#: src/applet.c:1255
+#: src/applet.c:1318
 msgid "device not ready"
 msgstr "ডিভাইস প্রস্তুত নয়"
 
-#: src/applet.c:1281
+#: src/applet.c:1344
 msgid "Disconnect"
 msgstr "সংযোগ বিচ্ছিন্ন করুন"
 
-#: src/applet.c:1295
+#: src/applet.c:1358
 msgid "device not managed"
 msgstr "ডিভাইস পরিচালিত নয়"
 
-#: src/applet.c:1369
+#: src/applet.c:1432
 msgid "No network devices available"
 msgstr "কোনো নেটওয়ার্ক ডিভাইস উপলব্ধ নয়"
 
-#: src/applet.c:1415
+#: src/applet.c:1484
 msgid "_VPN Connections"
 msgstr "VPN সংযোগ (_V)"
 
-#: src/applet.c:1459
+#: src/applet.c:1528
 #, fuzzy
 msgid "_Configure VPN…"
 msgstr "VPN কনফিগার করুন...(_C)"
 
-#: src/applet.c:1462
+#: src/applet.c:1531
 #, fuzzy
 msgid "_Add a VPN connection…"
 msgstr "VPN সংযোগ (_V)"
 
-#: src/applet.c:1568
+#: src/applet.c:1637
 #, fuzzy
 msgid "NetworkManager is not running…"
 msgstr "NetworkManager বর্তমানে চলছে না..."
 
-#: src/applet.c:1573 src/applet.c:2641
+#: src/applet.c:1642 src/applet.c:2710
 msgid "Networking disabled"
 msgstr "নেটওয়ার্ক ব্যবস্থা নিষ্ক্রিয় অবস্থায় রয়েছে"
 
 #. 'Enable Networking' item
-#: src/applet.c:1783
+#: src/applet.c:1852
 msgid "Enable _Networking"
 msgstr "নেটওয়ার্ক সক্রিয় করুন (_N)"
 
 #. 'Enable Wi-Fi' item
-#: src/applet.c:1792
+#: src/applet.c:1861
 #, fuzzy
 msgid "Enable _Wi-Fi"
 msgstr "বেতার সক্রিয় করুন (_W)"
 
 #. 'Enable Mobile Broadband' item
-#: src/applet.c:1801
+#: src/applet.c:1870
 msgid "Enable _Mobile Broadband"
 msgstr "মোবাইল ব্রড-ব্যান্ড সক্রিয় করুন (_M)"
 
 #. Toggle notifications item
-#: src/applet.c:1813
+#: src/applet.c:1882
 msgid "Enable N_otifications"
 msgstr "বিজ্ঞপ্তি প্রদানের ব্যবস্থা সক্রিয় করুন (_o)"
 
 #. 'Connection Information' item
-#: src/applet.c:1825
+#: src/applet.c:1894
 msgid "Connection _Information"
 msgstr "সংযোগ সংক্রান্ত তথ্য (_I)"
 
 #. 'Edit Connections...' item
-#: src/applet.c:1833
+#: src/applet.c:1902
 #, fuzzy
 msgid "Edit Connections…"
 msgstr "সংযোগ সম্পাদনা..."
 
-#: src/applet.c:1847
+#: src/applet.c:1916
 msgid "_About"
 msgstr "পরিচিতি (_A)"
 
-#: src/applet.c:2161
+#: src/applet.c:2230
 #, fuzzy, c-format
 msgid "You are now connected to “%s”."
 msgstr "আপনি এখন '%s'-র সাথে সংযুক্ত।"
 
-#: src/applet.c:2201
+#: src/applet.c:2270
 msgid "Disconnected"
 msgstr "সংযোগ বিচ্ছিন্ন"
 
-#: src/applet.c:2202
+#: src/applet.c:2271
 msgid "The network connection has been disconnected."
 msgstr "নেটওয়ার্কের সংযোগ বিচ্ছিন্ন করা হয়েছে।"
 
-#: src/applet.c:2504
+#: src/applet.c:2573
 #, fuzzy, c-format
 msgid "Preparing network connection “%s”…"
 msgstr "'%s' নেটওয়ার্ক সংযোগ প্রস্তুত করা হচ্ছে..."
 
-#: src/applet.c:2507
+#: src/applet.c:2576
 #, fuzzy, c-format
 msgid "User authentication required for network connection “%s”…"
 msgstr "'%s' নেটওয়ার্ক সংযোগের জন্য ব্যবহারকারীর অনুমোদন প্রয়োজন..."
 
-#: src/applet.c:2513
+#: src/applet.c:2582
 #, fuzzy, c-format
 msgid "Network connection “%s” active"
 msgstr "'%s' নেটওয়ার্ক সংযোগ বর্তমানে সক্রিয়"
 
-#: src/applet.c:2586
+#: src/applet.c:2655
 #, fuzzy, c-format
 msgid "Starting VPN connection “%s”…"
 msgstr "'%s' VPN সংযোগ আরম্ভ করা হচ্ছে..."
 
-#: src/applet.c:2589
+#: src/applet.c:2658
 #, fuzzy, c-format
 msgid "User authentication required for VPN connection “%s”…"
 msgstr "'%s' VPN সংযোগের জন্য ব্যবহারকারী অনুমোদিত হওয় আবশ্যক..."
 
-#: src/applet.c:2592
+#: src/applet.c:2661
 #, fuzzy, c-format
 msgid "Requesting a VPN address for “%s”…"
 msgstr "'%s'-র জন্য VPN ঠিকানার অনুরোধ করা হচ্ছে..."
 
-#: src/applet.c:2595
+#: src/applet.c:2664
 #, fuzzy
 msgid "VPN connection active"
 msgstr "'%s' VPN সংযোগ বর্তমানে সক্রিয়"
 
-#: src/applet.c:2645
+#: src/applet.c:2714
 msgid "No network connection"
 msgstr "কোনো নেটওয়ার্ক সংযোগ উপস্থিত নেই"
 
-#: src/applet.c:3280
+#: src/applet.c:3324
 msgid "NetworkManager Applet"
 msgstr "NetworkManager অ্যাপ্লেট"
 
@@ -1271,7 +1181,7 @@ msgid "Bonded _connections"
 msgstr "বন্ডেড সংযোগ (_c):"
 
 #: src/connection-editor/ce-page-bond.ui:105
-#: src/connection-editor/ce-page-wifi.ui:294
+#: src/connection-editor/ce-page-wifi.ui:400
 #, fuzzy
 msgid "M_ode"
 msgstr "মোড: (_o)"
@@ -1338,7 +1248,7 @@ msgstr "প্রধান DNS:"
 #: src/connection-editor/ce-page-bond.ui:495
 msgid ""
 "The interface name of the primary device. If set, this device will always be "
-"the active port when it is available."
+"the active slave when it is available."
 msgstr ""
 
 #: src/connection-editor/ce-page-bond.ui:507
@@ -2151,10 +2061,10 @@ msgstr ""
 msgid ""
 "If enabled, it makes the kernel generate a temporary IPv6 address in "
 "addition to the public one generated from MAC address. This enhances "
-"privacy, but could cause problems in some applications. If set to "
-"\"Default\", the value from NetworkManager global configuration is used. If "
-"that is also unset, use the kernel default value read from file \"/proc/sys/"
-"net/ipv6/conf/default/use_tempaddr\""
+"privacy, but could cause problems in some applications. If set to \"Default"
+"\", the value from NetworkManager global configuration is used. If that is "
+"also unset, use the kernel default value read from file \"/proc/sys/net/ipv6/"
+"conf/default/use_tempaddr\""
 msgstr ""
 
 #: src/connection-editor/ce-page-ip6.ui:323
@@ -2247,7 +2157,7 @@ msgid "C_KN"
 msgstr ""
 
 #: src/connection-editor/ce-page-macsec.ui:206
-msgid "The pre-shared Connectivity-association Key Name"
+msgid " The pre-shared Connectivity-association Key Name"
 msgstr ""
 
 #: src/connection-editor/ce-page-macsec.ui:217
@@ -2959,22 +2869,40 @@ msgstr ""
 msgid "Ad-hoc"
 msgstr "অ্যাড-হক"
 
-#: src/connection-editor/ce-page-wifi.ui:205
+#: src/connection-editor/ce-page-wifi.ui:203
+msgid "mW"
+msgstr "mW"
+
+#: src/connection-editor/ce-page-wifi.ui:222
+#, fuzzy
+msgid "Transmission po_wer"
+msgstr "পরিবহণের ক্ষমতা: (_w)"
+
+#: src/connection-editor/ce-page-wifi.ui:256
+msgid "Mb/s"
+msgstr "মেগাবাইট/সেকেন্ড"
+
+#: src/connection-editor/ce-page-wifi.ui:275
+#, fuzzy
+msgid "_Rate"
+msgstr "গতি: (_R)"
+
+#: src/connection-editor/ce-page-wifi.ui:311
 #, fuzzy
 msgid "_BSSID"
 msgstr "_BSSID:"
 
-#: src/connection-editor/ce-page-wifi.ui:230
+#: src/connection-editor/ce-page-wifi.ui:336
 #, fuzzy
 msgid "C_hannel"
 msgstr "চ্যানেল: (_h)"
 
-#: src/connection-editor/ce-page-wifi.ui:262
+#: src/connection-editor/ce-page-wifi.ui:368
 #, fuzzy
 msgid "Ban_d"
 msgstr "ব্যান্ড: (_d)"
 
-#: src/connection-editor/ce-page-wifi.ui:308
+#: src/connection-editor/ce-page-wifi.ui:414
 msgid "SS_ID"
 msgstr ""
 
@@ -3339,7 +3267,7 @@ msgstr "তারযুক্ত"
 
 #: src/connection-editor/connection-helpers.c:112
 #: src/connection-editor/connection-helpers.c:374
-#: src/connection-editor/page-vpn.c:92
+#: src/connection-editor/page-vpn.c:86
 msgid "VPN"
 msgstr "VPN"
 
@@ -3505,11 +3433,11 @@ msgid ""
 "editor. They will be cleared upon save."
 msgstr ""
 
-#: src/connection-editor/nm-connection-editor.c:751
+#: src/connection-editor/nm-connection-editor.c:749
 msgid "Error initializing editor"
 msgstr "সম্পাদন ব্যবস্থা আরম্ভ করতে ত্রুটি"
 
-#: src/connection-editor/nm-connection-editor.c:1176
+#: src/connection-editor/nm-connection-editor.c:1159
 msgid "Connection add failed"
 msgstr "সংযোগ যোগ করতে ব্যর্থ"
 
@@ -3696,16 +3624,16 @@ msgstr "নেটওয়ার্ক সংযোগ"
 msgid "Add a new connection"
 msgstr "VPN সংযোগ (_V)"
 
-#: src/connection-editor/page-8021x-security.c:97
+#: src/connection-editor/page-8021x-security.c:96
 msgid "802.1X Security"
 msgstr "802.1X নিরাপত্তা"
 
-#: src/connection-editor/page-8021x-security.c:99
+#: src/connection-editor/page-8021x-security.c:98
 #, fuzzy
 msgid "Could not load 802.1X Security user interface."
 msgstr "ওয়াই-ফাই নিরাপত্তার ইউজার ইন্টারফেস লোড করতে ব্যর্থ।"
 
-#: src/connection-editor/page-8021x-security.c:113
+#: src/connection-editor/page-8021x-security.c:112
 #, fuzzy
 msgid "Use 802.1_X security for this connection"
 msgstr "এই সংযোগের জন্য 802.1X নিরাপত্তা ব্যবহার করা হবে"
@@ -4018,25 +3946,25 @@ msgstr "DSL সংযোগ %d"
 
 #: src/connection-editor/page-master.c:221
 #: src/connection-editor/page-master.c:232
-msgid "Duplicate ports"
+msgid "Duplicate slaves"
 msgstr ""
 
 #: src/connection-editor/page-master.c:222
 #, c-format
-msgid "Ports “%s” and “%s” both apply to device “%s”"
+msgid "Slaves “%s” and “%s” both apply to device “%s”"
 msgstr ""
 
 #: src/connection-editor/page-master.c:233
 #, c-format
 msgid ""
-"Ports “%s” and “%s” apply to different virtual ports (“%s” and “%s”) of the "
+"Slaves “%s” and “%s” apply to different virtual ports (“%s” and “%s”) of the "
 "same physical device."
 msgstr ""
 
 #: src/connection-editor/page-master.c:357
 #, c-format
-msgid "%s port %d"
-msgstr ""
+msgid "%s slave %d"
+msgstr "%s স্লেভ %d"
 
 #: src/connection-editor/page-mobile.c:297
 msgid "Could not load mobile broadband user interface."
@@ -4192,86 +4120,83 @@ msgstr "'%s'-র জন্য VPN প্লাগ-ইন পরিসেবা �
 msgid "unknown failure"
 msgstr "সংযোগ যোগ করতে ব্যর্থ"
 
-#: src/connection-editor/page-vpn.c:94
+#: src/connection-editor/page-vpn.c:88
 #, fuzzy
 msgid "Could not load VPN user interface."
 msgstr "VLAN ইউজার ইন্টারফেস লোড করা যায়নি।"
 
-#: src/connection-editor/page-vpn.c:109
+#: src/connection-editor/page-vpn.c:103
 #, fuzzy, c-format
 msgid "Could not find VPN plugin for “%s”."
 msgstr "'%s'-র জন্য VPN প্লাগ-ইন পরিসেবা পাওয়া যায়নি।"
 
-#: src/connection-editor/page-vpn.c:191
+#: src/connection-editor/page-vpn.c:185
 #, c-format
 msgid "VPN connection %d"
 msgstr "VPN সংযোগ %d"
 
-#: src/connection-editor/page-vpn.c:197
+#: src/connection-editor/page-vpn.c:191
 #, fuzzy
 msgid "Choose a VPN Connection Type"
 msgstr "VPN সংযোগ বিফল"
 
-#: src/connection-editor/page-vpn.c:198
+#: src/connection-editor/page-vpn.c:192
 msgid ""
 "Select the type of VPN you wish to use for the new connection. If the type "
 "of VPN connection you wish to create does not appear in the list, you may "
 "not have the correct VPN plugin installed."
 msgstr ""
 
-#: src/connection-editor/page-wifi-security.c:359
+#: src/connection-editor/page-wifi-security.c:346
 msgid "WEP 40/128-bit Key (Hex or ASCII)"
 msgstr "WEP ৪০/১২৮-বিট কি (Hex অথবা ASCII)"
 
-#: src/connection-editor/page-wifi-security.c:372
+#: src/connection-editor/page-wifi-security.c:356
 msgid "WEP 128-bit Passphrase"
 msgstr "WEP ১২৮-বিট পরিচয়পংক্তি"
 
-#: src/connection-editor/page-wifi-security.c:397
+#: src/connection-editor/page-wifi-security.c:382
 msgid "Dynamic WEP (802.1X)"
 msgstr "ডাইনামিক WEP (802.1X)"
 
-#: src/connection-editor/page-wifi-security.c:410
-#, fuzzy
-msgid "WPA/WPA2/WPA3 Personal"
+#: src/connection-editor/page-wifi-security.c:395
+msgid "WPA & WPA2 Personal"
 msgstr "WPA ও WPA2 ব্যক্তিগত"
 
-#: src/connection-editor/page-wifi-security.c:423
-#, fuzzy
-msgid "WPA/WPA2 Enterprise"
+#: src/connection-editor/page-wifi-security.c:408
+msgid "WPA & WPA2 Enterprise"
 msgstr "WPA ও WPA2 এন্টারপ্রাইজ"
 
-#: src/connection-editor/page-wifi-security.c:436
+#: src/connection-editor/page-wifi-security.c:421
 #, fuzzy
 msgid "WPA3 Personal"
 msgstr "WPA ও WPA2 ব্যক্তিগত"
 
-#: src/connection-editor/page-wifi-security.c:449
-#: src/connection-editor/page-wifi-security.c:457
+#: src/connection-editor/page-wifi-security.c:431
 msgid "Enhanced Open"
 msgstr ""
 
-#: src/connection-editor/page-wifi-security.c:503
+#: src/connection-editor/page-wifi-security.c:476
 #, fuzzy
 msgid "Could not load Wi-Fi security user interface; missing Wi-Fi setting."
 msgstr ""
 "ওয়াই-ফাই নিরাপত্তার ইউজার ইন্টারফেস লোড করতে ব্যর্থ; ওয়াই-ফাইল বৈশিষ্ট্য অনুপস্থিত।"
 
-#: src/connection-editor/page-wifi-security.c:514
+#: src/connection-editor/page-wifi-security.c:487
 #, fuzzy
 msgid "Wi-Fi Security"
 msgstr "বেতার নিরাপত্তা"
 
-#: src/connection-editor/page-wifi-security.c:516
+#: src/connection-editor/page-wifi-security.c:489
 #, fuzzy
 msgid "Could not load Wi-Fi security user interface."
 msgstr "ওয়াই-ফাই নিরাপত্তার ইউজার ইন্টারফেস লোড করতে ব্যর্থ।"
 
-#: src/connection-editor/page-wifi-security.c:597
+#: src/connection-editor/page-wifi-security.c:570
 msgid "missing SSID"
 msgstr ""
 
-#: src/connection-editor/page-wifi-security.c:603
+#: src/connection-editor/page-wifi-security.c:576
 msgid "Security not compatible with Ad-Hoc mode"
 msgstr ""
 
@@ -4394,7 +4319,8 @@ msgstr "ব্যবহার:"
 #: src/main.c:30
 #, fuzzy
 msgid ""
-"This program is a component of NetworkManager (https://networkmanager.dev)."
+"This program is a component of NetworkManager (https://wiki.gnome.org/"
+"Projects/NetworkManager/)."
 msgstr ""
 "এই প্রোগ্রামটি NetworkManager-র অংশ (http://projects.gnome.org/NetworkManager)."
 
@@ -4525,23 +4451,6 @@ msgstr "DER অথবা PEM সার্টিফিকেট (*.der, *.pem, *.
 msgid "DER, PEM, or PKCS#12 private keys (*.der, *.pem, *.p12, *.key)"
 msgstr "DER, PEM, অথবা PKCS#12 ব্যক্তিগত-কি (*.der, *.pem, *.p12)"
 
-#~ msgid "mW"
-#~ msgstr "mW"
-
-#, fuzzy
-#~ msgid "Transmission po_wer"
-#~ msgstr "পরিবহণের ক্ষমতা: (_w)"
-
-#~ msgid "Mb/s"
-#~ msgstr "মেগাবাইট/সেকেন্ড"
-
-#, fuzzy
-#~ msgid "_Rate"
-#~ msgstr "গতি: (_R)"
-
-#~ msgid "More networks"
-#~ msgstr "অতিরিক্ত নেটওয়ার্ক"
-
 #~ msgid "GTC"
 #~ msgstr "GTC"
 
@@ -4658,6 +4567,70 @@ msgstr "DER, PEM, অথবা PKCS#12 ব্যক্তিগত-কি (*.der
 #, fuzzy
 #~ msgid "WEP inde_x"
 #~ msgstr "WEP ইন্ডেক্স: (_x)"
+
+#~ msgid "Disable connected notifications"
+#~ msgstr "সংযুক্ত হওয়ার বিজ্ঞপ্তি নিষ্ক্রিয় করা হবে"
+
+#, fuzzy
+#~ msgid ""
+#~ "Set this to true to disable notifications when connecting to a network."
+#~ msgstr ""
+#~ "নেটওয়ার্কের সাথে সংযুক্ত করার সময় বিজ্ঞপ্তি প্রদানের ব্যবস্থা নিষ্ক্রিয় করার জন্য এই "
+#~ "মান TRUE হিসাবে নির্ধারণ করুন।"
+
+#~ msgid "Disable disconnected notifications"
+#~ msgstr "বিচ্ছিন্ন হওয়ার বিজ্ঞপ্তি নিষ্ক্রিয় করা হবে"
+
+#, fuzzy
+#~ msgid ""
+#~ "Set this to true to disable notifications when disconnecting from a "
+#~ "network."
+#~ msgstr ""
+#~ "নেটওয়ার্কের সাথে সংযোগ বিচ্ছিন্ন করার সময় বিজ্ঞপ্তি প্রদানের ব্যবস্থা নিষ্ক্রিয় "
+#~ "করার জন্য এই মান TRUE হিসাবে নির্ধারণ করুন।"
+
+#, fuzzy
+#~ msgid "Disable VPN notifications"
+#~ msgstr "সংযুক্ত হওয়ার বিজ্ঞপ্তি নিষ্ক্রিয় করা হবে"
+
+#, fuzzy
+#~ msgid ""
+#~ "Set this to true to disable notifications when connecting to or "
+#~ "disconnecting from a VPN."
+#~ msgstr ""
+#~ "নেটওয়ার্কের সাথে সংযোগ বিচ্ছিন্ন করার সময় বিজ্ঞপ্তি প্রদানের ব্যবস্থা নিষ্ক্রিয় "
+#~ "করার জন্য এই মান TRUE হিসাবে নির্ধারণ করুন।"
+
+#~ msgid "Suppress networks available notifications"
+#~ msgstr "উপলব্ধ নেটওয়ার্কের বিজ্ঞপ্তি প্রদর্শন আড়াল করা হবে"
+
+#, fuzzy
+#~ msgid ""
+#~ "Set this to true to disable notifications when Wi-Fi networks are "
+#~ "available."
+#~ msgstr ""
+#~ "বেতার নেটওয়ার্ক উপলব্ধ থাকলে বিজ্ঞপ্তি প্রদানের ব্যবস্থা নিষ্ক্রিয় করার জন্য এই মান "
+#~ "TRUE হিসাবে নির্ধারণ করুন।"
+
+#~ msgid "Stamp"
+#~ msgstr "স্ট্যাম্প"
+
+#~ msgid ""
+#~ "Used to determine whether settings should be migrated to a new version."
+#~ msgstr ""
+#~ "নতুন সংস্করণের মধ্যে বৈশিষ্ট্য মাইগ্রেট করা হবে কি না নির্ধারণ করতে এটি ব্যবহার "
+#~ "করা হয়।"
+
+#, fuzzy
+#~ msgid "Disable WiFi Create"
+#~ msgstr "ওয়াই-ফাই নির্মাণ নিষ্ক্রিয় করুন"
+
+#, fuzzy
+#~ msgid ""
+#~ "Set to true to disable creation of adhoc networks when using the applet."
+#~ msgstr ""
+#~ "এই অ্যাপ্লেট সহযোগে অ্যাড-হক নেটওয়ার্ক নির্মাণের ব্যবস্থা নিষ্ক্রিয় করার জন্য এই "
+#~ "মান TRUE হিসাবে নির্ধারণ করুন।"
 
 #, fuzzy
 #~ msgid "Ignore CA certificate"
@@ -4809,8 +4782,8 @@ msgstr "DER, PEM, অথবা PKCS#12 ব্যক্তিগত-কি (*.der
 #~ "আপনার নির্বাচিত বৈশিষ্ট্যগুলি প্রয়োগ করে এখন আপনার মোবাইল ব্রড-ব্যান্ড পরিসেবা "
 #~ "উপলব্ধকারীর সাথে সংযোগ স্থাপন করা হবে।  সংযোগ বিফল হলে অথবা নেটওয়ার্ক রিসোর্স "
 #~ "ব্যবহার করা সম্ভব না হলে, নির্ধারিত বৈশিষ্ট্যগুলি পরীক্ষা করুন।  মোবাইল ব্রড-ব্যান্ড "
-#~ "সংযোগের বৈশিষ্ট্য পরিবর্তন করার জন্য সিস্টেম >> পছন্দ মেনু থেকে \"নেটওয়ার্ক "
-#~ "সংযোগ\" নির্বাচন করুন।"
+#~ "সংযোগের বৈশিষ্ট্য পরিবর্তন করার জন্য সিস্টেম >> পছন্দ মেনু থেকে \"নেটওয়ার্ক সংযোগ"
+#~ "\" নির্বাচন করুন।"
 
 #~ msgid "Confirm Mobile Broadband Settings"
 #~ msgstr "মোবাইল ব্রড-ব্যান্ডের বৈশিষ্ট্য নিশ্চিত করুন"
@@ -5329,6 +5302,9 @@ msgstr "DER, PEM, অথবা PKCS#12 ব্যক্তিগত-কি (*.der
 
 #~ msgid "The property '%s' / '%s' is invalid: %d"
 #~ msgstr "'%s' / '%s' বিশিষ্টতা অবৈধ: %d"
+
+#~ msgid "Available to all users"
+#~ msgstr "সকল ব্যবহারকারীর জন্য উপস্থিত"
 
 #~ msgid "Edit"
 #~ msgstr "সম্পাদনা"

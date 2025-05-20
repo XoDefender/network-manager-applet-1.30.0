@@ -1,6 +1,6 @@
---- a/src/applet.c	2025-03-03 14:09:41.000000000 +0300
-+++ b/src/applet.c	2025-03-02 14:31:32.759963421 +0300
-@@ -845,6 +845,8 @@
+--- a/src/applet.c	2025-03-02 14:58:06.000000000 +0300
++++ b/src/applet.c	2025-03-02 14:50:42.255959036 +0300
+@@ -939,6 +939,8 @@
  		return g_strdup_printf (_("\nThe VPN connection “%s” failed because there were no valid VPN secrets."), id);
  	case NM_ACTIVE_CONNECTION_STATE_REASON_LOGIN_FAILED:
  		return g_strdup_printf (_("\nThe VPN connection “%s” failed because of invalid VPN secrets."), id);
@@ -9,7 +9,7 @@
  	default:
  		break;
  	}
-@@ -886,8 +888,6 @@
+@@ -980,8 +982,6 @@
  		g_free (msg);
  		break;
  	case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
@@ -17,15 +17,15 @@
 -			break;
  		title = _("VPN Connection Failed");
  		msg = make_active_failure_message (NM_ACTIVE_CONNECTION (vpn), reason, applet);
- 		applet_do_notify (applet, title, msg, "gnome-lockscreen",
+ 		applet_do_notify_with_pref (applet, title, msg, "gnome-lockscreen",
 
---- a/po/ru.po	2025-03-03 14:09:41.000000000 +0300
-+++ b/po/ru.po	2025-03-02 14:34:53.947962654 +0300
-@@ -913,6 +913,15 @@
+--- a/po/ru.po	2025-03-02 14:58:06.000000000 +0300
++++ b/po/ru.po	2025-03-02 14:52:25.991958641 +0300
+@@ -833,6 +833,15 @@
  "\n"
  "В связи с недействительным паролем произошёл сбой VPN-соединения «%s»"
  
-+#: src/applet.c:849
++#: src/applet.c:943
 +#, c-format
 +msgid ""
 +"\n"
@@ -34,6 +34,6 @@
 +"\n"
 +"В связи с тем, что пользователь преравал подключение, связь с VPN «%s» была потеряна"
 +
- #: src/applet.c:852
+ #: src/applet.c:939
  #, c-format
  msgid ""

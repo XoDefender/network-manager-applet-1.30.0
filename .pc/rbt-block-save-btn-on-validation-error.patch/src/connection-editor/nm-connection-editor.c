@@ -153,6 +153,9 @@ update_sensitivity (NMConnectionEditor *editor)
 		sensitive = ce_polkit_button_get_authorized (CE_POLKIT_BUTTON (editor->ok_button));
 	}
 
+	gtk_widget_set_sensitive (editor->export_button, sensitive);
+	gtk_widget_set_sensitive (editor->ok_button, sensitive);
+
 	/* Cancel button is always sensitive */
 	gtk_widget_set_sensitive (GTK_WIDGET (editor->cancel_button), TRUE);
 
@@ -604,9 +607,9 @@ nm_connection_editor_get (NMConnection *connection)
 	return active_editors ? g_hash_table_lookup (active_editors, connection) : NULL;
 }
 
-/* Returns an editor for @port's controller, if any */
+/* Returns an editor for @slave's master, if any */
 NMConnectionEditor *
-nm_connection_editor_get_master (NMConnection *port)
+nm_connection_editor_get_master (NMConnection *slave)
 {
 	GHashTableIter iter;
 	gpointer connection, editor;
@@ -616,7 +619,7 @@ nm_connection_editor_get_master (NMConnection *port)
 	if (!active_editors)
 		return NULL;
 
-	s_con = nm_connection_get_setting_connection (port);
+	s_con = nm_connection_get_setting_connection (slave);
 	master = nm_setting_connection_get_master (s_con);
 	if (!master)
 		return NULL;
@@ -736,10 +739,8 @@ static void
 page_initialized (CEPage *page, GError *error, gpointer user_data)
 {
 	NMConnectionEditor *editor = NM_CONNECTION_EDITOR (user_data);
+	GtkWidget *widget, *parent;
 	GtkNotebook *notebook;
-	GtkWidget *parent;
-	GtkWidget *scrolled;
-	GtkWidget *widget;
 	GtkWidget *label;
 	GList *children, *iter;
 	gpointer order, child_order;
@@ -757,28 +758,10 @@ page_initialized (CEPage *page, GError *error, gpointer user_data)
 	/* Add the page to the UI */
 	notebook = GTK_NOTEBOOK (gtk_builder_get_object (editor->builder, "notebook"));
 	label = gtk_label_new (ce_page_get_title (page));
-
 	widget = ce_page_get_page (page);
 	parent = gtk_widget_get_parent (widget);
 	if (parent)
 		gtk_container_remove (GTK_CONTAINER (parent), widget);
-
-	if (CE_IS_PAGE_VPN (page)) {
-		if (ce_page_vpn_can_export (CE_PAGE_VPN (page)))
-			gtk_widget_show (editor->export_button);
-
-		scrolled = gtk_scrolled_window_new (NULL, NULL);
-		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-		gtk_container_add (GTK_CONTAINER (scrolled), widget);
-		gtk_widget_show (scrolled);
-		widget = scrolled;
-
-#if GTK_CHECK_VERSION(3,22,0)
-		NM_LIBNM_COMPAT_UNDEPRECATE (
-			gtk_scrolled_window_set_propagate_natural_height (GTK_SCROLLED_WINDOW (scrolled),
-									  TRUE));
-#endif
-	}
 
 	order = g_object_get_data (G_OBJECT (page), ORDER_TAG);
 	g_object_set_data (G_OBJECT (widget), ORDER_TAG, order);
@@ -792,6 +775,9 @@ page_initialized (CEPage *page, GError *error, gpointer user_data)
 	g_list_free (children);
 
 	gtk_notebook_insert_page (notebook, widget, label, i);
+
+	if (CE_IS_PAGE_VPN (page) && ce_page_vpn_can_export (CE_PAGE_VPN (page)))
+		gtk_widget_show (editor->export_button);
 
 	/* Move the page from the initializing list to the main page list */
 	editor->initializing_pages = g_slist_remove (editor->initializing_pages, page);
@@ -826,9 +812,18 @@ get_secrets_cb (GObject *object,
 		return;
 	}
 
-	secrets = nm_remote_connection_get_secrets_finish (connection, result, &error);
-
 	self = info->self;
+
+	secrets = nm_remote_connection_get_secrets_finish (connection, result, &error);
+	if(error)
+	{
+		char *dbus_err = g_dbus_error_get_remote_error (error);
+		if(	   g_strcmp0 (dbus_err, "org.freedesktop.NetworkManager.Settings.PermissionDenied") == 0
+			|| g_error_matches(error, G_IO_ERROR, G_IO_ERROR_TIMED_OUT))
+			self->can_modify = false;
+
+		g_free (dbus_err);
+	}
 
 	/* Complete this secrets request; completion can actually dispose of the
 	 * dialog if there was an error.

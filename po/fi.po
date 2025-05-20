@@ -17,19 +17,19 @@ msgstr ""
 "Project-Id-Version: network-manager-applet\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/network-manager-"
 "applet/\n"
-"POT-Creation-Date: 2022-11-07 08:48+0100\n"
-"PO-Revision-Date: 2021-03-15 20:53+0200\n"
-"Last-Translator: JR-Fi <starman@starman.fi>\n"
+"POT-Creation-Date: 2021-02-03 09:54+0100\n"
+"PO-Revision-Date: 2020-09-09 19:58+0300\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.4.1\n"
 "X-POT-Import-Date: 2012-02-19 15:25:27+0000\n"
 
-#: nm-applet.desktop.in:3 src/applet-dialogs.c:724 src/applet.c:3166
+#: nm-applet.desktop.in:3 src/applet-dialogs.c:724 src/applet.c:3223
 msgid "Network"
 msgstr "Verkko"
 
@@ -73,122 +73,40 @@ msgstr "Edistynyt verkkokokoonpano"
 msgid "Manage and change your network connection settings"
 msgstr "Hallitse ja muuta verkkoyhteyksien asetuksia"
 
-#: org.gnome.nm-applet.gschema.xml.in:6
-msgid "Disable connected notifications"
-msgstr "Älä näytä ilmoitusta kun yhteys muodostuu"
-
-#: org.gnome.nm-applet.gschema.xml.in:7
-#, fuzzy
-msgid "Set this to true to disable notifications when connecting to a network."
-msgstr ""
-"Merkitse tämä arvoksi TRUE kytkeäksesi ilmoitukset pois, kun kone etsii "
-"verkkoa."
-
-#: org.gnome.nm-applet.gschema.xml.in:11
-msgid "Disable disconnected notifications"
-msgstr "Älä näytä ilmoitusta kun yhteys katkeaa"
-
-#: org.gnome.nm-applet.gschema.xml.in:12
-#, fuzzy
-msgid ""
-"Set this to true to disable notifications when disconnecting from a network."
-msgstr ""
-"Merkitse tämä arvoksi TRUE kytkeäksesi ilmoitukset pois, kun verkkoyhteys "
-"katkaistaan."
-
-#: org.gnome.nm-applet.gschema.xml.in:16
-msgid "Disable VPN notifications"
-msgstr "Poista VPN-ilmoitukset käytöstä"
-
-#: org.gnome.nm-applet.gschema.xml.in:17
-#, fuzzy
-msgid ""
-"Set this to true to disable notifications when connecting to or "
-"disconnecting from a VPN."
-msgstr ""
-"Merkitse tämä arvoksi TRUE kytkeäksesi ilmoitukset pois, kun verkkoyhteys "
-"katkaistaan."
-
-#: org.gnome.nm-applet.gschema.xml.in:21
-msgid "Suppress networks available notifications"
-msgstr "Älä näytä ilmoituksia saatavilla olevista verkoista"
-
-#: org.gnome.nm-applet.gschema.xml.in:22
-#, fuzzy
-msgid ""
-"Set this to true to disable notifications when Wi-Fi networks are available."
-msgstr ""
-"Merkitse tämä arvoksi TRUE kytkeäksesi ilmoitukset pois, kun langattomia "
-"verkkoja on saatavilla."
-
-#: org.gnome.nm-applet.gschema.xml.in:26
-msgid "Stamp"
-msgstr "Leima"
-
-#: org.gnome.nm-applet.gschema.xml.in:27
-msgid "Used to determine whether settings should be migrated to a new version."
-msgstr "Määrittää, tuodaanko asetukset uuteen versioon."
-
-#: org.gnome.nm-applet.gschema.xml.in:31
-#, fuzzy
-msgid "Disable WiFi Create"
-msgstr "Estä Wi-Fi-luonti"
-
-#: org.gnome.nm-applet.gschema.xml.in:32
-#, fuzzy
-msgid ""
-"Set to true to disable creation of adhoc networks when using the applet."
-msgstr ""
-"Aseta OIKEA estääksesi väliaikaisten verkkojen luonnin kun liitännäinen on "
-"käytössä"
-
-#: org.gnome.nm-applet.gschema.xml.in:36
-msgid "Show the applet in notification area"
-msgstr "Näytä sovelma ilmoitusalueella"
-
-#: org.gnome.nm-applet.gschema.xml.in:37
-#, fuzzy
-msgid "Set to FALSE to disable displaying the applet in the notification area."
-msgstr "Näytä sovelma ilmoitusalueella"
-
 #: shared/nm-utils/nm-shared-utils.c:793
-#, fuzzy, c-format
+#, c-format
 msgid "object class '%s' has no property named '%s'"
-msgstr "objektiluokalla '%s' ei ole ominaisuutta nimeltä '%s'"
+msgstr ""
 
 #: shared/nm-utils/nm-shared-utils.c:800
-#, fuzzy, c-format
+#, c-format
 msgid "property '%s' of object class '%s' is not writable"
-msgstr "ominaisuus '%s' objektiluokasta '%s' ei ole kirjoitettavissa"
+msgstr ""
 
 #: shared/nm-utils/nm-shared-utils.c:807
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
 msgstr ""
-"rakennettua ominaisuutta \"%s\" objektille '%s' ei voida asettaa "
-"rakentamisen jälkeen"
 
 #: shared/nm-utils/nm-shared-utils.c:815
-#, fuzzy, c-format
+#, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
-msgstr "'%s::%s' ei ole käypä ominaisuusnimi; '%s' ei ole GObject alityyppi"
+msgstr ""
 
 #: shared/nm-utils/nm-shared-utils.c:824
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
-msgstr "ei voi asettaa ominaisuutta '%s' tyyppiä '%s' tyypin '%s' arvosta"
+msgstr ""
 
 #: shared/nm-utils/nm-shared-utils.c:835
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
 "type '%s'"
 msgstr ""
-"arvo \"%s\" tyyppiä '%s' ei ole käypä tai ylittää raja-arvot ominaisuudelle "
-"'%s' tyyppiä '%s'"
 
-#: src/8021x.ui:7 src/ethernet-dialog.c:90
+#: src/8021x.ui:11 src/ethernet-dialog.c:87
 msgid "802.1X authentication"
 msgstr "802.1X-tunnistautuminen"
 
@@ -221,20 +139,13 @@ msgstr "_Yhdistä"
 msgid "_Network name"
 msgstr "_Verkon nimi"
 
-#: src/ap-menu-item.c:68
+#: src/ap-menu-item.c:67
 msgid "ad-hoc"
 msgstr "ad-hoc"
 
-# Salattu tai suojattu?
-#: src/ap-menu-item.c:73
+#: src/ap-menu-item.c:72
 msgid "secure."
-msgstr "turvattu."
-
-# Salattu tai suojattu?
-#: src/ap-menu-item.c:77
-#, fuzzy
-msgid "insecure."
-msgstr "turvattu."
+msgstr ""
 
 #: src/applet-device-broadband.c:147
 msgid "Wrong PUK code; please contact your provider."
@@ -261,7 +172,7 @@ msgid "Mobile Broadband"
 msgstr "Mobiililaajakaista"
 
 #: src/applet-device-broadband.c:780 src/applet-device-bt.c:61
-#: src/applet-device-ethernet.c:107
+#: src/applet-device-ethernet.c:107 src/applet-device-wifi.c:890
 msgid "Available"
 msgstr "Saatavilla"
 
@@ -271,7 +182,7 @@ msgid "New Mobile Broadband connection…"
 msgstr "Uusi mobiililaajakaistayhteys…"
 
 #: src/applet-device-broadband.c:809 src/applet-device-bt.c:75
-#: src/applet-device-ethernet.c:124 src/applet-device-wifi.c:1251
+#: src/applet-device-ethernet.c:124 src/applet-device-wifi.c:1293
 msgid "Connection Established"
 msgstr "Yhteys muodostettu"
 
@@ -310,7 +221,7 @@ msgstr "Tehdään mobiililaajakaistayhteyden “%s” asetuksia…"
 msgid "User authentication required for mobile broadband connection “%s”…"
 msgstr "Käyttäjätunnistautuminen vaaditaan mobiililaajakaistayhteydelle “%s”…"
 
-#: src/applet-device-bt.c:113 src/applet.c:2510 src/mobile-helpers.c:593
+#: src/applet-device-bt.c:113 src/applet.c:2579 src/mobile-helpers.c:593
 #, c-format
 msgid "Requesting a network address for “%s”…"
 msgstr "Pyydetään verkko-osoitetta verkosta “%s”…"
@@ -343,7 +254,7 @@ msgid "Ethernet Network"
 msgstr "Ethernet-verkko"
 
 #. Notify user of unmanaged or unavailable device
-#: src/applet-device-ethernet.c:99 src/applet.c:1265
+#: src/applet-device-ethernet.c:99 src/applet.c:1328
 msgid "disconnected"
 msgstr "katkaistu"
 
@@ -403,97 +314,100 @@ msgstr "Luo _uusi wifi-verkko…"
 msgid "(none)"
 msgstr "(ei mitään)"
 
-#: src/applet-device-wifi.c:523 src/applet-device-wifi.c:1349
+#: src/applet-device-wifi.c:519 src/applet-device-wifi.c:1393
 msgid "Failed to add new connection"
 msgstr "Uuden yhteyden lisäys epäonnistui"
 
-#: src/applet-device-wifi.c:524
+#: src/applet-device-wifi.c:520
 msgid "Insufficient privileges."
 msgstr "Käyttöoikeudet eivät riitä."
 
-#: src/applet-device-wifi.c:526 src/applet-device-wifi.c:1332
-#: src/applet-device-wifi.c:1352 src/applet.c:414 src/applet.c:497
+#: src/applet-device-wifi.c:522 src/applet-device-wifi.c:1375
+#: src/applet-device-wifi.c:1398 src/applet.c:417 src/applet.c:506
 msgid "Connection failure"
 msgstr "Yhteysvirhe"
 
-#: src/applet-device-wifi.c:827
+#: src/applet-device-wifi.c:822
 #, c-format
 msgid "Wi-Fi Networks (%s)"
 msgstr "Wifi-verkot (%s)"
 
-#: src/applet-device-wifi.c:829
+#: src/applet-device-wifi.c:824
 #, c-format
 msgid "Wi-Fi Network (%s)"
 msgstr "Wifi-verkko (%s)"
 
-#: src/applet-device-wifi.c:831
+#: src/applet-device-wifi.c:826
 msgid "Wi-Fi Network"
 msgid_plural "Wi-Fi Networks"
 msgstr[0] "Wifi-verkko"
 msgstr[1] "Wifi-verkot"
 
-#: src/applet-device-wifi.c:860
+#: src/applet-device-wifi.c:855
 msgid "Wi-Fi is disabled"
 msgstr "Wifi ei ole käytössä"
 
-#: src/applet-device-wifi.c:861
+#: src/applet-device-wifi.c:856
 msgid "Wi-Fi is disabled by hardware switch"
 msgstr "Wifi on kytketty pois käytöstä laitteessa olevasta painikkeesta"
 
-#: src/applet-device-wifi.c:887
-#, fuzzy
-msgid "_Available networks"
-msgstr "Saatavilla kaikille käyttäjille"
+#: src/applet-device-wifi.c:917
+msgid "More networks"
+msgstr "Lisää verkkoja"
 
-#: src/applet-device-wifi.c:1066
+#: src/applet-device-wifi.c:1107
 msgid "Wi-Fi Networks Available"
 msgstr "Wifi-verkkoja saatavilla"
 
-#: src/applet-device-wifi.c:1067
+#: src/applet-device-wifi.c:1108
 msgid "Use the network menu to connect to a Wi-Fi network"
 msgstr "Käytä verkkovalikkoa yhdistääksesi wifi-verkkoon"
 
-#: src/applet-device-wifi.c:1249
+#: src/applet-device-wifi.c:1111 src/applet.c:828
+msgid "Don’t show this message again"
+msgstr "Älä näytä tätä uudestaan"
+
+#: src/applet-device-wifi.c:1292
 #, c-format
 msgid "You are now connected to the Wi-Fi network “%s”."
 msgstr "Yhteys wifi-verkkoon “%s” on nyt muodostettu."
 
-#: src/applet-device-wifi.c:1286
+#: src/applet-device-wifi.c:1327
 #, c-format
 msgid "Preparing Wi-Fi network connection “%s”…"
 msgstr "Valmistellaan wifi-verkkoyhteyttä “%s”…"
 
-#: src/applet-device-wifi.c:1289
+#: src/applet-device-wifi.c:1330
 #, c-format
 msgid "Configuring Wi-Fi network connection “%s”…"
 msgstr "Tehdään wifi-verkkoyhteyden “%s” asetuksia…"
 
-#: src/applet-device-wifi.c:1292
+#: src/applet-device-wifi.c:1333
 #, c-format
 msgid "User authentication required for Wi-Fi network “%s”…"
 msgstr "Käyttäjätunnistautuminen vaaditaan wifi-verkkoon “%s”…"
 
-#: src/applet-device-wifi.c:1295
+#: src/applet-device-wifi.c:1336
 #, c-format
 msgid "Requesting a Wi-Fi network address for “%s”…"
 msgstr "Pyydetään verkko-osoitetta wifi-verkosta “%s”…"
 
-#: src/applet-device-wifi.c:1306
+#: src/applet-device-wifi.c:1347
 #, c-format
 msgid "Wi-Fi network connection “%s” active: %s (%d%%)"
 msgstr "Wifi-verkkoyhteys “%s” on aktiivinen: %s (%d%%)"
 
-#: src/applet-device-wifi.c:1310
+#: src/applet-device-wifi.c:1351
 #, c-format
 msgid "Wi-Fi network connection “%s” active"
 msgstr "Wifi-verkkoyhteys “%s” on aktiivinen"
 
-#: src/applet-device-wifi.c:1329
+#: src/applet-device-wifi.c:1370
 msgid "Failed to activate connection"
 msgstr "Yhteyden aktivointi epäonnistui"
 
-#: src/applet-device-wifi.c:1330 src/applet-device-wifi.c:1350 src/applet.c:412
-#: src/applet.c:463 src/applet.c:495
+#: src/applet-device-wifi.c:1372 src/applet-device-wifi.c:1395 src/applet.c:414
+#: src/applet.c:468 src/applet.c:503
 msgid "Unknown error"
 msgstr "Tuntematon virhe"
 
@@ -501,7 +415,7 @@ msgstr "Tuntematon virhe"
 msgid "Error displaying connection information:"
 msgstr "Virhe näytettäessä yhteyden tietoja:"
 
-#: src/applet-dialogs.c:60 src/connection-editor/page-wifi-security.c:384
+#: src/applet-dialogs.c:60 src/connection-editor/page-wifi-security.c:369
 msgid "LEAP"
 msgstr "LEAP"
 
@@ -509,7 +423,7 @@ msgstr "LEAP"
 msgid "Dynamic WEP"
 msgstr "Dynaaminen WEP"
 
-#: src/applet-dialogs.c:64 src/applet-dialogs.c:226
+#: src/applet-dialogs.c:64 src/applet-dialogs.c:226 src/applet-dialogs.c:228
 msgid "WPA/WPA2"
 msgstr "WPA/WPA2"
 
@@ -522,17 +436,12 @@ msgstr "Lisää osoitteita"
 msgid "WEP"
 msgstr "WEP"
 
-#: src/applet-dialogs.c:228
-#, fuzzy
-msgid "WPA/WPA2/WPA3"
-msgstr "WPA/WPA2"
-
 #: src/applet-dialogs.c:230
 msgid "WPA3"
 msgstr "WPA3"
 
 #: src/applet-dialogs.c:234 src/applet-dialogs.c:243
-#: src/connection-editor/page-wifi-security.c:327
+#: src/connection-editor/page-wifi-security.c:320
 msgctxt "Wi-Fi/Ethernet security"
 msgid "None"
 msgstr "Ei mitään"
@@ -705,7 +614,7 @@ msgstr "NetworkManagerin verkkosivusto"
 
 #: src/applet-dialogs.c:1137
 msgid "translator-credits"
-msgstr "Jiri Grönroos, JRfi"
+msgstr "Jiri Grönroos"
 
 #: src/applet-dialogs.c:1147
 msgid ""
@@ -808,29 +717,24 @@ msgstr "DUN-yhteyden luominen epäonnistui: %s"
 #: src/applet-vpn-request.c:485
 msgid "Failed to write connection to VPN UI: incomplete write"
 msgstr ""
-"Yhteyden kirjaaminen VPN:n käyttöliittymään epäonnistui: kirjaus jäi kesken"
 
-#: src/applet.c:411
+#: src/applet.c:412
 msgid "Failed to add/activate connection"
 msgstr "Yhteyden lisäys/aktivointi epäonnistui"
 
-#: src/applet.c:462
+#: src/applet.c:466
 msgid "Device disconnect failed"
 msgstr "Laitteen katkaisu epäonnistui"
 
-#: src/applet.c:465
+#: src/applet.c:471
 msgid "Disconnect failure"
 msgstr "Katkaisuvirhe"
 
-#: src/applet.c:494
+#: src/applet.c:501
 msgid "Connection activation failed"
 msgstr "Yhteyden aktivointi epäonnistui"
 
-#: src/applet.c:731
-msgid "Don’t show this message again"
-msgstr "Älä näytä tätä uudestaan"
-
-#: src/applet.c:831
+#: src/applet.c:918
 #, c-format
 msgid ""
 "\n"
@@ -840,7 +744,7 @@ msgstr ""
 "\n"
 "VPN-yhteys “%s” katkesi, koska verkkoyhteys katkaistiin."
 
-#: src/applet.c:833
+#: src/applet.c:920
 #, c-format
 msgid ""
 "\n"
@@ -850,7 +754,7 @@ msgstr ""
 "\n"
 "VPN-yhteys “%s” epäonnistui, koska verkkoyhteys katkaistiin."
 
-#: src/applet.c:835
+#: src/applet.c:922
 #, c-format
 msgid ""
 "\n"
@@ -859,7 +763,7 @@ msgstr ""
 "\n"
 "VPN-yhteys “%s” epäonnistui, koska VPN-palvelu pysähtyi odottamatta."
 
-#: src/applet.c:837
+#: src/applet.c:924
 #, c-format
 msgid ""
 "\n"
@@ -870,7 +774,7 @@ msgstr ""
 "VPN-yhteys “%s” epäonnistui, koska VPN-palvelulta saatiin virheellinen "
 "asetusmäärittely."
 
-#: src/applet.c:839
+#: src/applet.c:926
 #, c-format
 msgid ""
 "\n"
@@ -879,7 +783,7 @@ msgstr ""
 "\n"
 "VPN-yhteys “%s” epäonnistui, koska yhteysyritys aikakatkaistiin."
 
-#: src/applet.c:841
+#: src/applet.c:928
 #, c-format
 msgid ""
 "\n"
@@ -889,7 +793,7 @@ msgstr ""
 "VPN-yhteys “%s” epäonnistui, koska VPN-palvelu ei käynnistynyt sallitussa "
 "ajassa."
 
-#: src/applet.c:843
+#: src/applet.c:930
 #, c-format
 msgid ""
 "\n"
@@ -898,7 +802,7 @@ msgstr ""
 "\n"
 "VPN-yhteys “%s” epäonnistui, koska VPN-palvelua ei voitu käynnistää."
 
-#: src/applet.c:845
+#: src/applet.c:932
 #, c-format
 msgid ""
 "\n"
@@ -907,7 +811,7 @@ msgstr ""
 "\n"
 "VPN-yhteys “%s” epäonnistui, koska kelvollisia VPN-salaisuuksia ei löytynyt."
 
-#: src/applet.c:847
+#: src/applet.c:934
 #, c-format
 msgid ""
 "\n"
@@ -916,7 +820,7 @@ msgstr ""
 "\n"
 "VPN-yhteys “%s” epäonnistui virheellisten VPN-salaisuuksien takia."
 
-#: src/applet.c:852
+#: src/applet.c:939
 #, c-format
 msgid ""
 "\n"
@@ -925,7 +829,7 @@ msgstr ""
 "\n"
 "VPN-yhteys “%s” epäonnistui."
 
-#: src/applet.c:879
+#: src/applet.c:966
 #, c-format
 msgid ""
 "VPN connection has been successfully established.\n"
@@ -936,19 +840,19 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/applet.c:881
+#: src/applet.c:968
 msgid "VPN connection has been successfully established.\n"
 msgstr "VPN-yhteys on muodostettu onnistuneesti.\n"
 
-#: src/applet.c:883
+#: src/applet.c:970
 msgid "VPN Login Message"
 msgstr "VPN-yhteyden kirjautumisviesti"
 
-#: src/applet.c:891 src/applet.c:931
+#: src/applet.c:978 src/applet.c:1018
 msgid "VPN Connection Failed"
 msgstr "VPN-yhteys epäonnistui"
 
-#: src/applet.c:935
+#: src/applet.c:1022
 #, c-format
 msgid ""
 "\n"
@@ -961,7 +865,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/applet.c:938
+#: src/applet.c:1025
 #, c-format
 msgid ""
 "\n"
@@ -974,132 +878,132 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/applet.c:1253
+#: src/applet.c:1316
 msgid "device not ready (firmware missing)"
 msgstr "laite ei ole valmiina"
 
-#: src/applet.c:1255
+#: src/applet.c:1318
 msgid "device not ready"
 msgstr "laite ei valmis"
 
-#: src/applet.c:1281
+#: src/applet.c:1344
 msgid "Disconnect"
 msgstr "Katkaise yhteys"
 
-#: src/applet.c:1295
+#: src/applet.c:1358
 msgid "device not managed"
 msgstr "laitetta ei hallita"
 
-#: src/applet.c:1369
+#: src/applet.c:1432
 msgid "No network devices available"
 msgstr "Verkkolaitteita ei löytynyt"
 
-#: src/applet.c:1415
+#: src/applet.c:1484
 msgid "_VPN Connections"
 msgstr "_VPN-yhteydet"
 
-#: src/applet.c:1459
+#: src/applet.c:1528
 msgid "_Configure VPN…"
 msgstr "_Määritä VPN…"
 
-#: src/applet.c:1462
+#: src/applet.c:1531
 msgid "_Add a VPN connection…"
 msgstr "_Lisää VPN-yhteys…"
 
-#: src/applet.c:1568
+#: src/applet.c:1637
 msgid "NetworkManager is not running…"
 msgstr "NetworkManager ei ole käynnissä…"
 
-#: src/applet.c:1573 src/applet.c:2641
+#: src/applet.c:1642 src/applet.c:2710
 msgid "Networking disabled"
 msgstr "Verkko ei ole käytössä"
 
 #. 'Enable Networking' item
-#: src/applet.c:1783
+#: src/applet.c:1852
 msgid "Enable _Networking"
 msgstr "Ota _verkko käyttöön"
 
 #. 'Enable Wi-Fi' item
-#: src/applet.c:1792
+#: src/applet.c:1861
 msgid "Enable _Wi-Fi"
 msgstr "Ota _wifi käyttöön"
 
 #. 'Enable Mobile Broadband' item
-#: src/applet.c:1801
+#: src/applet.c:1870
 msgid "Enable _Mobile Broadband"
 msgstr "Ota _mobiililaajakaista käyttöön"
 
 #. Toggle notifications item
-#: src/applet.c:1813
+#: src/applet.c:1882
 msgid "Enable N_otifications"
 msgstr "Ota ilm_oitukset käyttöön"
 
 #. 'Connection Information' item
-#: src/applet.c:1825
+#: src/applet.c:1894
 msgid "Connection _Information"
 msgstr "Tietoja _yhteydestä"
 
 #. 'Edit Connections...' item
-#: src/applet.c:1833
+#: src/applet.c:1902
 msgid "Edit Connections…"
 msgstr "Muokkaa yhteyksiä…"
 
-#: src/applet.c:1847
+#: src/applet.c:1916
 msgid "_About"
 msgstr "_Tietoja"
 
-#: src/applet.c:2161
+#: src/applet.c:2230
 #, c-format
 msgid "You are now connected to “%s”."
 msgstr "Yhteys verkkoon “%s” on nyt muodostettu."
 
-#: src/applet.c:2201
+#: src/applet.c:2270
 msgid "Disconnected"
 msgstr "Yhteys katkaistu"
 
-#: src/applet.c:2202
+#: src/applet.c:2271
 msgid "The network connection has been disconnected."
 msgstr "Verkkoyhteys on nyt katkaistu."
 
-#: src/applet.c:2504
+#: src/applet.c:2573
 #, c-format
 msgid "Preparing network connection “%s”…"
 msgstr "Valmistellaan verkkoyhteyttä “%s”…"
 
-#: src/applet.c:2507
+#: src/applet.c:2576
 #, c-format
 msgid "User authentication required for network connection “%s”…"
 msgstr "Käyttäjätunnistautuminen vaaditaan verkkoyhteydelle “%s”…"
 
-#: src/applet.c:2513
+#: src/applet.c:2582
 #, c-format
 msgid "Network connection “%s” active"
 msgstr "Verkkoyhteys “%s” on aktiivinen"
 
-#: src/applet.c:2586
+#: src/applet.c:2655
 #, c-format
 msgid "Starting VPN connection “%s”…"
 msgstr "Käynnistetään VPN-yhteyttä “%s”…"
 
-#: src/applet.c:2589
+#: src/applet.c:2658
 #, c-format
 msgid "User authentication required for VPN connection “%s”…"
 msgstr "Käyttäjätunnistautuminen vaaditaan VPN-yhteydelle “%s”…"
 
-#: src/applet.c:2592
+#: src/applet.c:2661
 #, c-format
 msgid "Requesting a VPN address for “%s”…"
 msgstr "Pyydetään VPN-osoitetta yhteydelle “%s”…"
 
-#: src/applet.c:2595
+#: src/applet.c:2664
 msgid "VPN connection active"
 msgstr "VPN-yhteys on aktiivinen"
 
-#: src/applet.c:2645
+#: src/applet.c:2714
 msgid "No network connection"
 msgstr "Ei verkkoyhteyttä"
 
-#: src/applet.c:3280
+#: src/applet.c:3324
 msgid "NetworkManager Applet"
 msgstr "Verkon hallinta -sovelma"
 
@@ -1226,7 +1130,7 @@ msgid "Bonded _connections"
 msgstr "Sidotut _yhteydet"
 
 #: src/connection-editor/ce-page-bond.ui:105
-#: src/connection-editor/ce-page-wifi.ui:294
+#: src/connection-editor/ce-page-wifi.ui:400
 msgid "M_ode"
 msgstr "_Tila"
 
@@ -1283,13 +1187,10 @@ msgid "_Primary"
 msgstr "_Ensisijainen"
 
 #: src/connection-editor/ce-page-bond.ui:495
-#, fuzzy
 msgid ""
 "The interface name of the primary device. If set, this device will always be "
-"the active port when it is available."
+"the active slave when it is available."
 msgstr ""
-"Isäntälaitteen liitoksen nimi. Mikäli asetettu, tämä laite toimii aina "
-"aktiivisena sen ohjauksessa, kun se on käytettävissä."
 
 #: src/connection-editor/ce-page-bond.ui:507
 #: src/connection-editor/ce-page-ethernet.ui:188
@@ -1313,7 +1214,7 @@ msgstr "tavua"
 
 #: src/connection-editor/ce-page-bridge-port.ui:42
 msgid "Path _cost"
-msgstr "Yhteysreitin _hinta"
+msgstr ""
 
 #: src/connection-editor/ce-page-bridge-port.ui:55
 #: src/connection-editor/ce-page-bridge.ui:178
@@ -1338,7 +1239,7 @@ msgstr "_Hello-aika"
 
 #: src/connection-editor/ce-page-bridge.ui:252
 msgid "STP forwarding delay, in seconds"
-msgstr "STP toiston viive, sekunneissa"
+msgstr ""
 
 #: src/connection-editor/ce-page-bridge.ui:269
 #: src/connection-editor/ce-page-bridge.ui:311
@@ -1349,7 +1250,7 @@ msgstr "s"
 
 #: src/connection-editor/ce-page-bridge.ui:294
 msgid "STP hello time, in seconds"
-msgstr "STP tervehdyksen aika, sekunneissa"
+msgstr ""
 
 #: src/connection-editor/ce-page-bridge.ui:328
 msgid "Enable I_GMP snooping"
@@ -1361,10 +1262,6 @@ msgid ""
 "snooping was automatically disabled due to hash collisions, the system may "
 "refuse to enable the feature until the collisions are resolved."
 msgstr ""
-"Kontrolloi onko IGMP nuuskinta käytössä tässä sillassa. Huomaa, että mikäli "
-"nuuskinta oli automaattisesti estetty johtuen tiivisteiden törmäyksistä, "
-"järjestelmä voi kieltäytyä ottamasta omianaisuutta käyttöön kunnes "
-"törmäykset on selvitetty."
 
 #: src/connection-editor/ce-page-bridge.ui:344
 msgid "Enable _STP (Spanning Tree Protocol)"
@@ -1373,15 +1270,13 @@ msgstr "Käytä _STP:tä (Spanning Tree Protocol)"
 #: src/connection-editor/ce-page-bridge.ui:348
 msgid ""
 "Controls whether Spanning Tree Protocol (STP) is enabled for this bridge"
-msgstr "Kontorolloi onko STP (Spanning Tree Protocol) käytössä tässä sillassa"
+msgstr ""
 
 #: src/connection-editor/ce-page-bridge.ui:363
 msgid ""
 "STP priority for this bridge. Lower values are “better”; the lowest priority "
 "bridge will be elected the root bridge."
 msgstr ""
-"STP prioriteetti tälle sillalle. Matalammat arvot ovat \"parempia\"; "
-"matalimman arvoinen silta valitaan juurisillaksi."
 
 #: src/connection-editor/ce-page-bridge.ui:378
 msgid "_Max age"
@@ -1389,7 +1284,7 @@ msgstr "_Enimmäisikä"
 
 #: src/connection-editor/ce-page-bridge.ui:398
 msgid "STP maximum message age, in seconds"
-msgstr "STP viestien maksimiaika, sekunneissa"
+msgstr ""
 
 #: src/connection-editor/ce-page-bridge.ui:434
 msgid "_Aging time"
@@ -1397,11 +1292,11 @@ msgstr "_Vanhenemisaika"
 
 #: src/connection-editor/ce-page-bridge.ui:454
 msgid "The Ethernet MAC address aging time, in seconds"
-msgstr "Lähiverkon MAC-osoitteen vanhentumisaika, sekunneissa"
+msgstr ""
 
 #: src/connection-editor/ce-page-bridge.ui:490
 msgid "Group _forward mask"
-msgstr "Ryhmän _välityksen peite"
+msgstr ""
 
 #: src/connection-editor/ce-page-bridge.ui:504
 msgid ""
@@ -1410,10 +1305,6 @@ msgid ""
 "can’t have bits 0, 1 or 2 set because they are used for STP, MAC pause "
 "frames and LACP."
 msgstr ""
-"Peite on 16-bittinen, jokainen bitti vastaa ryhmäosoitetta välillä 01:80:"
-"C2:00:00:00 arvoon 01:80:C2:00:00:0F jotka pitää välittää eteenpäin. "
-"Maskissa ei saa olla bittejä 0, 1 tai 2 käytössä, koska niitä käytetään STP:"
-"ssä, MAC:n vuonohjauksen keskeytyksissä ja LACP:ssä."
 
 #: src/connection-editor/ce-page-dcb.ui:16
 msgid "_Use Data Center Bridging (DCB) for this connection"
@@ -1437,7 +1328,7 @@ msgstr "Vuonohjaus"
 
 #: src/connection-editor/ce-page-dcb.ui:101
 msgid "Feature"
-msgstr "Ominaisuus"
+msgstr ""
 
 #: src/connection-editor/ce-page-dcb.ui:118
 msgid "Enable"
@@ -1662,7 +1553,7 @@ msgstr ""
 #: src/connection-editor/ce-page-dsl.ui:171
 #, fuzzy
 msgid "C_laim interface"
-msgstr "_Ota yhteysliityntä"
+msgstr "_Isäntäliitäntä:"
 
 #: src/connection-editor/ce-page-dsl.ui:175
 msgid ""
@@ -1717,11 +1608,11 @@ msgstr "10 Gb/s"
 
 #: src/connection-editor/ce-page-ethernet.ui:60
 msgid "Half"
-msgstr "Puolikas"
+msgstr ""
 
 #: src/connection-editor/ce-page-ethernet.ui:63
 msgid "Full"
-msgstr "Kokonainen"
+msgstr ""
 
 #: src/connection-editor/ce-page-ethernet.ui:74
 #: src/connection-editor/page-ip6.c:149
@@ -1762,11 +1653,11 @@ msgstr ""
 
 #: src/connection-editor/ce-page-ethernet.ui:305
 msgid "_Unicast"
-msgstr "_Suorayhteys"
+msgstr ""
 
 #: src/connection-editor/ce-page-ethernet.ui:320
 msgid "Mul_ticast"
-msgstr "_Yleislähetys"
+msgstr ""
 
 #: src/connection-editor/ce-page-ethernet.ui:335
 msgid "_Broadcast"
@@ -1776,10 +1667,9 @@ msgstr "_Yleislähetys"
 msgid "_Arp"
 msgstr "_Arp"
 
-# Konteksti ilmeisesti wake-on-LAN
 #: src/connection-editor/ce-page-ethernet.ui:365
 msgid "Ma_gic"
-msgstr "Tai_ka-paketti"
+msgstr ""
 
 #: src/connection-editor/ce-page-ethernet.ui:388
 msgid "_Wake on LAN password"
@@ -1789,8 +1679,6 @@ msgstr "_Wake on LAN-salasana"
 msgid ""
 "Wake-on-LAN password (an Ethernet MAC). It is only valid for magic packets."
 msgstr ""
-"Tietokoneen herätys verkosta (Wake-on-LAN), salasana (verkko-sovittimen MAC-"
-"osoite). Käytetään vain taika-paketeille."
 
 #: src/connection-editor/ce-page-ethernet.ui:414
 msgid "Lin_k negotiation"
@@ -1932,19 +1820,19 @@ msgstr "Tila"
 
 #: src/connection-editor/ce-page-ip-tunnel.ui:128
 msgid "Local IP"
-msgstr "Paikallinen verkko-osoite"
+msgstr ""
 
 #: src/connection-editor/ce-page-ip-tunnel.ui:140
 msgid "Remote IP"
-msgstr "Ulkoinen verkko-osoite"
+msgstr ""
 
 #: src/connection-editor/ce-page-ip-tunnel.ui:152
 msgid "Input key"
-msgstr "Syöteavain"
+msgstr ""
 
 #: src/connection-editor/ce-page-ip-tunnel.ui:164
 msgid "Output key"
-msgstr "Tuotosavain"
+msgstr ""
 
 #: src/connection-editor/ce-page-ip-tunnel.ui:245
 msgid "MTU"
@@ -2059,9 +1947,10 @@ msgstr "EUI64"
 #: src/connection-editor/ce-page-ip6.ui:58
 #, fuzzy
 msgid "Stable privacy"
-msgstr "Stabiili yksityisyys"
+msgstr "Käytä"
 
 #: src/connection-editor/ce-page-ip6.ui:277
+#, fuzzy
 msgid ""
 "IP addresses of domain name servers used to resolve host names. Use commas "
 "to separate multiple domain name server addresses. Link-local addresses will "
@@ -2069,8 +1958,7 @@ msgid ""
 msgstr ""
 "Nimipalvelimien IP-osoitteita joita käytetään nimipalvelinten "
 "määrittämiseen. Käytä pilkkuja eritelläksesi useiden nimipalvelinten "
-"osoitteita. Paikallisten linkkien osoitteita tarkistetaan automaattisesti "
-"yhteyteen."
+"osoitteita."
 
 #: src/connection-editor/ce-page-ip6.ui:290
 msgid "IPv6 _privacy extensions"
@@ -2080,21 +1968,15 @@ msgstr "IPv6-_yksityisyyslaajennukset"
 msgid ""
 "If enabled, it makes the kernel generate a temporary IPv6 address in "
 "addition to the public one generated from MAC address. This enhances "
-"privacy, but could cause problems in some applications. If set to "
-"\"Default\", the value from NetworkManager global configuration is used. If "
-"that is also unset, use the kernel default value read from file \"/proc/sys/"
-"net/ipv6/conf/default/use_tempaddr\""
+"privacy, but could cause problems in some applications. If set to \"Default"
+"\", the value from NetworkManager global configuration is used. If that is "
+"also unset, use the kernel default value read from file \"/proc/sys/net/ipv6/"
+"conf/default/use_tempaddr\""
 msgstr ""
-"Mikäli käytössä, käyttöjärjestelmä luo tilapäisen IPv6-osoitteen sen lisäksi "
-"mitä on julkisena luotu MAC-osoitteesta. Tämä lisää yksityisyyttä, mutta voi "
-"tuottaa ongelmia joissain käyttötapauksissa. Mikäli asetettu oletustilaan, "
-"käytetään arvoa NetworkMangerin yleisasetuksista. Mikäli arvoa ei sielläkään "
-"ole asetettu, käytetään käyttöjärjestelmän oletusarvoa, joka luetaan "
-"tiedostosta \"/proc/sys/net/ipv6/conf/default/use_tempaddr\""
 
 #: src/connection-editor/ce-page-ip6.ui:323
 msgid "IPv6 address _generation mode"
-msgstr "IPv6-osoitteen _luontitila"
+msgstr ""
 
 #: src/connection-editor/ce-page-ip6.ui:360
 msgid "Require IPv_6 addressing for this connection to complete"
@@ -2119,7 +2001,7 @@ msgstr "EAP"
 
 #: src/connection-editor/ce-page-macsec.ui:35
 msgid "Check"
-msgstr "Tarkistus"
+msgstr ""
 
 #: src/connection-editor/ce-page-macsec.ui:38
 msgid "Strict"
@@ -2177,7 +2059,7 @@ msgid "C_KN"
 msgstr "C_KN"
 
 #: src/connection-editor/ce-page-macsec.ui:206
-msgid "The pre-shared Connectivity-association Key Name"
+msgid " The pre-shared Connectivity-association Key Name"
 msgstr ""
 
 #: src/connection-editor/ce-page-macsec.ui:217
@@ -2300,24 +2182,23 @@ msgstr "Ei mitään"
 
 #: src/connection-editor/ce-page-proxy.ui:34
 msgid "For browser only"
-msgstr "Vain selaimelle"
+msgstr ""
 
 #: src/connection-editor/ce-page-proxy.ui:38
 msgid "Use this proxy configuration for only browser clients/schemes."
 msgstr ""
-"Käytä näitä välitysasetuksia vain selainasiakasohjelmille/-järjestelmille."
 
 #: src/connection-editor/ce-page-proxy.ui:52
 msgid "PAC URL"
-msgstr "PAC URL-osoite"
+msgstr ""
 
 #: src/connection-editor/ce-page-proxy.ui:64
 msgid "PAC script"
-msgstr "PAC-komentosarja"
+msgstr ""
 
 #: src/connection-editor/ce-page-proxy.ui:76
 msgid "URL from where the PAC script is to be obtained."
-msgstr "URL-osoite, josta PAC-komentosarja haetaan."
+msgstr ""
 
 #: src/connection-editor/ce-page-proxy.ui:86
 msgid "Import script from a file…"
@@ -2358,7 +2239,7 @@ msgstr "Tiimin lisäasetukset"
 
 #: src/connection-editor/ce-page-team-port.ui:225
 msgid "_Queue ID"
-msgstr "_Jonon tunniste"
+msgstr ""
 
 #: src/connection-editor/ce-page-team-port.ui:239
 #: src/connection-editor/ce-page-team.ui:663
@@ -2369,7 +2250,7 @@ msgstr ""
 
 #: src/connection-editor/ce-page-team-port.ui:241
 msgid "ID of queue which this port should be mapped to."
-msgstr "Tunniste jonolle, johon tämän portin pitäisi olla ohjattu."
+msgstr ""
 
 #: src/connection-editor/ce-page-team-port.ui:255
 msgid "Active-Backup runner options"
@@ -2389,7 +2270,6 @@ msgstr ""
 #: src/connection-editor/ce-page-team-port.ui:286
 msgid "Port priority. The higher number means higher priority."
 msgstr ""
-"Portin prioriteetti. Korkeampi numero tarkoittaa korkeampaa prioriteettia."
 
 #: src/connection-editor/ce-page-team-port.ui:297
 msgid "Port _sticky"
@@ -2450,12 +2330,13 @@ msgstr "_Pystytysviive"
 #: src/connection-editor/ce-page-team-port.ui:446
 #: src/connection-editor/ce-page-team.ui:1173
 msgid "_Down delay"
-msgstr "Ti_putusviive"
+msgstr "Ti_putusviive:"
 
 #: src/connection-editor/ce-page-team-port.ui:461
 #: src/connection-editor/ce-page-team.ui:1188
+#, fuzzy
 msgid "Send _interval"
-msgstr "Lähetyksen intervalli"
+msgstr "_Isäntäliitäntä:"
 
 #: src/connection-editor/ce-page-team-port.ui:476
 #: src/connection-editor/ce-page-team.ui:1203
@@ -2469,13 +2350,15 @@ msgstr ""
 
 #: src/connection-editor/ce-page-team-port.ui:506
 #: src/connection-editor/ce-page-team.ui:1233
+#, fuzzy
 msgid "_Source host"
-msgstr "_Lähtettäjä"
+msgstr "ARP-_kohteet:"
 
 #: src/connection-editor/ce-page-team-port.ui:521
 #: src/connection-editor/ce-page-team.ui:1248
+#, fuzzy
 msgid "_Target host"
-msgstr "_Vastaanottaja"
+msgstr "ARP-_kohteet:"
 
 #: src/connection-editor/ce-page-team-port.ui:535
 #: src/connection-editor/ce-page-team.ui:1262
@@ -2584,11 +2467,11 @@ msgstr ""
 
 #: src/connection-editor/ce-page-team.ui:15
 msgid "Highest priority"
-msgstr "Korkein prioriteetti"
+msgstr ""
 
 #: src/connection-editor/ce-page-team.ui:19
 msgid "Highest priority (stable)"
-msgstr "Korkein prioriteetti (stabiili)"
+msgstr ""
 
 #: src/connection-editor/ce-page-team.ui:23
 msgid "Bandwidth"
@@ -2596,7 +2479,7 @@ msgstr "Kaistanleveys"
 
 #: src/connection-editor/ce-page-team.ui:27
 msgid "Highest number of ports"
-msgstr "Korkein määrä portteja"
+msgstr ""
 
 #: src/connection-editor/ce-page-team.ui:31
 msgid "Port priority"
@@ -2608,11 +2491,11 @@ msgstr "Tiimilaitteelta"
 
 #: src/connection-editor/ce-page-team.ui:61
 msgid "From the active port"
-msgstr "Aktiivisesta portista"
+msgstr ""
 
 #: src/connection-editor/ce-page-team.ui:65
 msgid "From active to team device"
-msgstr "Aktiivisesta ryhmän laitteeseen"
+msgstr ""
 
 #: src/connection-editor/ce-page-team.ui:174
 msgid "_Teamed connections"
@@ -2772,12 +2655,14 @@ msgid "Name of active Tx balancer. Active Tx balancing is disabled by default."
 msgstr ""
 
 #: src/connection-editor/ce-page-team.ui:1086
+#, fuzzy
 msgid "Transmission _balancing interval"
-msgstr "Lähetysten tasa_painottava intervalli"
+msgstr "Lähetyste_ho:"
 
 #: src/connection-editor/ce-page-team.ui:1101
+#, fuzzy
 msgid "_Transmission balancer"
-msgstr "Lähetysten tasapainotin"
+msgstr "Lähetyste_ho:"
 
 #: src/connection-editor/ce-page-team.ui:1120
 msgid "Runner"
@@ -2849,19 +2734,36 @@ msgstr "Asiakas"
 msgid "Ad-hoc"
 msgstr "Ad-hoc"
 
-#: src/connection-editor/ce-page-wifi.ui:205
+#: src/connection-editor/ce-page-wifi.ui:203
+msgid "mW"
+msgstr "mW"
+
+#: src/connection-editor/ce-page-wifi.ui:222
+msgid "Transmission po_wer"
+msgstr "Lähetyste_ho"
+
+#: src/connection-editor/ce-page-wifi.ui:256
+msgid "Mb/s"
+msgstr "Mb/s"
+
+#: src/connection-editor/ce-page-wifi.ui:275
+#, fuzzy
+msgid "_Rate"
+msgstr "_Nopeus:"
+
+#: src/connection-editor/ce-page-wifi.ui:311
 msgid "_BSSID"
 msgstr "_BSSID"
 
-#: src/connection-editor/ce-page-wifi.ui:230
+#: src/connection-editor/ce-page-wifi.ui:336
 msgid "C_hannel"
 msgstr "_Kanava"
 
-#: src/connection-editor/ce-page-wifi.ui:262
+#: src/connection-editor/ce-page-wifi.ui:368
 msgid "Ban_d"
 msgstr "Taajuus_alue"
 
-#: src/connection-editor/ce-page-wifi.ui:308
+#: src/connection-editor/ce-page-wifi.ui:414
 msgid "SS_ID"
 msgstr "SS_ID"
 
@@ -3086,8 +2988,9 @@ msgid ""
 msgstr ""
 
 #: src/connection-editor/ce-page.h:104
+#, fuzzy
 msgid "Additional static addresses"
-msgstr "Muut staattiset osoitteet"
+msgstr "Automaattinen, vain osoitteet"
 
 #: src/connection-editor/ce-page.h:105
 msgid "Addresses"
@@ -3207,7 +3110,7 @@ msgstr "WireGuard"
 
 #: src/connection-editor/connection-helpers.c:112
 #: src/connection-editor/connection-helpers.c:374
-#: src/connection-editor/page-vpn.c:92
+#: src/connection-editor/page-vpn.c:86
 msgid "VPN"
 msgstr "VPN"
 
@@ -3367,11 +3270,11 @@ msgid ""
 "editor. They will be cleared upon save."
 msgstr ""
 
-#: src/connection-editor/nm-connection-editor.c:751
+#: src/connection-editor/nm-connection-editor.c:749
 msgid "Error initializing editor"
 msgstr "Virhe alustettaessa muokkainta"
 
-#: src/connection-editor/nm-connection-editor.c:1176
+#: src/connection-editor/nm-connection-editor.c:1159
 msgid "Connection add failed"
 msgstr "Yhteyden lisääminen epäonnistui"
 
@@ -3545,15 +3448,15 @@ msgstr "Verkkoyhteydet"
 msgid "Add a new connection"
 msgstr "Lisää uusi yhteys"
 
-#: src/connection-editor/page-8021x-security.c:97
+#: src/connection-editor/page-8021x-security.c:96
 msgid "802.1X Security"
 msgstr "802.1X-suojaus"
 
-#: src/connection-editor/page-8021x-security.c:99
+#: src/connection-editor/page-8021x-security.c:98
 msgid "Could not load 802.1X Security user interface."
 msgstr "Turvallisuuskäyttöliittymää 802.1X:lle ei voitu ladata."
 
-#: src/connection-editor/page-8021x-security.c:113
+#: src/connection-editor/page-8021x-security.c:112
 msgid "Use 802.1_X security for this connection"
 msgstr "Käytä tällä yhteydellä 802.1X-suojausta"
 
@@ -3584,8 +3487,9 @@ msgid "Select the type of the Bluetooth connection profile."
 msgstr "Valitse Bluetooth-yhteysprofiilin tyyppi."
 
 #: src/connection-editor/page-bluetooth.c:313
+#, fuzzy
 msgid "_Personal Area Network"
-msgstr "Likiverkko (PAN)"
+msgstr "Ethernet-verkko"
 
 #: src/connection-editor/page-bluetooth.c:318
 msgid "_Dial-Up Network"
@@ -3850,24 +3754,24 @@ msgstr "MACSEC-yhteys %d"
 
 #: src/connection-editor/page-master.c:221
 #: src/connection-editor/page-master.c:232
-msgid "Duplicate ports"
+msgid "Duplicate slaves"
 msgstr ""
 
 #: src/connection-editor/page-master.c:222
 #, c-format
-msgid "Ports “%s” and “%s” both apply to device “%s”"
+msgid "Slaves “%s” and “%s” both apply to device “%s”"
 msgstr ""
 
 #: src/connection-editor/page-master.c:233
 #, c-format
 msgid ""
-"Ports “%s” and “%s” apply to different virtual ports (“%s” and “%s”) of the "
+"Slaves “%s” and “%s” apply to different virtual ports (“%s” and “%s”) of the "
 "same physical device."
 msgstr ""
 
 #: src/connection-editor/page-master.c:357
 #, c-format
-msgid "%s port %d"
+msgid "%s slave %d"
 msgstr ""
 
 #: src/connection-editor/page-mobile.c:297
@@ -4005,33 +3909,33 @@ msgid "VLAN connection %d"
 msgstr "VLAN-yhteys %d"
 
 #: src/connection-editor/page-vpn.c:50
-#, c-format
+#, fuzzy, c-format
 msgid "Could not load editor VPN plugin for “%s” (%s)."
-msgstr "VPN-liitännäistä ei voitu ladata kohteelle “%s” (%s)."
+msgstr "VPN-liitännäispalvelua ei löydy kohteelle ”%s”"
 
 #: src/connection-editor/page-vpn.c:51
 msgid "unknown failure"
 msgstr "tuntematon virhe"
 
-#: src/connection-editor/page-vpn.c:94
+#: src/connection-editor/page-vpn.c:88
 msgid "Could not load VPN user interface."
 msgstr "VPN-käyttöliittymän lataus epäonnistui."
 
-#: src/connection-editor/page-vpn.c:109
-#, c-format
+#: src/connection-editor/page-vpn.c:103
+#, fuzzy, c-format
 msgid "Could not find VPN plugin for “%s”."
-msgstr "VPN-liitännäistä ei löydy kohteelle ”%s”"
+msgstr "VPN-liitännäispalvelua ei löydy kohteelle ”%s”"
 
-#: src/connection-editor/page-vpn.c:191
+#: src/connection-editor/page-vpn.c:185
 #, c-format
 msgid "VPN connection %d"
 msgstr "VPN-yhteys %d"
 
-#: src/connection-editor/page-vpn.c:197
+#: src/connection-editor/page-vpn.c:191
 msgid "Choose a VPN Connection Type"
 msgstr "Valitse VPN-yhteyden tyyppi"
 
-#: src/connection-editor/page-vpn.c:198
+#: src/connection-editor/page-vpn.c:192
 msgid ""
 "Select the type of VPN you wish to use for the new connection. If the type "
 "of VPN connection you wish to create does not appear in the list, you may "
@@ -4041,55 +3945,52 @@ msgstr ""
 "tyyppi ei ole listattuna, tietokoneelta saattaa puuttua vaadittu VPN-"
 "liitännäinen."
 
-#: src/connection-editor/page-wifi-security.c:359
+#: src/connection-editor/page-wifi-security.c:346
 msgid "WEP 40/128-bit Key (Hex or ASCII)"
 msgstr "WEP 40/128-bit-avain (hexa tai ASCII)"
 
-#: src/connection-editor/page-wifi-security.c:372
+#: src/connection-editor/page-wifi-security.c:356
 msgid "WEP 128-bit Passphrase"
 msgstr "WEP 128-bittinen tunnuslause"
 
-#: src/connection-editor/page-wifi-security.c:397
+#: src/connection-editor/page-wifi-security.c:382
 msgid "Dynamic WEP (802.1X)"
 msgstr "Dynaaminen WEP (802.1X)"
 
-#: src/connection-editor/page-wifi-security.c:410
-#, fuzzy
-msgid "WPA/WPA2/WPA3 Personal"
+#: src/connection-editor/page-wifi-security.c:395
+msgid "WPA & WPA2 Personal"
 msgstr "WPA & WPA2 (henkilökohtainen)"
 
-#: src/connection-editor/page-wifi-security.c:423
-#, fuzzy
-msgid "WPA/WPA2 Enterprise"
+#: src/connection-editor/page-wifi-security.c:408
+msgid "WPA & WPA2 Enterprise"
 msgstr "WPA2 Enterprise"
 
-#: src/connection-editor/page-wifi-security.c:436
+#: src/connection-editor/page-wifi-security.c:421
 msgid "WPA3 Personal"
 msgstr "WPA3 Personal"
 
-#: src/connection-editor/page-wifi-security.c:449
-#: src/connection-editor/page-wifi-security.c:457
+#: src/connection-editor/page-wifi-security.c:431
 msgid "Enhanced Open"
 msgstr "Enhanced Open"
 
-#: src/connection-editor/page-wifi-security.c:503
+#: src/connection-editor/page-wifi-security.c:476
 msgid "Could not load Wi-Fi security user interface; missing Wi-Fi setting."
 msgstr ""
 "Turvallisuuskäyttöliittymää wifille ei voitu ladata. Wi-Fi-asetus puuttuu."
 
-#: src/connection-editor/page-wifi-security.c:514
+#: src/connection-editor/page-wifi-security.c:487
 msgid "Wi-Fi Security"
 msgstr "Wifi-tietoturva"
 
-#: src/connection-editor/page-wifi-security.c:516
+#: src/connection-editor/page-wifi-security.c:489
 msgid "Could not load Wi-Fi security user interface."
 msgstr "Turvallisuuskäyttöliittymää Wi-Fi:lle ei voitu ladata."
 
-#: src/connection-editor/page-wifi-security.c:597
+#: src/connection-editor/page-wifi-security.c:570
 msgid "missing SSID"
 msgstr "puuttuva SSID"
 
-#: src/connection-editor/page-wifi-security.c:603
+#: src/connection-editor/page-wifi-security.c:576
 msgid "Security not compatible with Ad-Hoc mode"
 msgstr "Tietoturva ei ole yhteensopiva ad-hoc-tilan kanssa"
 
@@ -4205,9 +4106,9 @@ msgid "Usage:"
 msgstr "Käyttö:"
 
 #: src/main.c:30
-#, fuzzy
 msgid ""
-"This program is a component of NetworkManager (https://networkmanager.dev)."
+"This program is a component of NetworkManager (https://wiki.gnome.org/"
+"Projects/NetworkManager/)."
 msgstr ""
 "Tämä ohjelma on osa NetworkManageria (https://wiki.gnome.org/Projects/"
 "NetworkManager/)."
@@ -4217,8 +4118,8 @@ msgid ""
 "It is not intended for command-line interaction but instead runs in the "
 "GNOME desktop environment."
 msgstr ""
-"Sitä ei ole tarkoitettu komentorivin keskusteluun, mutta sen sijaan se "
-"toimii GNOME-työpöytäympäristössä."
+"Sitä ei ole tarkoitettu komentorivin keskusteluun mutta sen sijaan se toimii "
+"GNOME-työpöytäympäristössä"
 
 #: src/mb-menu-item.c:38
 msgid "EVDO"
@@ -4335,21 +4236,6 @@ msgstr "PEM-varmenteet (*.pem, *.crt, *.cer)"
 #: src/utils/utils.c:546
 msgid "DER, PEM, or PKCS#12 private keys (*.der, *.pem, *.p12, *.key)"
 msgstr "DER-, PEM- tai PKCS#12-yksityisavaimet (*.der, *.pem, *.p12, *.key)"
-
-#~ msgid "mW"
-#~ msgstr "mW"
-
-#~ msgid "Transmission po_wer"
-#~ msgstr "Lähetyste_ho"
-
-#~ msgid "Mb/s"
-#~ msgstr "Mb/s"
-
-#~ msgid "_Rate"
-#~ msgstr "_Nopeus"
-
-#~ msgid "More networks"
-#~ msgstr "Lisää verkkoja"
 
 #~ msgid "nm-device-wireless"
 #~ msgstr "nm-device-wireless"
@@ -4509,6 +4395,70 @@ msgstr "DER-, PEM- tai PKCS#12-yksityisavaimet (*.der, *.pem, *.p12, *.key)"
 
 #~ msgid "WEP inde_x"
 #~ msgstr "WEP-inde_ksi"
+
+#~ msgid "Disable connected notifications"
+#~ msgstr "Älä näytä ilmoitusta kun yhteys muodostuu"
+
+#, fuzzy
+#~ msgid ""
+#~ "Set this to true to disable notifications when connecting to a network."
+#~ msgstr ""
+#~ "Merkitse tämä arvoksi TRUE kytkeäksesi ilmoitukset pois, kun kone etsii "
+#~ "verkkoa."
+
+#~ msgid "Disable disconnected notifications"
+#~ msgstr "Älä näytä ilmoitusta kun yhteys katkeaa"
+
+#, fuzzy
+#~ msgid ""
+#~ "Set this to true to disable notifications when disconnecting from a "
+#~ "network."
+#~ msgstr ""
+#~ "Merkitse tämä arvoksi TRUE kytkeäksesi ilmoitukset pois, kun verkkoyhteys "
+#~ "katkaistaan."
+
+#~ msgid "Disable VPN notifications"
+#~ msgstr "Poista VPN-ilmoitukset käytöstä"
+
+#, fuzzy
+#~ msgid ""
+#~ "Set this to true to disable notifications when connecting to or "
+#~ "disconnecting from a VPN."
+#~ msgstr ""
+#~ "Merkitse tämä arvoksi TRUE kytkeäksesi ilmoitukset pois, kun verkkoyhteys "
+#~ "katkaistaan."
+
+#~ msgid "Suppress networks available notifications"
+#~ msgstr "Älä näytä ilmoituksia saatavilla olevista verkoista"
+
+#, fuzzy
+#~ msgid ""
+#~ "Set this to true to disable notifications when Wi-Fi networks are "
+#~ "available."
+#~ msgstr ""
+#~ "Merkitse tämä arvoksi TRUE kytkeäksesi ilmoitukset pois, kun langattomia "
+#~ "verkkoja on saatavilla."
+
+#~ msgid "Stamp"
+#~ msgstr "Leima"
+
+#~ msgid ""
+#~ "Used to determine whether settings should be migrated to a new version."
+#~ msgstr "Määrittää, tuodaanko asetukset uuteen versioon."
+
+#, fuzzy
+#~ msgid "Disable WiFi Create"
+#~ msgstr "Estä Wi-Fi-luonti"
+
+#, fuzzy
+#~ msgid ""
+#~ "Set to true to disable creation of adhoc networks when using the applet."
+#~ msgstr ""
+#~ "Aseta OIKEA estääksesi väliaikaisten verkkojen luonnin kun liitännäinen "
+#~ "on käytössä"
+
+#~ msgid "Show the applet in notification area"
+#~ msgstr "Näytä sovelma ilmoitusalueella"
 
 #~ msgid "Ignore CA certificate"
 #~ msgstr "Älä huomioi CA-varmennetta"
@@ -5299,6 +5249,9 @@ msgstr "DER-, PEM- tai PKCS#12-yksityisavaimet (*.der, *.pem, *.p12, *.key)"
 
 #~ msgid "Wireless"
 #~ msgstr "Langaton"
+
+#~ msgid "A_vailable to all users"
+#~ msgstr "Saatavilla kaikille käyttäjille"
 
 #~ msgid "An unknown error occurred."
 #~ msgstr "Tapahtui tuntematon virhe."

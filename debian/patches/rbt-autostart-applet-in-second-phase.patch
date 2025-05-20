@@ -1,7 +1,8 @@
---- a/nm-applet.desktop.in	2022-09-12 13:02:02.000000000 +0300
-+++ b/nm-applet.desktop.in	2024-03-27 11:40:34.459994648 +0300
-@@ -8,3 +8,4 @@
- NoDisplay=true
- NotShowIn=KDE;GNOME;
+--- a/nm-applet.desktop.in	2021-02-02 18:32:15.000000000 +0300
++++ b/nm-applet.desktop.in	2024-03-27 10:51:57.155970836 +0300
+@@ -11,3 +11,4 @@
+ X-GNOME-Bugzilla-Product=NetworkManager
+ X-GNOME-Bugzilla-Component=nm-applet
  X-GNOME-UsesNotifications=true
 +X-KDE-autostart-phase=2
+\ В конце файла нет новой строки

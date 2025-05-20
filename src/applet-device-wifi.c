@@ -462,14 +462,10 @@ wifi_new_auto_connection (NMDevice *device,
 
 	connection = nm_simple_connection_new ();
 
+	/* Make the new connection available only for the current user */
 	s_con = (NMSettingConnection *) nm_setting_connection_new ();
+	nm_setting_connection_add_permission (s_con, "user", g_get_user_name (), NULL);
 	nm_connection_add_setting (connection, NM_SETTING (s_con));
-
-	if (applet->permissions[NM_CLIENT_PERMISSION_SETTINGS_MODIFY_SYSTEM]
-	    != NM_CLIENT_PERMISSION_RESULT_YES) {
-		/* Make the new connection available only for the current user */
-		nm_setting_connection_add_permission (s_con, "user", g_get_user_name (), NULL);
-	}
 
 	ssid = nm_access_point_get_ssid (ap);
 	if (   (nm_access_point_get_mode (ap) == NM_802_11_MODE_INFRA)
@@ -814,7 +810,6 @@ wifi_add_menu_item (NMDevice *device,
 	GSList *menu_items = NULL;  /* All menu items we'll be adding */
 	NMNetworkMenuItem *item, *active_item = NULL;
 	GtkWidget *widget;
-	GtkWidget *subitem;
 
 	wdev = NM_DEVICE_WIFI (device);
 	aps = nm_device_wifi_get_access_points (wdev);
@@ -884,29 +879,58 @@ wifi_add_menu_item (NMDevice *device,
 	if (active_item)
 		menu_items = g_slist_remove (menu_items, active_item);
 
-	subitem = gtk_menu_item_new_with_mnemonic (_("_Available networks"));
+	/* Sort all the rest of the menu items for the top-level menu */
+	menu_items = g_slist_sort (menu_items, sort_toplevel);
 
 	if (g_slist_length (menu_items)) {
-		GtkWidget *submenu;
-		GSList *sorted_subitems;
+		GSList *submenu_items = NULL;
+		GSList *topmenu_items = NULL;
+		guint32 num_for_toplevel = 5;
 
-		submenu = gtk_menu_new ();
-		gtk_menu_item_set_submenu (GTK_MENU_ITEM (subitem), submenu);
+		applet_menu_item_add_complex_separator_helper (menu, applet, _("Available"));
 
-		/* Sort the subitems alphabetically and by importance */
-		sorted_subitems = g_slist_copy (menu_items);
-		sorted_subitems = g_slist_sort (sorted_subitems, sort_by_name);
-		sorted_subitems = g_slist_sort (sorted_subitems, sort_toplevel);
+		if (g_slist_length (menu_items) == (num_for_toplevel + 1))
+			num_for_toplevel++;
 
-		/* Add menu items */
-		for (iter = sorted_subitems; iter; iter = g_slist_next (iter))
-			gtk_menu_shell_append (GTK_MENU_SHELL (submenu), GTK_WIDGET (iter->data));
-		g_slist_free (sorted_subitems);
-	} else
-		gtk_widget_set_sensitive (subitem, FALSE);
+		/* Add the first 5 APs (or 6 if there are only 6 total) from the sorted
+		 * toplevel list.
+		 */
+		for (iter = menu_items; iter && num_for_toplevel; iter = g_slist_next (iter)) {
+			topmenu_items = g_slist_append (topmenu_items, iter->data);
+			num_for_toplevel--;
+			submenu_items = iter->next;
+		}
+		topmenu_items = g_slist_sort (topmenu_items, sort_by_name);
 
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), subitem);
-	gtk_widget_show_all (subitem);
+		for (iter = topmenu_items; iter; iter = g_slist_next (iter)) {
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), GTK_WIDGET (iter->data));
+			gtk_widget_show_all (GTK_WIDGET (iter->data));
+		}
+		g_slist_free (topmenu_items);
+		topmenu_items = NULL;
+
+		/* If there are any submenu items, make a submenu for those */
+		if (submenu_items) {
+			GtkWidget *subitem, *submenu;
+			GSList *sorted_subitems;
+
+			subitem = gtk_menu_item_new_with_mnemonic (_("More networks"));
+			submenu = gtk_menu_new ();
+			gtk_menu_item_set_submenu (GTK_MENU_ITEM (subitem), submenu);
+
+			/* Sort the subitems alphabetically */
+			sorted_subitems = g_slist_copy (submenu_items);
+			sorted_subitems = g_slist_sort (sorted_subitems, sort_by_name);
+
+			/* And add the rest to the submenu */
+			for (iter = sorted_subitems; iter; iter = g_slist_next (iter))
+				gtk_menu_shell_append (GTK_MENU_SHELL (submenu), GTK_WIDGET (iter->data));
+			g_slist_free (sorted_subitems);
+
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), subitem);
+			gtk_widget_show_all (subitem);
+		}
+	}
 
 out:
 	g_slist_free (menu_items);
@@ -979,6 +1003,22 @@ notify_ap_prop_changed_cb (NMAccessPoint *ap,
 		add_hash_to_ap (ap);
 	}
 }
+
+static void
+wifi_available_dont_show_cb (NotifyNotification *notify,
+			                 gchar *id,
+			                 gpointer user_data)
+{
+	NMApplet *applet = NM_APPLET (user_data);
+
+	if (!id || strcmp (id, "dont-show"))
+		return;
+
+	g_settings_set_boolean (applet->gsettings,
+	                        PREF_SUPPRESS_WIFI_NETWORKS_AVAILABLE,
+	                        TRUE);
+}
+
 
 struct ap_notification_data 
 {
@@ -1063,11 +1103,14 @@ idle_check_avail_access_point_notification (gpointer datap)
 	data->last_notification_time = timeval.tv_sec;
 
 	applet_do_notify (applet,
+	                  NOTIFY_URGENCY_LOW,
 	                  _("Wi-Fi Networks Available"),
 	                  _("Use the network menu to connect to a Wi-Fi network"),
 	                  "nm-device-wireless",
-	                  PREF_SUPPRESS_WIFI_NETWORKS_AVAILABLE);
-
+	                  "dont-show",
+	                  _("Don’t show this message again"),
+	                  wifi_available_dont_show_cb,
+	                  applet);
 	return FALSE;
 }
 
@@ -1247,11 +1290,9 @@ wifi_notify_connected (NMDevice *device,
 		signal_strength_icon = mobile_helper_get_quality_icon_name (nm_access_point_get_strength (ap));
 
 	ssid_msg = g_strdup_printf (_("You are now connected to the Wi-Fi network “%s”."), esc_ssid);
-	applet_do_notify (applet,
-	                  _("Connection Established"),
-	                  ssid_msg,
-	                  signal_strength_icon,
-	                  PREF_DISABLE_CONNECTED_NOTIFICATIONS);
+	applet_do_notify_with_pref (applet, _("Connection Established"),
+	                            ssid_msg, signal_strength_icon,
+	                            PREF_DISABLE_CONNECTED_NOTIFICATIONS);
 	g_free (ssid_msg);
 	g_free (esc_ssid);
 }
@@ -1327,9 +1368,12 @@ activate_existing_cb (GObject *client,
 	g_clear_object (&active);
 	if (error) {
 		const char *text = _("Failed to activate connection");
-		const char *err_text = error->message ? error->message : _("Unknown error");
+		char *err_text = g_strdup_printf ("(%d) %s", error->code,
+		                                  error->message ? error->message : _("Unknown error"));
 
+		g_warning ("%s: %s", text, err_text);
 		utils_show_error_dialog (_("Connection failure"), text, err_text, FALSE, NULL);
+		g_free (err_text);
 		g_error_free (error);
 	}
 	applet_schedule_update_icon (NM_APPLET (user_data));
@@ -1347,9 +1391,12 @@ activate_new_cb (GObject *client,
 	g_clear_object (&active);
 	if (error) {
 		const char *text = _("Failed to add new connection");
-		const char *err_text = error->message ? error->message : _("Unknown error");
+		char *err_text = g_strdup_printf ("(%d) %s", error->code,
+		                                  error->message ? error->message : _("Unknown error"));
 
+		g_warning ("%s: %s", text, err_text);
 		utils_show_error_dialog (_("Connection failure"), text, err_text, FALSE, NULL);
+		g_free (err_text);
 		g_error_free (error);
 	}
 	applet_schedule_update_icon (NM_APPLET (user_data));

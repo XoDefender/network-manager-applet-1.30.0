@@ -8,20 +8,20 @@ msgstr ""
 "Project-Id-Version: NetworkManager\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/network-manager-"
 "applet/\n"
-"POT-Creation-Date: 2022-11-07 08:48+0100\n"
-"PO-Revision-Date: 2022-08-13 17:39+0200\n"
+"POT-Creation-Date: 2021-02-03 09:54+0100\n"
+"PO-Revision-Date: 2020-09-19 20:40+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2017-04-09 22:32+0000\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 2.3\n"
 
-#: nm-applet.desktop.in:3 src/applet-dialogs.c:724 src/applet.c:3166
+#: nm-applet.desktop.in:3 src/applet-dialogs.c:724 src/applet.c:3223
 msgid "Network"
 msgstr "Mreža"
 
@@ -65,73 +65,6 @@ msgstr "Napredno podešavanje mreže"
 msgid "Manage and change your network connection settings"
 msgstr "Upravljajte i promijenite postavke mrežnog povezivanja"
 
-#: org.gnome.nm-applet.gschema.xml.in:6
-msgid "Disable connected notifications"
-msgstr "Onemogući obavijesti povezivanja"
-
-#: org.gnome.nm-applet.gschema.xml.in:7
-msgid "Set this to true to disable notifications when connecting to a network."
-msgstr "Odaberite za onemogućavanje obavijesti pri povezivanju s mrežom."
-
-#: org.gnome.nm-applet.gschema.xml.in:11
-msgid "Disable disconnected notifications"
-msgstr "Onemogući obavijesti prekida povezivanja"
-
-#: org.gnome.nm-applet.gschema.xml.in:12
-msgid ""
-"Set this to true to disable notifications when disconnecting from a network."
-msgstr ""
-"Odaberite za onemogućavanje obavijesti prilikom prekida povezivanja s mrežom."
-
-#: org.gnome.nm-applet.gschema.xml.in:16
-msgid "Disable VPN notifications"
-msgstr "Onemogući VPN obavijesti"
-
-#: org.gnome.nm-applet.gschema.xml.in:17
-msgid ""
-"Set this to true to disable notifications when connecting to or "
-"disconnecting from a VPN."
-msgstr ""
-"Odaberite za onemogućavanje obavijesti prilikom povezivanja ili prekida "
-"povezivanja s VPN-a."
-
-#: org.gnome.nm-applet.gschema.xml.in:21
-msgid "Suppress networks available notifications"
-msgstr "Zabrani obavijesti o dostupnim mrežama"
-
-#: org.gnome.nm-applet.gschema.xml.in:22
-msgid ""
-"Set this to true to disable notifications when Wi-Fi networks are available."
-msgstr "Odaberite za onemogućavanje obavijesti kada su bežične mreže dostupne."
-
-#: org.gnome.nm-applet.gschema.xml.in:26
-msgid "Stamp"
-msgstr "Pečat"
-
-#: org.gnome.nm-applet.gschema.xml.in:27
-msgid "Used to determine whether settings should be migrated to a new version."
-msgstr ""
-"Koristi se kako bi se utvrdilo trebaju li postavke migrirati na noviju "
-"inačicu."
-
-#: org.gnome.nm-applet.gschema.xml.in:31
-msgid "Disable WiFi Create"
-msgstr "Onemogući stvaranje bežične mreže"
-
-#: org.gnome.nm-applet.gschema.xml.in:32
-msgid ""
-"Set to true to disable creation of adhoc networks when using the applet."
-msgstr ""
-"Odaberite za onemogućavanje stvaranje adhoc mreža pri korištenju apleta."
-
-#: org.gnome.nm-applet.gschema.xml.in:36
-msgid "Show the applet in notification area"
-msgstr "Prikaži aplet u području obavijesti"
-
-#: org.gnome.nm-applet.gschema.xml.in:37
-msgid "Set to FALSE to disable displaying the applet in the notification area."
-msgstr "Odaberite za onemogućavanje prikaza apleta u području obavijesti."
-
 #: shared/nm-utils/nm-shared-utils.c:793
 #, c-format
 msgid "object class '%s' has no property named '%s'"
@@ -147,7 +80,8 @@ msgstr "svojstvo '%s' klase objekta '%s' nije zapisivo"
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
 msgstr ""
-"svojstvo izgradnje \"%s\" za objekt '%s' ne može se postaviti nakon izgradnje"
+"svojstvo izgradnje \"%s\" za objekt '%s' ne može se postaviti nakon "
+"izgradenje"
 
 #: shared/nm-utils/nm-shared-utils.c:815
 #, c-format
@@ -169,7 +103,7 @@ msgstr ""
 "vrijednost \"%s\" vrste '%s' je neispravna ili je izvan raspona za svojstvo "
 "'%s' vrste '%s'"
 
-#: src/8021x.ui:7 src/ethernet-dialog.c:90
+#: src/8021x.ui:11 src/ethernet-dialog.c:87
 msgid "802.1X authentication"
 msgstr "802.1X ovjera"
 
@@ -202,17 +136,13 @@ msgstr "_Spoji se"
 msgid "_Network name"
 msgstr "_Naziv mreže"
 
-#: src/ap-menu-item.c:68
+#: src/ap-menu-item.c:67
 msgid "ad-hoc"
 msgstr "ad-hoc"
 
-#: src/ap-menu-item.c:73
+#: src/ap-menu-item.c:72
 msgid "secure."
 msgstr "zaštićeno."
-
-#: src/ap-menu-item.c:77
-msgid "insecure."
-msgstr "nezaštićeno."
 
 #: src/applet-device-broadband.c:147
 msgid "Wrong PUK code; please contact your provider."
@@ -239,7 +169,7 @@ msgid "Mobile Broadband"
 msgstr "Mobilno širokopojasno povezivanje"
 
 #: src/applet-device-broadband.c:780 src/applet-device-bt.c:61
-#: src/applet-device-ethernet.c:107
+#: src/applet-device-ethernet.c:107 src/applet-device-wifi.c:890
 msgid "Available"
 msgstr "Dostupan"
 
@@ -249,7 +179,7 @@ msgid "New Mobile Broadband connection…"
 msgstr "Novo mobilno širokopojasno povezivanje…"
 
 #: src/applet-device-broadband.c:809 src/applet-device-bt.c:75
-#: src/applet-device-ethernet.c:124 src/applet-device-wifi.c:1251
+#: src/applet-device-ethernet.c:124 src/applet-device-wifi.c:1293
 msgid "Connection Established"
 msgstr "Povezivanje uspostavljeno"
 
@@ -289,7 +219,7 @@ msgid "User authentication required for mobile broadband connection “%s”…"
 msgstr ""
 "Potrebna je ovjera korisnika za mobilno širokopojasno povezivanje “%s”…"
 
-#: src/applet-device-bt.c:113 src/applet.c:2510 src/mobile-helpers.c:593
+#: src/applet-device-bt.c:113 src/applet.c:2579 src/mobile-helpers.c:593
 #, c-format
 msgid "Requesting a network address for “%s”…"
 msgstr "Zahtijevanje mrežne adrese za “%s”…"
@@ -322,7 +252,7 @@ msgid "Ethernet Network"
 msgstr "Žična mreža"
 
 #. Notify user of unmanaged or unavailable device
-#: src/applet-device-ethernet.c:99 src/applet.c:1265
+#: src/applet-device-ethernet.c:99 src/applet.c:1328
 msgid "disconnected"
 msgstr "nije povezana"
 
@@ -382,97 +312,101 @@ msgstr "Stvori _novu bežičnu mrežu…"
 msgid "(none)"
 msgstr "(nijedan)"
 
-#: src/applet-device-wifi.c:523 src/applet-device-wifi.c:1349
+#: src/applet-device-wifi.c:519 src/applet-device-wifi.c:1393
 msgid "Failed to add new connection"
 msgstr "Neuspjelo dodavanje novog povezivanja"
 
-#: src/applet-device-wifi.c:524
+#: src/applet-device-wifi.c:520
 msgid "Insufficient privileges."
 msgstr "Nedovoljne ovlasti."
 
-#: src/applet-device-wifi.c:526 src/applet-device-wifi.c:1332
-#: src/applet-device-wifi.c:1352 src/applet.c:414 src/applet.c:497
+#: src/applet-device-wifi.c:522 src/applet-device-wifi.c:1375
+#: src/applet-device-wifi.c:1398 src/applet.c:417 src/applet.c:506
 msgid "Connection failure"
 msgstr "Neuspjelo povezivanje"
 
-#: src/applet-device-wifi.c:827
+#: src/applet-device-wifi.c:822
 #, c-format
 msgid "Wi-Fi Networks (%s)"
 msgstr "Bežične mreže (%s)"
 
-#: src/applet-device-wifi.c:829
+#: src/applet-device-wifi.c:824
 #, c-format
 msgid "Wi-Fi Network (%s)"
 msgstr "Bežična mreža (%s)"
 
-#: src/applet-device-wifi.c:831
+#: src/applet-device-wifi.c:826
 msgid "Wi-Fi Network"
 msgid_plural "Wi-Fi Networks"
 msgstr[0] "Bežična mreža"
 msgstr[1] "Bežične mreže"
 msgstr[2] "Bežične mreže"
 
-#: src/applet-device-wifi.c:860
+#: src/applet-device-wifi.c:855
 msgid "Wi-Fi is disabled"
 msgstr "Bežična mreža je onemogućena"
 
-#: src/applet-device-wifi.c:861
+#: src/applet-device-wifi.c:856
 msgid "Wi-Fi is disabled by hardware switch"
 msgstr "Bežična mreža je onemogućena hardverskim isključivanjem"
 
-#: src/applet-device-wifi.c:887
-msgid "_Available networks"
-msgstr "_Dostupne mreže"
+#: src/applet-device-wifi.c:917
+msgid "More networks"
+msgstr "Više mreža"
 
-#: src/applet-device-wifi.c:1066
+#: src/applet-device-wifi.c:1107
 msgid "Wi-Fi Networks Available"
 msgstr "Bežične mreže su dostupne"
 
-#: src/applet-device-wifi.c:1067
+#: src/applet-device-wifi.c:1108
 msgid "Use the network menu to connect to a Wi-Fi network"
 msgstr "Upotrijebi mrežni izbornik za povezivanje na bežičnu mrežu"
 
-#: src/applet-device-wifi.c:1249
+#: src/applet-device-wifi.c:1111 src/applet.c:828
+msgid "Don’t show this message again"
+msgstr "Ne prikazuj više ovu poruku"
+
+#: src/applet-device-wifi.c:1292
 #, c-format
 msgid "You are now connected to the Wi-Fi network “%s”."
 msgstr "Sada ste povezani s bežičnom mrežom “%s”."
 
-#: src/applet-device-wifi.c:1286
+#: src/applet-device-wifi.c:1327
 #, c-format
 msgid "Preparing Wi-Fi network connection “%s”…"
 msgstr "Priprema bežičnog mrežnog povezivanja “%s”…"
 
-#: src/applet-device-wifi.c:1289
+#: src/applet-device-wifi.c:1330
 #, c-format
 msgid "Configuring Wi-Fi network connection “%s”…"
 msgstr "Podešavanje bežičnog mrežnog povezivanja “%s”…"
 
-#: src/applet-device-wifi.c:1292
+#: src/applet-device-wifi.c:1333
 #, c-format
 msgid "User authentication required for Wi-Fi network “%s”…"
 msgstr "Potrebna je ovjera korisnika za bežičnu mrežu “%s”…"
 
-#: src/applet-device-wifi.c:1295
+#: src/applet-device-wifi.c:1336
 #, c-format
 msgid "Requesting a Wi-Fi network address for “%s”…"
 msgstr "Potrebna je adresa bežične mreže za “%s”…"
 
-#: src/applet-device-wifi.c:1306
+#: src/applet-device-wifi.c:1347
 #, c-format
 msgid "Wi-Fi network connection “%s” active: %s (%d%%)"
 msgstr "Bežično povezivanje “%s” je aktivno: %s (%d%%)"
 
-#: src/applet-device-wifi.c:1310
+#: src/applet-device-wifi.c:1351
 #, c-format
 msgid "Wi-Fi network connection “%s” active"
 msgstr "Bežično povezivanje “%s” je aktivno"
 
-#: src/applet-device-wifi.c:1329
+#: src/applet-device-wifi.c:1370
 msgid "Failed to activate connection"
 msgstr "Neuspjelo aktiviranje povezivanja"
 
-#: src/applet-device-wifi.c:1330 src/applet-device-wifi.c:1350 src/applet.c:412
-#: src/applet.c:463 src/applet.c:495
+#: src/applet-device-wifi.c:1372 src/applet-device-wifi.c:1395 src/applet.c:414
+#: src/applet.c:468 src/applet.c:503
 msgid "Unknown error"
 msgstr "Nepoznata greška"
 
@@ -480,7 +414,7 @@ msgstr "Nepoznata greška"
 msgid "Error displaying connection information:"
 msgstr "Greška prikaza informacija povezivanja:"
 
-#: src/applet-dialogs.c:60 src/connection-editor/page-wifi-security.c:384
+#: src/applet-dialogs.c:60 src/connection-editor/page-wifi-security.c:369
 msgid "LEAP"
 msgstr "LEAP"
 
@@ -488,7 +422,7 @@ msgstr "LEAP"
 msgid "Dynamic WEP"
 msgstr "Promjenjivi WEP"
 
-#: src/applet-dialogs.c:64 src/applet-dialogs.c:226
+#: src/applet-dialogs.c:64 src/applet-dialogs.c:226 src/applet-dialogs.c:228
 msgid "WPA/WPA2"
 msgstr "WPA/WPA2"
 
@@ -501,16 +435,12 @@ msgstr "Više adresa"
 msgid "WEP"
 msgstr "WEP"
 
-#: src/applet-dialogs.c:228
-msgid "WPA/WPA2/WPA3"
-msgstr "WPA/WPA2/WPA3"
-
 #: src/applet-dialogs.c:230
 msgid "WPA3"
 msgstr "WPA3"
 
 #: src/applet-dialogs.c:234 src/applet-dialogs.c:243
-#: src/connection-editor/page-wifi-security.c:327
+#: src/connection-editor/page-wifi-security.c:320
 msgctxt "Wi-Fi/Ethernet security"
 msgid "None"
 msgstr "Nijedna"
@@ -793,27 +723,23 @@ msgstr "Neuspjelo zapisivanje povezivanja na VPN UI: %s (%d)"
 msgid "Failed to write connection to VPN UI: incomplete write"
 msgstr "Neuspjelo zapisivanje povezivanja na VPN UI: nepotpuni zapis"
 
-#: src/applet.c:411
+#: src/applet.c:412
 msgid "Failed to add/activate connection"
 msgstr "Neuspjelo dodavanje/uključivanje povezivanja"
 
-#: src/applet.c:462
+#: src/applet.c:466
 msgid "Device disconnect failed"
 msgstr "Neuspjelo odspajanje uređaja"
 
-#: src/applet.c:465
+#: src/applet.c:471
 msgid "Disconnect failure"
 msgstr "Neuspjelo odspajanje"
 
-#: src/applet.c:494
+#: src/applet.c:501
 msgid "Connection activation failed"
 msgstr "Neuspjelo uključivanje povezivanja"
 
-#: src/applet.c:731
-msgid "Don’t show this message again"
-msgstr "Ne prikazuj više ovu poruku"
-
-#: src/applet.c:831
+#: src/applet.c:918
 #, c-format
 msgid ""
 "\n"
@@ -823,7 +749,7 @@ msgstr ""
 "\n"
 "VPN povezivanje “%s” se odspojilo zbog prekida mrežnog povezivanja."
 
-#: src/applet.c:833
+#: src/applet.c:920
 #, c-format
 msgid ""
 "\n"
@@ -833,7 +759,7 @@ msgstr ""
 "\n"
 "VPN povezivanje “%s” nije uspjelo jer je mrežno povezivanje prekinuto."
 
-#: src/applet.c:835
+#: src/applet.c:922
 #, c-format
 msgid ""
 "\n"
@@ -842,7 +768,7 @@ msgstr ""
 "\n"
 "VPN povezivanje “%s” nije uspjelo jer se VPN usluga neočekivano zaustavila."
 
-#: src/applet.c:837
+#: src/applet.c:924
 #, c-format
 msgid ""
 "\n"
@@ -853,7 +779,7 @@ msgstr ""
 "VPN povezivanje “%s” nije uspjelo jer je VPN usluga vratila neispravno "
 "podešavanje."
 
-#: src/applet.c:839
+#: src/applet.c:926
 #, c-format
 msgid ""
 "\n"
@@ -862,7 +788,7 @@ msgstr ""
 "\n"
 "VPN povezivanje “%s” nije uspjelo jer je isteklo vrijeme povezivanja."
 
-#: src/applet.c:841
+#: src/applet.c:928
 #, c-format
 msgid ""
 "\n"
@@ -872,7 +798,7 @@ msgstr ""
 "VPN povezivanje “%s” nije uspjelo jer se VPN usluga nije pokrenula "
 "pravovremeno."
 
-#: src/applet.c:843
+#: src/applet.c:930
 #, c-format
 msgid ""
 "\n"
@@ -881,7 +807,7 @@ msgstr ""
 "\n"
 "VPN povezivanje “%s” nije uspjelo jer se VPN usluga nije pokrenula."
 
-#: src/applet.c:845
+#: src/applet.c:932
 #, c-format
 msgid ""
 "\n"
@@ -890,7 +816,7 @@ msgstr ""
 "\n"
 "VPN povezivanje “%s” nije uspjelo jer nema valjanih VPN tajni."
 
-#: src/applet.c:847
+#: src/applet.c:934
 #, c-format
 msgid ""
 "\n"
@@ -899,7 +825,7 @@ msgstr ""
 "\n"
 "VPN povezivanje “%s” nije uspjelo zbog nevaljanih VPN tajni."
 
-#: src/applet.c:852
+#: src/applet.c:939
 #, c-format
 msgid ""
 "\n"
@@ -908,7 +834,7 @@ msgstr ""
 "\n"
 "VPN povezivanje “%s” nije uspjelo."
 
-#: src/applet.c:879
+#: src/applet.c:966
 #, c-format
 msgid ""
 "VPN connection has been successfully established.\n"
@@ -919,19 +845,19 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/applet.c:881
+#: src/applet.c:968
 msgid "VPN connection has been successfully established.\n"
 msgstr "VPN povezivanje je uspješno uspostavljeno.\n"
 
-#: src/applet.c:883
+#: src/applet.c:970
 msgid "VPN Login Message"
 msgstr "Poruka o VPN prijavi"
 
-#: src/applet.c:891 src/applet.c:931
+#: src/applet.c:978 src/applet.c:1018
 msgid "VPN Connection Failed"
 msgstr "VPN povezivanje nije uspjelo"
 
-#: src/applet.c:935
+#: src/applet.c:1022
 #, c-format
 msgid ""
 "\n"
@@ -944,7 +870,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/applet.c:938
+#: src/applet.c:1025
 #, c-format
 msgid ""
 "\n"
@@ -957,132 +883,132 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/applet.c:1253
+#: src/applet.c:1316
 msgid "device not ready (firmware missing)"
 msgstr "uređaj nije spreman (nedostaje firmver)"
 
-#: src/applet.c:1255
+#: src/applet.c:1318
 msgid "device not ready"
 msgstr "uređaj nije spreman"
 
-#: src/applet.c:1281
+#: src/applet.c:1344
 msgid "Disconnect"
 msgstr "Prekini povezivanje"
 
-#: src/applet.c:1295
+#: src/applet.c:1358
 msgid "device not managed"
 msgstr "uređaj nije upravljiv"
 
-#: src/applet.c:1369
+#: src/applet.c:1432
 msgid "No network devices available"
 msgstr "Nema dostupnih mrežnih uređaja"
 
-#: src/applet.c:1415
+#: src/applet.c:1484
 msgid "_VPN Connections"
 msgstr "_VPN povezivanja"
 
-#: src/applet.c:1459
+#: src/applet.c:1528
 msgid "_Configure VPN…"
 msgstr "_Podesi VPN…"
 
-#: src/applet.c:1462
+#: src/applet.c:1531
 msgid "_Add a VPN connection…"
 msgstr "_Dodaj VPN povezivanje…"
 
-#: src/applet.c:1568
+#: src/applet.c:1637
 msgid "NetworkManager is not running…"
 msgstr "Mrežni upravitelj nije pokrenut…"
 
-#: src/applet.c:1573 src/applet.c:2641
+#: src/applet.c:1642 src/applet.c:2710
 msgid "Networking disabled"
 msgstr "Umrežavanje onemogućeno"
 
 #. 'Enable Networking' item
-#: src/applet.c:1783
+#: src/applet.c:1852
 msgid "Enable _Networking"
 msgstr "Omogući _umrežavanje"
 
 #. 'Enable Wi-Fi' item
-#: src/applet.c:1792
+#: src/applet.c:1861
 msgid "Enable _Wi-Fi"
 msgstr "Omogući _bežičnu mrežu"
 
 #. 'Enable Mobile Broadband' item
-#: src/applet.c:1801
+#: src/applet.c:1870
 msgid "Enable _Mobile Broadband"
 msgstr "Omogući _mobilno širokopojasno povezivanje"
 
 #. Toggle notifications item
-#: src/applet.c:1813
+#: src/applet.c:1882
 msgid "Enable N_otifications"
 msgstr "Omogući _obavjesti"
 
 #. 'Connection Information' item
-#: src/applet.c:1825
+#: src/applet.c:1894
 msgid "Connection _Information"
 msgstr "_Informacije povezivanja"
 
 #. 'Edit Connections...' item
-#: src/applet.c:1833
+#: src/applet.c:1902
 msgid "Edit Connections…"
 msgstr "Uređivanje povezivanja…"
 
-#: src/applet.c:1847
+#: src/applet.c:1916
 msgid "_About"
 msgstr "_O programu"
 
-#: src/applet.c:2161
+#: src/applet.c:2230
 #, c-format
 msgid "You are now connected to “%s”."
 msgstr "Sada ste povezani s “%s”."
 
-#: src/applet.c:2201
+#: src/applet.c:2270
 msgid "Disconnected"
 msgstr "Povezivanje prekinuto"
 
-#: src/applet.c:2202
+#: src/applet.c:2271
 msgid "The network connection has been disconnected."
 msgstr "Mrežno povezivanje je prekinuto."
 
-#: src/applet.c:2504
+#: src/applet.c:2573
 #, c-format
 msgid "Preparing network connection “%s”…"
 msgstr "Priprema mrežnog povezivanja “%s”…"
 
-#: src/applet.c:2507
+#: src/applet.c:2576
 #, c-format
 msgid "User authentication required for network connection “%s”…"
 msgstr "Za mrežno povezivanje “%s” je potrebna ovjera korisnika…"
 
-#: src/applet.c:2513
+#: src/applet.c:2582
 #, c-format
 msgid "Network connection “%s” active"
 msgstr "Mrežno povezivanje “%s” je aktivno"
 
-#: src/applet.c:2586
+#: src/applet.c:2655
 #, c-format
 msgid "Starting VPN connection “%s”…"
 msgstr "Pokretanje VPN povezivanja “%s”…"
 
-#: src/applet.c:2589
+#: src/applet.c:2658
 #, c-format
 msgid "User authentication required for VPN connection “%s”…"
 msgstr "Za VPN povezivanje “%s” je potrebna ovjera korisnika…"
 
-#: src/applet.c:2592
+#: src/applet.c:2661
 #, c-format
 msgid "Requesting a VPN address for “%s”…"
 msgstr "Zahtijevanje VPN adrese za “%s”…"
 
-#: src/applet.c:2595
+#: src/applet.c:2664
 msgid "VPN connection active"
 msgstr "VPN povezivanje je aktivno"
 
-#: src/applet.c:2645
+#: src/applet.c:2714
 msgid "No network connection"
 msgstr "Nema mrežnog povezivanja"
 
-#: src/applet.c:3280
+#: src/applet.c:3324
 msgid "NetworkManager Applet"
 msgstr "Aplet mrežnog upravitelja"
 
@@ -1209,7 +1135,7 @@ msgid "Bonded _connections"
 msgstr "Povezana _povezivanja"
 
 #: src/connection-editor/ce-page-bond.ui:105
-#: src/connection-editor/ce-page-wifi.ui:294
+#: src/connection-editor/ce-page-wifi.ui:400
 msgid "M_ode"
 msgstr "Na_čin"
 
@@ -1268,7 +1194,7 @@ msgstr "_Primarno"
 #: src/connection-editor/ce-page-bond.ui:495
 msgid ""
 "The interface name of the primary device. If set, this device will always be "
-"the active port when it is available."
+"the active slave when it is available."
 msgstr ""
 "Naziv sučelja glavnog uređaja. Ako je postavljeno, ovaj uređaj će uvijek "
 "biti aktivan pomoćni kada je dostupan."
@@ -2091,10 +2017,10 @@ msgstr "IPv6 _proširenja privatnosti"
 msgid ""
 "If enabled, it makes the kernel generate a temporary IPv6 address in "
 "addition to the public one generated from MAC address. This enhances "
-"privacy, but could cause problems in some applications. If set to "
-"\"Default\", the value from NetworkManager global configuration is used. If "
-"that is also unset, use the kernel default value read from file \"/proc/sys/"
-"net/ipv6/conf/default/use_tempaddr\""
+"privacy, but could cause problems in some applications. If set to \"Default"
+"\", the value from NetworkManager global configuration is used. If that is "
+"also unset, use the kernel default value read from file \"/proc/sys/net/ipv6/"
+"conf/default/use_tempaddr\""
 msgstr ""
 "Ako je omogućeno, kernel stvara privremenu IPv6 adresu kao dodatak javnoj "
 "stvorenoj iz MAC adrese. Ovo poboljšava privatnost, ali može prouzrokovati "
@@ -2195,7 +2121,7 @@ msgid "C_KN"
 msgstr "C_KN"
 
 #: src/connection-editor/ce-page-macsec.ui:206
-msgid "The pre-shared Connectivity-association Key Name"
+msgid " The pre-shared Connectivity-association Key Name"
 msgstr " Naziv zajedničkog ključa pridruživanja povezivosti"
 
 #: src/connection-editor/ce-page-macsec.ui:217
@@ -2905,19 +2831,35 @@ msgstr "Klijent"
 msgid "Ad-hoc"
 msgstr "Ad-hoc"
 
-#: src/connection-editor/ce-page-wifi.ui:205
+#: src/connection-editor/ce-page-wifi.ui:203
+msgid "mW"
+msgstr "mW"
+
+#: src/connection-editor/ce-page-wifi.ui:222
+msgid "Transmission po_wer"
+msgstr "Snaga pri_jenosa"
+
+#: src/connection-editor/ce-page-wifi.ui:256
+msgid "Mb/s"
+msgstr "Mb/s"
+
+#: src/connection-editor/ce-page-wifi.ui:275
+msgid "_Rate"
+msgstr "_Frekvencija"
+
+#: src/connection-editor/ce-page-wifi.ui:311
 msgid "_BSSID"
 msgstr "_BSSID"
 
-#: src/connection-editor/ce-page-wifi.ui:230
+#: src/connection-editor/ce-page-wifi.ui:336
 msgid "C_hannel"
 msgstr "Kana_l"
 
-#: src/connection-editor/ce-page-wifi.ui:262
+#: src/connection-editor/ce-page-wifi.ui:368
 msgid "Ban_d"
 msgstr "Poja_s"
 
-#: src/connection-editor/ce-page-wifi.ui:308
+#: src/connection-editor/ce-page-wifi.ui:414
 msgid "SS_ID"
 msgstr "SS_ID"
 
@@ -3280,7 +3222,7 @@ msgstr "WireGuard"
 
 #: src/connection-editor/connection-helpers.c:112
 #: src/connection-editor/connection-helpers.c:374
-#: src/connection-editor/page-vpn.c:92
+#: src/connection-editor/page-vpn.c:86
 msgid "VPN"
 msgstr "VPN"
 
@@ -3444,11 +3386,11 @@ msgstr ""
 "Upozorenje: povezivanje sadrži neka svojstva koje uređivač ne podržava. Biti "
 "će uklonjena pri spremanju."
 
-#: src/connection-editor/nm-connection-editor.c:751
+#: src/connection-editor/nm-connection-editor.c:749
 msgid "Error initializing editor"
 msgstr "Greška pri pokretanju uređivača"
 
-#: src/connection-editor/nm-connection-editor.c:1176
+#: src/connection-editor/nm-connection-editor.c:1159
 msgid "Connection add failed"
 msgstr "Neuspjelo dodavanje povezivanja"
 
@@ -3631,15 +3573,15 @@ msgstr "Mrežno povezivanje"
 msgid "Add a new connection"
 msgstr "Dodaj novo povezivanje"
 
-#: src/connection-editor/page-8021x-security.c:97
+#: src/connection-editor/page-8021x-security.c:96
 msgid "802.1X Security"
 msgstr "802.1X sigurnost"
 
-#: src/connection-editor/page-8021x-security.c:99
+#: src/connection-editor/page-8021x-security.c:98
 msgid "Could not load 802.1X Security user interface."
 msgstr "Nemoguće učitavanje korisničkog sučelja 802.1X sigurnosti."
 
-#: src/connection-editor/page-8021x-security.c:113
+#: src/connection-editor/page-8021x-security.c:112
 msgid "Use 802.1_X security for this connection"
 msgstr "Koristi 802.1_X sigurnost za ovo povezivanje"
 
@@ -3936,27 +3878,27 @@ msgstr "MACSEC povezivanje %d"
 
 #: src/connection-editor/page-master.c:221
 #: src/connection-editor/page-master.c:232
-msgid "Duplicate ports"
-msgstr "Udvostruči ulaze"
+msgid "Duplicate slaves"
+msgstr "Udvostruči pomoćne"
 
 #: src/connection-editor/page-master.c:222
 #, c-format
-msgid "Ports “%s” and “%s” both apply to device “%s”"
-msgstr "Ulaze \"%s\" i \"%s\" oba primijeni na uređaj \"%s\""
+msgid "Slaves “%s” and “%s” both apply to device “%s”"
+msgstr "Pomoćni \"%s\" i \"%s\" oba su primijenjeni na uređaj \"%s\""
 
 #: src/connection-editor/page-master.c:233
 #, c-format
 msgid ""
-"Ports “%s” and “%s” apply to different virtual ports (“%s” and “%s”) of the "
+"Slaves “%s” and “%s” apply to different virtual ports (“%s” and “%s”) of the "
 "same physical device."
 msgstr ""
-"Ulaze \"%s\" i \"%s\" primijeni na različite virtualne ulaze (\"%s\" i "
-"\"%s\") istog fizičkog uređaja."
+"Pomoćni \"%s\" i \"%s\" primijenjenii na različite virtualne ulaze (\"%s\" i "
+"\"%s\") iste fizičke adrese."
 
 #: src/connection-editor/page-master.c:357
 #, c-format
-msgid "%s port %d"
-msgstr "%s ulaz %d"
+msgid "%s slave %d"
+msgstr "%s pomoćni %d"
 
 #: src/connection-editor/page-mobile.c:297
 msgid "Could not load mobile broadband user interface."
@@ -4106,25 +4048,25 @@ msgstr "Nemoguće je učitati uređivača VPN priključka za \"%s\" (%s)."
 msgid "unknown failure"
 msgstr "nepoznata greška"
 
-#: src/connection-editor/page-vpn.c:94
+#: src/connection-editor/page-vpn.c:88
 msgid "Could not load VPN user interface."
 msgstr "Učitavanje VPN korisničkog sučelja nije uspjelo."
 
-#: src/connection-editor/page-vpn.c:109
+#: src/connection-editor/page-vpn.c:103
 #, c-format
 msgid "Could not find VPN plugin for “%s”."
 msgstr "Nemoguće je pronaći VPN priključak za \"%s\"."
 
-#: src/connection-editor/page-vpn.c:191
+#: src/connection-editor/page-vpn.c:185
 #, c-format
 msgid "VPN connection %d"
 msgstr "VPN povezivanje %d"
 
-#: src/connection-editor/page-vpn.c:197
+#: src/connection-editor/page-vpn.c:191
 msgid "Choose a VPN Connection Type"
 msgstr "Odaberite vrstu VPN povezivanja"
 
-#: src/connection-editor/page-vpn.c:198
+#: src/connection-editor/page-vpn.c:192
 msgid ""
 "Select the type of VPN you wish to use for the new connection. If the type "
 "of VPN connection you wish to create does not appear in the list, you may "
@@ -4134,54 +4076,53 @@ msgstr ""
 "vrsta VPN povezivanja kojeg želite ne nalazi na popisu, možda nemate "
 "instaliran ispravan VPN priključak."
 
-#: src/connection-editor/page-wifi-security.c:359
+#: src/connection-editor/page-wifi-security.c:346
 msgid "WEP 40/128-bit Key (Hex or ASCII)"
 msgstr "WEP 40/128-bitni ključ (heksadecimalni ili ASCII)"
 
-#: src/connection-editor/page-wifi-security.c:372
+#: src/connection-editor/page-wifi-security.c:356
 msgid "WEP 128-bit Passphrase"
 msgstr "WEP 128-bitna lozinka"
 
-#: src/connection-editor/page-wifi-security.c:397
+#: src/connection-editor/page-wifi-security.c:382
 msgid "Dynamic WEP (802.1X)"
 msgstr "Promjenjivi WEP (802.1X)"
 
-#: src/connection-editor/page-wifi-security.c:410
-msgid "WPA/WPA2/WPA3 Personal"
-msgstr "WPA/WPA2/WPA3 osobni"
+#: src/connection-editor/page-wifi-security.c:395
+msgid "WPA & WPA2 Personal"
+msgstr "WPA & WPA2 osobni"
 
-#: src/connection-editor/page-wifi-security.c:423
-msgid "WPA/WPA2 Enterprise"
-msgstr "WPA/WPA2 tvrtke"
+#: src/connection-editor/page-wifi-security.c:408
+msgid "WPA & WPA2 Enterprise"
+msgstr "WPA & WPA2 tvrtke"
 
-#: src/connection-editor/page-wifi-security.c:436
+#: src/connection-editor/page-wifi-security.c:421
 msgid "WPA3 Personal"
 msgstr "WPA3 osobni"
 
-#: src/connection-editor/page-wifi-security.c:449
-#: src/connection-editor/page-wifi-security.c:457
+#: src/connection-editor/page-wifi-security.c:431
 msgid "Enhanced Open"
 msgstr "Poboljšano otvoreno (OWE)"
 
-#: src/connection-editor/page-wifi-security.c:503
+#: src/connection-editor/page-wifi-security.c:476
 msgid "Could not load Wi-Fi security user interface; missing Wi-Fi setting."
 msgstr ""
 "Nemoguće učitavanje korisničkog sučelja bežične sigurnosti, nedostaju "
 "bežične postavke."
 
-#: src/connection-editor/page-wifi-security.c:514
+#: src/connection-editor/page-wifi-security.c:487
 msgid "Wi-Fi Security"
 msgstr "Bežična sigurnost"
 
-#: src/connection-editor/page-wifi-security.c:516
+#: src/connection-editor/page-wifi-security.c:489
 msgid "Could not load Wi-Fi security user interface."
 msgstr "Nemoguće učitavanje korisničkog sučelja bežične sigurnosti."
 
-#: src/connection-editor/page-wifi-security.c:597
+#: src/connection-editor/page-wifi-security.c:570
 msgid "missing SSID"
 msgstr "nedostaje SSID"
 
-#: src/connection-editor/page-wifi-security.c:603
+#: src/connection-editor/page-wifi-security.c:576
 msgid "Security not compatible with Ad-Hoc mode"
 msgstr "Sigurnost nije kompatibilna s Ad-Hoc načinom"
 
@@ -4297,8 +4238,11 @@ msgstr "Upotreba:"
 
 #: src/main.c:30
 msgid ""
-"This program is a component of NetworkManager (https://networkmanager.dev)."
-msgstr "Ovaj program je dio Mrežnog upravitelja (https://networkmanager.dev)."
+"This program is a component of NetworkManager (https://wiki.gnome.org/"
+"Projects/NetworkManager/)."
+msgstr ""
+"Ovaj program je dio Mrežnog upravitelja (https://wiki.gnome.org/Projects/"
+"NetworkManager/)."
 
 #: src/main.c:31
 msgid ""
@@ -4424,26 +4368,11 @@ msgstr "PEM vjerodajnice (*.pem, *.crt, *.cer)"
 msgid "DER, PEM, or PKCS#12 private keys (*.der, *.pem, *.p12, *.key)"
 msgstr "DER, PEM ili PKCS#12 privatni ključevi (*.der, *.pem, *.p12, *.key)"
 
-#~ msgid "mW"
-#~ msgstr "mW"
-
-#~ msgid "Transmission po_wer"
-#~ msgstr "Snaga pri_jenosa"
-
-#~ msgid "Mb/s"
-#~ msgstr "Mb/s"
-
-#~ msgid "_Rate"
-#~ msgstr "_Frekvencija"
-
 #~ msgid "nm-device-wireless"
 #~ msgstr "mu-bežični-uređaj"
 
 #~ msgid "preferences-system-network"
 #~ msgstr "osobitosti-mrežnog-sustava"
-
-#~ msgid "More networks"
-#~ msgstr "Više mreža"
 
 #~ msgid "missing EAP-FAST PAC file"
 #~ msgstr "nedostaje EAP-FAST PAC datoteka"
@@ -4592,12 +4521,14 @@ msgstr "DER, PEM ili PKCS#12 privatni ključevi (*.der, *.pem, *.p12, *.key)"
 #~ msgid "missing wep-key"
 #~ msgstr "nedostaje wep-ključ"
 
+#, c-format
 #~ msgid ""
 #~ "invalid wep-key: key with a length of %zu must contain only hex-digits"
 #~ msgstr ""
 #~ "neispravan wep-ključ: ključ duljine %zu može sadržavati samo "
 #~ "heksadecimalne znamenke"
 
+#, c-format
 #~ msgid ""
 #~ "invalid wep-key: key with a length of %zu must contain only ascii "
 #~ "characters"
@@ -4605,6 +4536,7 @@ msgstr "DER, PEM ili PKCS#12 privatni ključevi (*.der, *.pem, *.p12, *.key)"
 #~ "neispravan wep-ključ: ključ duljine %zu može sadržavati samo ascii "
 #~ "znamenke"
 
+#, c-format
 #~ msgid ""
 #~ "invalid wep-key: wrong key length %zu. A key must be either of length "
 #~ "5/13 (ascii) or 10/26 (hex)"
@@ -4636,6 +4568,7 @@ msgstr "DER, PEM ili PKCS#12 privatni ključevi (*.der, *.pem, *.p12, *.key)"
 #~ msgid "WEP inde_x"
 #~ msgstr "WEP inde_ks"
 
+#, c-format
 #~ msgid ""
 #~ "invalid wpa-psk: invalid key-length %zu. Must be [8,63] bytes or 64 hex "
 #~ "digits"
@@ -4647,6 +4580,66 @@ msgstr "DER, PEM ili PKCS#12 privatni ključevi (*.der, *.pem, *.p12, *.key)"
 #~ msgstr ""
 #~ "neispravan wpa-psk: nemoguće protumačiti ključ od 64 bajta kao "
 #~ "heksadecimalni"
+
+#~ msgid "Disable connected notifications"
+#~ msgstr "Onemogući obavijesti povezivanja"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when connecting to a network."
+#~ msgstr "Odaberite za onemogućavanje obavijesti pri povezivanju s mrežom."
+
+#~ msgid "Disable disconnected notifications"
+#~ msgstr "Onemogući obavijesti prekida povezivanja"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when disconnecting from a "
+#~ "network."
+#~ msgstr ""
+#~ "Odaberite za onemogućavanje obavijesti prilikom prekida povezivanja s "
+#~ "mrežom."
+
+#~ msgid "Disable VPN notifications"
+#~ msgstr "Onemogući VPN obavijesti"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when connecting to or "
+#~ "disconnecting from a VPN."
+#~ msgstr ""
+#~ "Odaberite za onemogućavanje obavijesti prilikom povezivanja ili prekida "
+#~ "povezivanja s VPN-a."
+
+#~ msgid "Suppress networks available notifications"
+#~ msgstr "Zabrani obavijesti o dostupnim mrežama"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when Wi-Fi networks are "
+#~ "available."
+#~ msgstr ""
+#~ "Odaberite za onemogućavanje obavijesti kada su bežične mreže dostupne."
+
+#~ msgid "Stamp"
+#~ msgstr "Pečat"
+
+#~ msgid ""
+#~ "Used to determine whether settings should be migrated to a new version."
+#~ msgstr ""
+#~ "Koristi se kako bi se utvrdilo trebaju li postavke migrirati na noviju "
+#~ "inačicu."
+
+#~ msgid "Disable WiFi Create"
+#~ msgstr "Onemogući stvaranje bežične mreže"
+
+#~ msgid ""
+#~ "Set to true to disable creation of adhoc networks when using the applet."
+#~ msgstr ""
+#~ "Odaberite za onemogućavanje stvaranje adhoc mreža pri korištenju apleta."
+
+#~ msgid "Show the applet in notification area"
+#~ msgstr "Prikaži aplet u području obavijesti"
+
+#~ msgid ""
+#~ "Set to FALSE to disable displaying the applet in the notification area."
+#~ msgstr "Odaberite za onemogućavanje prikaza apleta u području obavijesti."
 
 #~ msgid "Ignore CA certificate"
 #~ msgstr "Zanemari CA vjerodajnicu"

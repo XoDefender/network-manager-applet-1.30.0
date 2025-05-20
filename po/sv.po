@@ -1,20 +1,19 @@
 # Swedish messages for NetworkManagerApplet.
-# Copyright © 2004-2022 Free Software Foundation, Inc.
+# Copyright © 2004-2020 Free Software Foundation, Inc.
 # Christian Rose <menthos@menthos.com>, 2004, 2005, 2006.
 # Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009, 2010, 2011, 2012.
 # Påvel Nicklasson <pavel@frimix.se>, 2014.
 # Mattias Eriksson <snaggen@gmail.com>, 2014.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2015, 2016, 2018, 2019, 2020, 2021, 2022.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2015, 2016, 2018, 2019, 2020.
 # Josef Andersson <l10nl18nsweja@gmail.com>, 2015, 2017, 2018.
-# Luna Jernberg <droidbittin@gmail.com>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManagerApplet\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/network-manager-"
 "applet/\n"
-"POT-Creation-Date: 2022-11-07 08:48+0100\n"
-"PO-Revision-Date: 2022-06-15 21:09+0200\n"
+"POT-Creation-Date: 2021-02-03 09:54+0100\n"
+"PO-Revision-Date: 2020-04-23 00:58+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -22,9 +21,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 2.3\n"
 
-#: nm-applet.desktop.in:3 src/applet-dialogs.c:724 src/applet.c:3166
+#: nm-applet.desktop.in:3 src/applet-dialogs.c:724 src/applet.c:3223
 msgid "Network"
 msgstr "Nätverk"
 
@@ -68,81 +67,6 @@ msgstr "Avancerad nätverkskonfiguration"
 msgid "Manage and change your network connection settings"
 msgstr "Hantera och ändra inställningar för dina nätverksanslutningar"
 
-#: org.gnome.nm-applet.gschema.xml.in:6
-msgid "Disable connected notifications"
-msgstr "Inaktivera anslutningsaviseringar"
-
-#: org.gnome.nm-applet.gschema.xml.in:7
-msgid "Set this to true to disable notifications when connecting to a network."
-msgstr ""
-"Sätt till true (sant) för att inaktivera aviseringar vid anslutning till ett "
-"nätverk."
-
-#: org.gnome.nm-applet.gschema.xml.in:11
-msgid "Disable disconnected notifications"
-msgstr "Inaktivera aviseringar om frånkopplingar"
-
-#: org.gnome.nm-applet.gschema.xml.in:12
-msgid ""
-"Set this to true to disable notifications when disconnecting from a network."
-msgstr ""
-"Sätt till true (sant) för att inaktivera aviseringar när du kopplar från ett "
-"nätverk."
-
-#: org.gnome.nm-applet.gschema.xml.in:16
-msgid "Disable VPN notifications"
-msgstr "Inaktivera VPN-aviseringar"
-
-#: org.gnome.nm-applet.gschema.xml.in:17
-msgid ""
-"Set this to true to disable notifications when connecting to or "
-"disconnecting from a VPN."
-msgstr ""
-"Sätt till true (sant) för att inaktivera aviseringar när du ansluter till "
-"eller kopplar från ett VPN."
-
-#: org.gnome.nm-applet.gschema.xml.in:21
-msgid "Suppress networks available notifications"
-msgstr "Visa inte aviseringar om tillgängliga nätverk"
-
-#: org.gnome.nm-applet.gschema.xml.in:22
-msgid ""
-"Set this to true to disable notifications when Wi-Fi networks are available."
-msgstr ""
-"Sätt till true (sant) för att inaktivera aviseringar när trådlösa nätverk är "
-"tillgängliga."
-
-#: org.gnome.nm-applet.gschema.xml.in:26
-msgid "Stamp"
-msgstr "Stämpel"
-
-#: org.gnome.nm-applet.gschema.xml.in:27
-msgid "Used to determine whether settings should be migrated to a new version."
-msgstr ""
-"Används för att fastställa huruvida inställningar ska migreras till en ny "
-"version."
-
-#: org.gnome.nm-applet.gschema.xml.in:31
-msgid "Disable WiFi Create"
-msgstr "Inaktivera skapande av trådlösa nätverk"
-
-#: org.gnome.nm-applet.gschema.xml.in:32
-msgid ""
-"Set to true to disable creation of adhoc networks when using the applet."
-msgstr ""
-"Sätt till true (sant) för att inaktivera skapandet av adhoc-nätverk när du "
-"använder miniprogrammet."
-
-#: org.gnome.nm-applet.gschema.xml.in:36
-msgid "Show the applet in notification area"
-msgstr "Visa miniprogrammet i aviseringsytan"
-
-#: org.gnome.nm-applet.gschema.xml.in:37
-msgid "Set to FALSE to disable displaying the applet in the notification area."
-msgstr ""
-"Sätt till FALSE (falskt) för att inaktivera visning av miniprogrammet i "
-"aviseringsytan."
-
 #: shared/nm-utils/nm-shared-utils.c:793
 #, c-format
 msgid "object class '%s' has no property named '%s'"
@@ -183,7 +107,7 @@ msgstr ""
 "värdet ”%s” av typen ”%s” är ogiltigt eller utanför intervallet för "
 "egenskapen ”%s” av typen ”%s”"
 
-#: src/8021x.ui:7 src/ethernet-dialog.c:90
+#: src/8021x.ui:11 src/ethernet-dialog.c:87
 msgid "802.1X authentication"
 msgstr "802.1X-autentisering"
 
@@ -216,17 +140,13 @@ msgstr "_Anslut"
 msgid "_Network name"
 msgstr "_Nätverksnamn"
 
-#: src/ap-menu-item.c:68
+#: src/ap-menu-item.c:67
 msgid "ad-hoc"
 msgstr "ad-hoc"
 
-#: src/ap-menu-item.c:73
+#: src/ap-menu-item.c:72
 msgid "secure."
 msgstr "säker."
-
-#: src/ap-menu-item.c:77
-msgid "insecure."
-msgstr "osäker."
 
 #: src/applet-device-broadband.c:147
 msgid "Wrong PUK code; please contact your provider."
@@ -253,7 +173,7 @@ msgid "Mobile Broadband"
 msgstr "Mobilt bredband"
 
 #: src/applet-device-broadband.c:780 src/applet-device-bt.c:61
-#: src/applet-device-ethernet.c:107
+#: src/applet-device-ethernet.c:107 src/applet-device-wifi.c:890
 msgid "Available"
 msgstr "Tillgängliga"
 
@@ -263,7 +183,7 @@ msgid "New Mobile Broadband connection…"
 msgstr "Ny mobil bredbandsanslutning…"
 
 #: src/applet-device-broadband.c:809 src/applet-device-bt.c:75
-#: src/applet-device-ethernet.c:124 src/applet-device-wifi.c:1251
+#: src/applet-device-ethernet.c:124 src/applet-device-wifi.c:1293
 msgid "Connection Established"
 msgstr "Anslutning etablerad"
 
@@ -302,7 +222,7 @@ msgstr "Konfigurerar mobila bredbandsanslutningen ”%s”…"
 msgid "User authentication required for mobile broadband connection “%s”…"
 msgstr "Användarautentisering krävs för mobila bredbandsanslutningen ”%s”…"
 
-#: src/applet-device-bt.c:113 src/applet.c:2510 src/mobile-helpers.c:593
+#: src/applet-device-bt.c:113 src/applet.c:2579 src/mobile-helpers.c:593
 #, c-format
 msgid "Requesting a network address for “%s”…"
 msgstr "Begär en nätverksadress för ”%s”…"
@@ -335,7 +255,7 @@ msgid "Ethernet Network"
 msgstr "Trådbundet nätverk"
 
 #. Notify user of unmanaged or unavailable device
-#: src/applet-device-ethernet.c:99 src/applet.c:1265
+#: src/applet-device-ethernet.c:99 src/applet.c:1328
 msgid "disconnected"
 msgstr "frånkopplad"
 
@@ -395,96 +315,100 @@ msgstr "Skapa _nytt trådlöst nätverk…"
 msgid "(none)"
 msgstr "(ingen)"
 
-#: src/applet-device-wifi.c:523 src/applet-device-wifi.c:1349
+#: src/applet-device-wifi.c:519 src/applet-device-wifi.c:1393
 msgid "Failed to add new connection"
 msgstr "Misslyckades med att lägga till nya anslutningen"
 
-#: src/applet-device-wifi.c:524
+#: src/applet-device-wifi.c:520
 msgid "Insufficient privileges."
 msgstr "Otillräckliga rättigheter."
 
-#: src/applet-device-wifi.c:526 src/applet-device-wifi.c:1332
-#: src/applet-device-wifi.c:1352 src/applet.c:414 src/applet.c:497
+#: src/applet-device-wifi.c:522 src/applet-device-wifi.c:1375
+#: src/applet-device-wifi.c:1398 src/applet.c:417 src/applet.c:506
 msgid "Connection failure"
 msgstr "Anslutningsfel"
 
-#: src/applet-device-wifi.c:827
+#: src/applet-device-wifi.c:822
 #, c-format
 msgid "Wi-Fi Networks (%s)"
 msgstr "Trådlösa nätverk (%s)"
 
-#: src/applet-device-wifi.c:829
+#: src/applet-device-wifi.c:824
 #, c-format
 msgid "Wi-Fi Network (%s)"
 msgstr "Trådlöst nätverk (%s)"
 
-#: src/applet-device-wifi.c:831
+#: src/applet-device-wifi.c:826
 msgid "Wi-Fi Network"
 msgid_plural "Wi-Fi Networks"
 msgstr[0] "Trådlöst nätverk"
 msgstr[1] "Trådlösa nätverk"
 
-#: src/applet-device-wifi.c:860
+#: src/applet-device-wifi.c:855
 msgid "Wi-Fi is disabled"
 msgstr "Trådlöst är inaktiverat"
 
-#: src/applet-device-wifi.c:861
+#: src/applet-device-wifi.c:856
 msgid "Wi-Fi is disabled by hardware switch"
 msgstr "Trådlöst är inaktiverat av hårdvaruväxel"
 
-#: src/applet-device-wifi.c:887
-msgid "_Available networks"
-msgstr "_Tillgängliga nätverk"
+#: src/applet-device-wifi.c:917
+msgid "More networks"
+msgstr "Fler nätverk"
 
-#: src/applet-device-wifi.c:1066
+#: src/applet-device-wifi.c:1107
 msgid "Wi-Fi Networks Available"
 msgstr "Trådlösa nätverk tillgängliga"
 
-#: src/applet-device-wifi.c:1067
+#: src/applet-device-wifi.c:1108
 msgid "Use the network menu to connect to a Wi-Fi network"
 msgstr "Använd nätverksmenyn för att ansluta till ett trådlöst nätverk"
 
-#: src/applet-device-wifi.c:1249
+#: src/applet-device-wifi.c:1111 src/applet.c:828
+msgid "Don’t show this message again"
+msgstr "Visa inte detta meddelande igen"
+
+#: src/applet-device-wifi.c:1292
 #, c-format
 msgid "You are now connected to the Wi-Fi network “%s”."
 msgstr "Du är nu ansluten till det trådlösa nätverket ”%s”."
 
-#: src/applet-device-wifi.c:1286
+#: src/applet-device-wifi.c:1327
 #, c-format
 msgid "Preparing Wi-Fi network connection “%s”…"
 msgstr "Förbereder trådlös nätverksanslutning ”%s”…"
 
-#: src/applet-device-wifi.c:1289
+#: src/applet-device-wifi.c:1330
 #, c-format
 msgid "Configuring Wi-Fi network connection “%s”…"
 msgstr "Konfigurerar trådlös nätverksanslutning ”%s”…"
 
-#: src/applet-device-wifi.c:1292
+#: src/applet-device-wifi.c:1333
 #, c-format
 msgid "User authentication required for Wi-Fi network “%s”…"
 msgstr "Användarautentisering krävs för trådlöst nätverk ”%s”…"
 
-#: src/applet-device-wifi.c:1295
+#: src/applet-device-wifi.c:1336
 #, c-format
 msgid "Requesting a Wi-Fi network address for “%s”…"
 msgstr "Begär en trådlös nätverksadress för ”%s”…"
 
-#: src/applet-device-wifi.c:1306
+#: src/applet-device-wifi.c:1347
 #, c-format
 msgid "Wi-Fi network connection “%s” active: %s (%d%%)"
 msgstr "Trådlös nätverksanslutning ”%s” är aktiv: %s (%d%%)"
 
-#: src/applet-device-wifi.c:1310
+#: src/applet-device-wifi.c:1351
 #, c-format
 msgid "Wi-Fi network connection “%s” active"
 msgstr "Trådlös nätverksanslutning ”%s” är aktiv"
 
-#: src/applet-device-wifi.c:1329
+#: src/applet-device-wifi.c:1370
 msgid "Failed to activate connection"
 msgstr "Misslyckades med att aktivera anslutningen"
 
-#: src/applet-device-wifi.c:1330 src/applet-device-wifi.c:1350 src/applet.c:412
-#: src/applet.c:463 src/applet.c:495
+#: src/applet-device-wifi.c:1372 src/applet-device-wifi.c:1395 src/applet.c:414
+#: src/applet.c:468 src/applet.c:503
 msgid "Unknown error"
 msgstr "Okänt fel"
 
@@ -492,7 +416,7 @@ msgstr "Okänt fel"
 msgid "Error displaying connection information:"
 msgstr "Fel vid visning av anslutningsinformation:"
 
-#: src/applet-dialogs.c:60 src/connection-editor/page-wifi-security.c:384
+#: src/applet-dialogs.c:60 src/connection-editor/page-wifi-security.c:369
 msgid "LEAP"
 msgstr "LEAP"
 
@@ -500,7 +424,7 @@ msgstr "LEAP"
 msgid "Dynamic WEP"
 msgstr "Dynamisk WEP"
 
-#: src/applet-dialogs.c:64 src/applet-dialogs.c:226
+#: src/applet-dialogs.c:64 src/applet-dialogs.c:226 src/applet-dialogs.c:228
 msgid "WPA/WPA2"
 msgstr "WPA/WPA2"
 
@@ -513,16 +437,12 @@ msgstr "Fler adresser"
 msgid "WEP"
 msgstr "WEP"
 
-#: src/applet-dialogs.c:228
-msgid "WPA/WPA2/WPA3"
-msgstr "WPA/WPA2/WPA3"
-
 #: src/applet-dialogs.c:230
 msgid "WPA3"
 msgstr "WPA3"
 
 #: src/applet-dialogs.c:234 src/applet-dialogs.c:243
-#: src/connection-editor/page-wifi-security.c:327
+#: src/connection-editor/page-wifi-security.c:320
 msgctxt "Wi-Fi/Ethernet security"
 msgid "None"
 msgstr "Ingen"
@@ -699,7 +619,6 @@ msgstr "Webbplats för Nätverkshanterare"
 msgid "translator-credits"
 msgstr ""
 "Josef Andersson <l10nl18nsweja@gmail.com>\n"
-"Luna Jernberg <droidbittin@gmail.com>\n"
 "\n"
 "Skicka synpunkter på översättningen till\n"
 "<tp-sv@listor.tp-sv.se>."
@@ -808,27 +727,23 @@ msgstr ""
 "Misslyckades med att skriva anslutning till VPN-gränssnitt: inkomplett "
 "skrivning"
 
-#: src/applet.c:411
+#: src/applet.c:412
 msgid "Failed to add/activate connection"
 msgstr "Misslyckades med att lägga till/aktivera anslutningen"
 
-#: src/applet.c:462
+#: src/applet.c:466
 msgid "Device disconnect failed"
 msgstr "Frånkoppling av enhet misslyckades"
 
-#: src/applet.c:465
+#: src/applet.c:471
 msgid "Disconnect failure"
 msgstr "Fel vid frånkoppling"
 
-#: src/applet.c:494
+#: src/applet.c:501
 msgid "Connection activation failed"
 msgstr "Aktivering av anslutning misslyckades"
 
-#: src/applet.c:731
-msgid "Don’t show this message again"
-msgstr "Visa inte detta meddelande igen"
-
-#: src/applet.c:831
+#: src/applet.c:918
 #, c-format
 msgid ""
 "\n"
@@ -839,7 +754,7 @@ msgstr ""
 "VPN-anslutningen ”%s” kopplades från på grund av att nätverksanslutningen "
 "avbröts."
 
-#: src/applet.c:833
+#: src/applet.c:920
 #, c-format
 msgid ""
 "\n"
@@ -850,7 +765,7 @@ msgstr ""
 "VPN-anslutningen ”%s” misslyckades på grund av att nätverksanslutningen "
 "avbröts."
 
-#: src/applet.c:835
+#: src/applet.c:922
 #, c-format
 msgid ""
 "\n"
@@ -860,7 +775,7 @@ msgstr ""
 "VPN-anslutningen ”%s” misslyckades på grund av att VPN-tjänsten oväntat "
 "stoppades."
 
-#: src/applet.c:837
+#: src/applet.c:924
 #, c-format
 msgid ""
 "\n"
@@ -871,7 +786,7 @@ msgstr ""
 "VPN-anslutningen ”%s” misslyckades på grund av att VPN-tjänsten svarade med "
 "ogiltig konfiguration."
 
-#: src/applet.c:839
+#: src/applet.c:926
 #, c-format
 msgid ""
 "\n"
@@ -881,7 +796,7 @@ msgstr ""
 "VPN-anslutningen ”%s” misslyckades på grund av att tidsgränsen för "
 "anslutningsförsöket överskreds."
 
-#: src/applet.c:841
+#: src/applet.c:928
 #, c-format
 msgid ""
 "\n"
@@ -891,7 +806,7 @@ msgstr ""
 "VPN-anslutningen ”%s” misslyckades på grund av att VPN-tjänsten inte "
 "startade i tid."
 
-#: src/applet.c:843
+#: src/applet.c:930
 #, c-format
 msgid ""
 "\n"
@@ -901,7 +816,7 @@ msgstr ""
 "VPN-anslutningen ”%s” misslyckades på grund av att VPN-tjänsten misslyckades "
 "med att starta."
 
-#: src/applet.c:845
+#: src/applet.c:932
 #, c-format
 msgid ""
 "\n"
@@ -911,7 +826,7 @@ msgstr ""
 "VPN-anslutningen ”%s” misslyckades på grund av att det inte fanns några "
 "giltiga VPN-hemligheter."
 
-#: src/applet.c:847
+#: src/applet.c:934
 #, c-format
 msgid ""
 "\n"
@@ -920,7 +835,7 @@ msgstr ""
 "\n"
 "VPN-anslutningen ”%s” misslyckades på grund av ogiltiga VPN-hemligheter."
 
-#: src/applet.c:852
+#: src/applet.c:939
 #, c-format
 msgid ""
 "\n"
@@ -929,7 +844,7 @@ msgstr ""
 "\n"
 "VPN-anslutningen ”%s” misslyckades."
 
-#: src/applet.c:879
+#: src/applet.c:966
 #, c-format
 msgid ""
 "VPN connection has been successfully established.\n"
@@ -940,19 +855,19 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/applet.c:881
+#: src/applet.c:968
 msgid "VPN connection has been successfully established.\n"
 msgstr "VPN-anslutningen etablerades.\n"
 
-#: src/applet.c:883
+#: src/applet.c:970
 msgid "VPN Login Message"
 msgstr "VPN-inloggningsmeddelande"
 
-#: src/applet.c:891 src/applet.c:931
+#: src/applet.c:978 src/applet.c:1018
 msgid "VPN Connection Failed"
 msgstr "VPN-anslutningen misslyckades"
 
-#: src/applet.c:935
+#: src/applet.c:1022
 #, c-format
 msgid ""
 "\n"
@@ -966,7 +881,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/applet.c:938
+#: src/applet.c:1025
 #, c-format
 msgid ""
 "\n"
@@ -979,132 +894,132 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/applet.c:1253
+#: src/applet.c:1316
 msgid "device not ready (firmware missing)"
 msgstr "enheten är inte redo (fast programvara saknas)"
 
-#: src/applet.c:1255
+#: src/applet.c:1318
 msgid "device not ready"
 msgstr "enheten är inte redo"
 
-#: src/applet.c:1281
+#: src/applet.c:1344
 msgid "Disconnect"
 msgstr "Koppla från"
 
-#: src/applet.c:1295
+#: src/applet.c:1358
 msgid "device not managed"
 msgstr "enheten hanteras inte"
 
-#: src/applet.c:1369
+#: src/applet.c:1432
 msgid "No network devices available"
 msgstr "Inga nätverksenheter finns tillgängliga"
 
-#: src/applet.c:1415
+#: src/applet.c:1484
 msgid "_VPN Connections"
 msgstr "_VPN-anslutningar"
 
-#: src/applet.c:1459
+#: src/applet.c:1528
 msgid "_Configure VPN…"
 msgstr "_Konfigurera VPN…"
 
-#: src/applet.c:1462
+#: src/applet.c:1531
 msgid "_Add a VPN connection…"
 msgstr "_Lägg till en VPN-anslutning…"
 
-#: src/applet.c:1568
+#: src/applet.c:1637
 msgid "NetworkManager is not running…"
 msgstr "Nätverkshanteraren är inte igång…"
 
-#: src/applet.c:1573 src/applet.c:2641
+#: src/applet.c:1642 src/applet.c:2710
 msgid "Networking disabled"
 msgstr "Nätverk inaktiverat"
 
 #. 'Enable Networking' item
-#: src/applet.c:1783
+#: src/applet.c:1852
 msgid "Enable _Networking"
 msgstr "Aktivera _nätverk"
 
 #. 'Enable Wi-Fi' item
-#: src/applet.c:1792
+#: src/applet.c:1861
 msgid "Enable _Wi-Fi"
 msgstr "A_ktivera trådlöst nätverk"
 
 #. 'Enable Mobile Broadband' item
-#: src/applet.c:1801
+#: src/applet.c:1870
 msgid "Enable _Mobile Broadband"
 msgstr "Aktivera _mobilt bredband"
 
 #. Toggle notifications item
-#: src/applet.c:1813
+#: src/applet.c:1882
 msgid "Enable N_otifications"
 msgstr "Aktivera a_viseringar"
 
 #. 'Connection Information' item
-#: src/applet.c:1825
+#: src/applet.c:1894
 msgid "Connection _Information"
 msgstr "Anslutnings_information"
 
 #. 'Edit Connections...' item
-#: src/applet.c:1833
+#: src/applet.c:1902
 msgid "Edit Connections…"
 msgstr "Redigera anslutningar…"
 
-#: src/applet.c:1847
+#: src/applet.c:1916
 msgid "_About"
 msgstr "_Om"
 
-#: src/applet.c:2161
+#: src/applet.c:2230
 #, c-format
 msgid "You are now connected to “%s”."
 msgstr "Du är nu ansluten till ”%s”."
 
-#: src/applet.c:2201
+#: src/applet.c:2270
 msgid "Disconnected"
 msgstr "Frånkopplad"
 
-#: src/applet.c:2202
+#: src/applet.c:2271
 msgid "The network connection has been disconnected."
 msgstr "Nätverksanslutningen har kopplats från."
 
-#: src/applet.c:2504
+#: src/applet.c:2573
 #, c-format
 msgid "Preparing network connection “%s”…"
 msgstr "Förbereder nätverksanslutningen ”%s”…"
 
-#: src/applet.c:2507
+#: src/applet.c:2576
 #, c-format
 msgid "User authentication required for network connection “%s”…"
 msgstr "Användarautentisering krävs för nätverksanslutningen ”%s”…"
 
-#: src/applet.c:2513
+#: src/applet.c:2582
 #, c-format
 msgid "Network connection “%s” active"
 msgstr "Nätverksanslutningen ”%s” är aktiv"
 
-#: src/applet.c:2586
+#: src/applet.c:2655
 #, c-format
 msgid "Starting VPN connection “%s”…"
 msgstr "Startar VPN-anslutningen ”%s”…"
 
-#: src/applet.c:2589
+#: src/applet.c:2658
 #, c-format
 msgid "User authentication required for VPN connection “%s”…"
 msgstr "Användarautentisering krävs för VPN-anslutningen ”%s”…"
 
-#: src/applet.c:2592
+#: src/applet.c:2661
 #, c-format
 msgid "Requesting a VPN address for “%s”…"
 msgstr "Begär en VPN-adress för ”%s”…"
 
-#: src/applet.c:2595
+#: src/applet.c:2664
 msgid "VPN connection active"
 msgstr "VPN-anslutning aktiv"
 
-#: src/applet.c:2645
+#: src/applet.c:2714
 msgid "No network connection"
 msgstr "Ingen nätverksanslutning"
 
-#: src/applet.c:3280
+#: src/applet.c:3324
 msgid "NetworkManager Applet"
 msgstr "Miniprogram för nätverkshantering"
 
@@ -1232,7 +1147,7 @@ msgid "Bonded _connections"
 msgstr "_Kombinerade anslutningar"
 
 #: src/connection-editor/ce-page-bond.ui:105
-#: src/connection-editor/ce-page-wifi.ui:294
+#: src/connection-editor/ce-page-wifi.ui:400
 msgid "M_ode"
 msgstr "Lä_ge"
 
@@ -1291,10 +1206,10 @@ msgstr "_Primär"
 #: src/connection-editor/ce-page-bond.ui:495
 msgid ""
 "The interface name of the primary device. If set, this device will always be "
-"the active port when it is available."
+"the active slave when it is available."
 msgstr ""
 "Gränssnittsnamnet på den primära enheten. Om inställt, kommer enheten alltid "
-"att vara den aktiva porten när den är tillgänglig."
+"att vara den aktiva slaven när den är tillgänglig."
 
 #: src/connection-editor/ce-page-bond.ui:507
 #: src/connection-editor/ce-page-ethernet.ui:188
@@ -1646,7 +1561,7 @@ msgstr "_Tjänst"
 
 #: src/connection-editor/ce-page-dsl.ui:71
 msgid "Sho_w password"
-msgstr "Vis_a lösenord"
+msgstr "Vi_sa lösenord"
 
 #: src/connection-editor/ce-page-dsl.ui:89
 msgid "Password used to authenticate with the PPPoE service."
@@ -2078,7 +1993,7 @@ msgstr "Inaktiverad"
 
 #: src/connection-editor/ce-page-ip6.ui:41
 msgid "Enabled (prefer public address)"
-msgstr "Aktiverad (föredra öppen adress)"
+msgstr "Aktiverad (föredra publik adress)"
 
 #: src/connection-editor/ce-page-ip6.ui:44
 msgid "Enabled (prefer temporary address)"
@@ -2111,17 +2026,11 @@ msgstr "_Sekretesstillägg för IPv6"
 msgid ""
 "If enabled, it makes the kernel generate a temporary IPv6 address in "
 "addition to the public one generated from MAC address. This enhances "
-"privacy, but could cause problems in some applications. If set to "
-"\"Default\", the value from NetworkManager global configuration is used. If "
-"that is also unset, use the kernel default value read from file \"/proc/sys/"
-"net/ipv6/conf/default/use_tempaddr\""
+"privacy, but could cause problems in some applications. If set to \"Default"
+"\", the value from NetworkManager global configuration is used. If that is "
+"also unset, use the kernel default value read from file \"/proc/sys/net/ipv6/"
+"conf/default/use_tempaddr\""
 msgstr ""
-"Om aktiverad får det kärnan att generera en tillfällig IPv6-adress utöver "
-"den öppna som genereras från MAC-adressen. Detta ökar sekretessen, men kan "
-"orsaka problem i vissa program. Om satt till ”Standard” används värdet från "
-"Nätverkshanterares globala konfiguration. Om det också är osatt, använd "
-"kärnans standardvärde, läst från filen ”/proc/sys/net/ipv6/conf/default/"
-"use_tempaddr”"
 
 #: src/connection-editor/ce-page-ip6.ui:323
 msgid "IPv6 address _generation mode"
@@ -2208,15 +2117,15 @@ msgstr "C_AK"
 
 #: src/connection-editor/ce-page-macsec.ui:181
 msgid "The pre-shared Connectivity Association Key"
-msgstr "Förutdelad Connectivity-association Key"
+msgstr "Fördelad Connectivity-association Key"
 
 #: src/connection-editor/ce-page-macsec.ui:193
 msgid "C_KN"
 msgstr "C_KN"
 
 #: src/connection-editor/ce-page-macsec.ui:206
-msgid "The pre-shared Connectivity-association Key Name"
-msgstr "Namn för förutdelad Connectivity-association Key"
+msgid " The pre-shared Connectivity-association Key Name"
+msgstr " Fördelat namn för Connectivity-association Key"
 
 #: src/connection-editor/ce-page-macsec.ui:217
 msgid "Parameters"
@@ -2281,7 +2190,7 @@ msgstr "Tillåt _roaming om hemnätverket inte finns tillgängligt"
 
 #: src/connection-editor/ce-page-mobile.ui:303
 msgid "Sho_w passwords"
-msgstr "Vis_a lösenord"
+msgstr "Visa _lösenord"
 
 #: src/connection-editor/ce-page-ppp.ui:24
 msgid "Authentication"
@@ -2928,54 +2837,72 @@ msgstr "Klient"
 msgid "Ad-hoc"
 msgstr "Ad-hoc"
 
-#: src/connection-editor/ce-page-wifi.ui:205
+#: src/connection-editor/ce-page-wifi.ui:203
+msgid "mW"
+msgstr "mW"
+
+#: src/connection-editor/ce-page-wifi.ui:222
+msgid "Transmission po_wer"
+msgstr "Sändningss_tyrka"
+
+#: src/connection-editor/ce-page-wifi.ui:256
+msgid "Mb/s"
+msgstr "Mb/s"
+
+#: src/connection-editor/ce-page-wifi.ui:275
+msgid "_Rate"
+msgstr "_Frekvens"
+
+#: src/connection-editor/ce-page-wifi.ui:311
 msgid "_BSSID"
 msgstr "_BSSID"
 
-#: src/connection-editor/ce-page-wifi.ui:230
+#: src/connection-editor/ce-page-wifi.ui:336
 msgid "C_hannel"
 msgstr "_Kanal"
 
-#: src/connection-editor/ce-page-wifi.ui:262
+#: src/connection-editor/ce-page-wifi.ui:368
 msgid "Ban_d"
 msgstr "Ban_d"
 
-#: src/connection-editor/ce-page-wifi.ui:308
+#: src/connection-editor/ce-page-wifi.ui:414
 msgid "SS_ID"
 msgstr "SS_ID"
 
 #: src/connection-editor/ce-page-wireguard.ui:23
+#, fuzzy
 msgid "Edit WireGuard peer"
-msgstr "Redigera WireGuard-motpart"
+msgstr "WireGuard"
 
 #: src/connection-editor/ce-page-wireguard.ui:55
 msgid "_Apply"
-msgstr "_Verkställ"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:159
 msgid "_Public key"
-msgstr "Ö_ppen nyckel"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:173
+#, fuzzy
 msgid "Allowed _IPs"
-msgstr "Tillåtna _IP-adresser"
+msgstr "Tillåtna metoder"
 
 #: src/connection-editor/ce-page-wireguard.ui:187
 msgid "_Endpoint"
-msgstr "Ä_ndpunkt"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:201
+#, fuzzy
 msgid "Pre_shared key"
-msgstr "För_utdelad nyckel"
+msgstr "Delad nyckel"
 
 #: src/connection-editor/ce-page-wireguard.ui:215
 msgid "Persistent _keepalive"
-msgstr "Ihållande _keepalive"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:228
 msgid "A base64 public key calculated by 'wg pubkey' from a private key."
 msgstr ""
-"En öppen nyckel i base64 beräknad med ”wg pubkey” från en privat nyckel."
 
 #: src/connection-editor/ce-page-wireguard.ui:240
 msgid ""
@@ -2983,16 +2910,11 @@ msgid ""
 "incoming traffic for this peer is allowed and to which outgoing traffic for "
 "this peer is directed."
 msgstr ""
-"Kommaseparerad lista över IP-adresser (v4 eller v6) med CIDR-masker från "
-"vilka inkommande trafik för denna motpart tillåts och till vilka utgående "
-"trafik för denna motpart dirigeras."
 
 #: src/connection-editor/ce-page-wireguard.ui:252
 msgid ""
 "An endpoint IP or hostname, followed by a colon, and then a port number."
 msgstr ""
-"Ett ändpunkts-IP eller värdnamn, följt av ett kolon, och sedan ett "
-"portnummer."
 
 #: src/connection-editor/ce-page-wireguard.ui:264
 msgid ""
@@ -3001,10 +2923,6 @@ msgid ""
 "into the already existing public-key cryptography, for post-quantum "
 "resistance."
 msgstr ""
-"En förutdelad base64-nyckel genererad av ”wg genpsk”. Valfri, och kan "
-"utelämnas. Lägger till ytterligare ett lager av symmetrisk kryptering att "
-"blanda med den redan existerande krypteringen med öppen nyckel, för motstånd "
-"mot dekryptering då kvantdatorer blir tillgängliga."
 
 #: src/connection-editor/ce-page-wireguard.ui:280
 msgid ""
@@ -3012,72 +2930,66 @@ msgid ""
 "of keeping a stateful firewall or NAT mapping valid. This is optional and "
 "not recommended outside of specific setups."
 msgstr ""
-"Hur ofta ett autentiserat tomt paket ska skickas till motparten i syfte att "
-"behålla en tillståndsbaserad brandvägg eller NAT-mappning giltig. Detta är "
-"valfritt och rekommenderas inte förutom i specifika konfigurationer."
 
 #: src/connection-editor/ce-page-wireguard.ui:297
 msgid "seconds"
-msgstr "sekunder"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:313
+#, fuzzy
 msgid "Sho_w preshared key"
-msgstr "Vis_a förutdelad nyckel"
+msgstr "Vis_a nyckel"
 
 #: src/connection-editor/ce-page-wireguard.ui:386
 msgid "The name of the wireguard interface to create."
-msgstr "Namnet på wireguard-gränssnittet som ska skapas."
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:400
+#, fuzzy
 msgid "Private _key"
-msgstr "Privat _nyckel"
+msgstr "Privat _nyckel för %s"
 
 #: src/connection-editor/ce-page-wireguard.ui:413
 msgid "The 256 bit private key in base64 encoding"
-msgstr "Den 256-bitars privata nyckeln i base64-kodning"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:429
+#, fuzzy
 msgid "_Listen port"
-msgstr "_Lyssningsport"
+msgstr "_Minsta antal portar"
 
-# automatisk är standardvärdet på en spinbutton
 #: src/connection-editor/ce-page-wireguard.ui:442
 msgid ""
 "A port to listen on. If set to 'automatic', the port will be chosen randomly "
 "when the interface comes up."
 msgstr ""
-"En port att lyssna på. Om den sätts till ”automatisk” kommer porten väljas "
-"slumpmässigt då gränssnittet kommer upp."
 
 #: src/connection-editor/ce-page-wireguard.ui:459
 msgid "_Fwmark"
-msgstr "_Fwmark"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:489
 msgid "Add peer _routes"
-msgstr "Lägg till _rutter för motparter"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:503
 msgid ""
 "Whether to automatically add routes for the AllowedIPs ranges of the peers"
 msgstr ""
-"Huruvida rutter automatiskt ska läggas till för AllowedIPs-intervallen för "
-"motparterna"
 
 #: src/connection-editor/ce-page-wireguard.ui:543
 msgid ""
 "A 32-bit fwmark for outgoing packets. Leave it to 'off' to disable fwmark."
 msgstr ""
-"En 32-bitars fwmark för utgående paket. Lämna som ”off” för att inaktivera "
-"fwmark."
 
 #: src/connection-editor/ce-page-wireguard.ui:554
+#, fuzzy
 msgid "_Show private key"
-msgstr "_Visa privat nyckel"
+msgstr "Privat _nyckel för %s"
 
 #: src/connection-editor/ce-page-wireguard.ui:641
 msgid "<b>_Peers</b>"
-msgstr "<b>_Motparter</b>"
+msgstr ""
 
 #: src/connection-editor/ce-page.c:105
 msgid "automatic"
@@ -3311,7 +3223,7 @@ msgstr "WireGuard"
 
 #: src/connection-editor/connection-helpers.c:112
 #: src/connection-editor/connection-helpers.c:374
-#: src/connection-editor/page-vpn.c:92
+#: src/connection-editor/page-vpn.c:86
 msgid "VPN"
 msgstr "VPN"
 
@@ -3476,11 +3388,11 @@ msgstr ""
 "Varning: anslutningen innehåller en del egenskaper som inte stöds av "
 "redigeraren. De kommer att rensas vid sparning."
 
-#: src/connection-editor/nm-connection-editor.c:751
+#: src/connection-editor/nm-connection-editor.c:749
 msgid "Error initializing editor"
 msgstr "Fel vid initiering av redigerare"
 
-#: src/connection-editor/nm-connection-editor.c:1176
+#: src/connection-editor/nm-connection-editor.c:1159
 msgid "Connection add failed"
 msgstr "Misslyckades med att lägga till anslutning"
 
@@ -3658,15 +3570,15 @@ msgstr "Nätverksanslutningar"
 msgid "Add a new connection"
 msgstr "Lägg till en ny anslutning"
 
-#: src/connection-editor/page-8021x-security.c:97
+#: src/connection-editor/page-8021x-security.c:96
 msgid "802.1X Security"
 msgstr "802.1X-säkerhet"
 
-#: src/connection-editor/page-8021x-security.c:99
+#: src/connection-editor/page-8021x-security.c:98
 msgid "Could not load 802.1X Security user interface."
 msgstr "Kunde inte läsa in 802.1X säkerhetsanvändargränssnitt."
 
-#: src/connection-editor/page-8021x-security.c:113
+#: src/connection-editor/page-8021x-security.c:112
 msgid "Use 802.1_X security for this connection"
 msgstr "Använd 802.1_X-säkerhet för denna anslutning"
 
@@ -3963,27 +3875,27 @@ msgstr "MACSEC-anslutning %d"
 
 #: src/connection-editor/page-master.c:221
 #: src/connection-editor/page-master.c:232
-msgid "Duplicate ports"
-msgstr "Duplikatportar"
+msgid "Duplicate slaves"
+msgstr "Duplikatslavar"
 
 #: src/connection-editor/page-master.c:222
 #, c-format
-msgid "Ports “%s” and “%s” both apply to device “%s”"
-msgstr "Portarna ”%s” och ”%s” gäller båda för enhet ”%s”"
+msgid "Slaves “%s” and “%s” both apply to device “%s”"
+msgstr "Slavar ”%s” och ”%s” gäller båda för enhet ”%s”"
 
 #: src/connection-editor/page-master.c:233
 #, c-format
 msgid ""
-"Ports “%s” and “%s” apply to different virtual ports (“%s” and “%s”) of the "
+"Slaves “%s” and “%s” apply to different virtual ports (“%s” and “%s”) of the "
 "same physical device."
 msgstr ""
-"Portarna ”%s” och ”%s” gäller för olika virtuella portar (”%s” och ”%s”) för "
+"Slavar ”%s” och ”%s” gäller för olika virtuella portar (”%s” och ”%s”) för "
 "samma fysiska enhet."
 
 #: src/connection-editor/page-master.c:357
 #, c-format
-msgid "%s port %d"
-msgstr "%s port %d"
+msgid "%s slave %d"
+msgstr "%s slav %d"
 
 #: src/connection-editor/page-mobile.c:297
 msgid "Could not load mobile broadband user interface."
@@ -4128,25 +4040,25 @@ msgstr "Kunde inte läsa in redigerar-VPN-insticksmodul för ”%s” (%s)."
 msgid "unknown failure"
 msgstr "okänt fel"
 
-#: src/connection-editor/page-vpn.c:94
+#: src/connection-editor/page-vpn.c:88
 msgid "Could not load VPN user interface."
 msgstr "Kunde inte läsa in VPN-användargränssnitt."
 
-#: src/connection-editor/page-vpn.c:109
+#: src/connection-editor/page-vpn.c:103
 #, c-format
 msgid "Could not find VPN plugin for “%s”."
 msgstr "Kunde inte hitta VPN-insticksmodul för ”%s”."
 
-#: src/connection-editor/page-vpn.c:191
+#: src/connection-editor/page-vpn.c:185
 #, c-format
 msgid "VPN connection %d"
 msgstr "VPN-anslutning %d"
 
-#: src/connection-editor/page-vpn.c:197
+#: src/connection-editor/page-vpn.c:191
 msgid "Choose a VPN Connection Type"
 msgstr "Välj en VPN-anslutningstyp"
 
-#: src/connection-editor/page-vpn.c:198
+#: src/connection-editor/page-vpn.c:192
 msgid ""
 "Select the type of VPN you wish to use for the new connection. If the type "
 "of VPN connection you wish to create does not appear in the list, you may "
@@ -4156,54 +4068,53 @@ msgstr ""
 "typ av VPN-anslutning du önskar skapa inte finns i listan så kanske du inte "
 "har den korrekta VPN-insticksmodulen installerad."
 
-#: src/connection-editor/page-wifi-security.c:359
+#: src/connection-editor/page-wifi-security.c:346
 msgid "WEP 40/128-bit Key (Hex or ASCII)"
 msgstr "WEP 40/128-bitars nyckel (Hexadecimal eller ASCII)"
 
-#: src/connection-editor/page-wifi-security.c:372
+#: src/connection-editor/page-wifi-security.c:356
 msgid "WEP 128-bit Passphrase"
 msgstr "WEP 128-bitars lösenfras"
 
-#: src/connection-editor/page-wifi-security.c:397
+#: src/connection-editor/page-wifi-security.c:382
 msgid "Dynamic WEP (802.1X)"
 msgstr "Dynamisk WEP (802.1X)"
 
-#: src/connection-editor/page-wifi-security.c:410
-msgid "WPA/WPA2/WPA3 Personal"
-msgstr "WPA/WPA2/WPA3 Personal"
+#: src/connection-editor/page-wifi-security.c:395
+msgid "WPA & WPA2 Personal"
+msgstr "WPA och WPA2 Personal"
 
-#: src/connection-editor/page-wifi-security.c:423
-msgid "WPA/WPA2 Enterprise"
-msgstr "WPA/WPA2 Enterprise"
+#: src/connection-editor/page-wifi-security.c:408
+msgid "WPA & WPA2 Enterprise"
+msgstr "WPA och WPA2 Enterprise"
 
-#: src/connection-editor/page-wifi-security.c:436
+#: src/connection-editor/page-wifi-security.c:421
 msgid "WPA3 Personal"
 msgstr "WPA3 Personal"
 
-#: src/connection-editor/page-wifi-security.c:449
-#: src/connection-editor/page-wifi-security.c:457
+#: src/connection-editor/page-wifi-security.c:431
 msgid "Enhanced Open"
-msgstr "Enhanced Open"
+msgstr ""
 
-#: src/connection-editor/page-wifi-security.c:503
+#: src/connection-editor/page-wifi-security.c:476
 msgid "Could not load Wi-Fi security user interface; missing Wi-Fi setting."
 msgstr ""
 "Kunde inte läsa in användargränssnitt för trådlös säkerhet; saknar trådlös "
 "inställning."
 
-#: src/connection-editor/page-wifi-security.c:514
+#: src/connection-editor/page-wifi-security.c:487
 msgid "Wi-Fi Security"
 msgstr "Trådlös säkerhet"
 
-#: src/connection-editor/page-wifi-security.c:516
+#: src/connection-editor/page-wifi-security.c:489
 msgid "Could not load Wi-Fi security user interface."
 msgstr "Kunde inte läsa in användargränssnitt för trådlös säkerhet."
 
-#: src/connection-editor/page-wifi-security.c:597
+#: src/connection-editor/page-wifi-security.c:570
 msgid "missing SSID"
 msgstr "saknat SSID"
 
-#: src/connection-editor/page-wifi-security.c:603
+#: src/connection-editor/page-wifi-security.c:576
 msgid "Security not compatible with Ad-Hoc mode"
 msgstr "Säkerhet inte kompatibel med Ad-Hoc-läge"
 
@@ -4250,20 +4161,22 @@ msgstr "Trådlös anslutning %d"
 
 #: src/connection-editor/page-wireguard.c:261
 msgid "Public key"
-msgstr "Öppen nyckel"
+msgstr ""
 
 #: src/connection-editor/page-wireguard.c:268
+#, fuzzy
 msgid "Allowed IPs"
-msgstr "Tillåtna IP-adresser"
+msgstr "Tillåtna metoder"
 
 #: src/connection-editor/page-wireguard.c:512
+#, fuzzy
 msgid "Could not load WireGuard user interface."
-msgstr "Kunde inte läsa in Wireguard-användargränssnitt."
+msgstr "Kunde inte läsa in gruppanvändargränssnitt."
 
 #: src/connection-editor/page-wireguard.c:628
-#, c-format
+#, fuzzy, c-format
 msgid "WireGuard connection %d"
-msgstr "WireGuard-anslutning %d"
+msgstr "Gruppanslutning %d"
 
 #: src/connection-editor/vpn-helpers.c:118
 #, c-format
@@ -4320,9 +4233,11 @@ msgstr "Användning:"
 
 #: src/main.c:30
 msgid ""
-"This program is a component of NetworkManager (https://networkmanager.dev)."
+"This program is a component of NetworkManager (https://wiki.gnome.org/"
+"Projects/NetworkManager/)."
 msgstr ""
-"Detta program är en komponent i NetworkManager (https://networkmanager.dev)."
+"Detta program är en komponent i NetworkManager (https://wiki.gnome.org/"
+"Projects/NetworkManager/)."
 
 #: src/main.c:31
 msgid ""
@@ -4448,26 +4363,11 @@ msgstr "PEM-certifikat (*.pem, *.crt, *.cer)"
 msgid "DER, PEM, or PKCS#12 private keys (*.der, *.pem, *.p12, *.key)"
 msgstr "DER, PEM, eller PKCS#12 privata nycklar (*.der, *.pem, *.p12, *.key)"
 
-#~ msgid "mW"
-#~ msgstr "mW"
-
-#~ msgid "Transmission po_wer"
-#~ msgstr "Sändningss_tyrka"
-
-#~ msgid "Mb/s"
-#~ msgstr "Mb/s"
-
-#~ msgid "_Rate"
-#~ msgstr "_Frekvens"
-
 #~ msgid "nm-device-wireless"
 #~ msgstr "nm-device-wireless"
 
 #~ msgid "preferences-system-network"
 #~ msgstr "preferences-system-network"
-
-#~ msgid "More networks"
-#~ msgstr "Fler nätverk"
 
 #~ msgid "missing EAP-FAST PAC file"
 #~ msgstr "saknar PAC-fil för EAP-FAST"
@@ -4616,12 +4516,14 @@ msgstr "DER, PEM, eller PKCS#12 privata nycklar (*.der, *.pem, *.p12, *.key)"
 #~ msgid "missing wep-key"
 #~ msgstr "saknar wep-nyckel"
 
+#, c-format
 #~ msgid ""
 #~ "invalid wep-key: key with a length of %zu must contain only hex-digits"
 #~ msgstr ""
 #~ "ogiltig wep-nyckel: nyckel med en längd på %zu får endast innehålla "
 #~ "hexadecimala siffror"
 
+#, c-format
 #~ msgid ""
 #~ "invalid wep-key: key with a length of %zu must contain only ascii "
 #~ "characters"
@@ -4629,6 +4531,7 @@ msgstr "DER, PEM, eller PKCS#12 privata nycklar (*.der, *.pem, *.p12, *.key)"
 #~ "ogiltig wep-nyckel: nyckel med en längd på %zu får endast innehålla ascii-"
 #~ "tecken"
 
+#, c-format
 #~ msgid ""
 #~ "invalid wep-key: wrong key length %zu. A key must be either of length "
 #~ "5/13 (ascii) or 10/26 (hex)"
@@ -4654,6 +4557,7 @@ msgstr "DER, PEM, eller PKCS#12 privata nycklar (*.der, *.pem, *.p12, *.key)"
 #~ msgid "WEP inde_x"
 #~ msgstr "WEP-inde_x"
 
+#, c-format
 #~ msgid ""
 #~ "invalid wpa-psk: invalid key-length %zu. Must be [8,63] bytes or 64 hex "
 #~ "digits"
@@ -4663,6 +4567,72 @@ msgstr "DER, PEM, eller PKCS#12 privata nycklar (*.der, *.pem, *.p12, *.key)"
 
 #~ msgid "invalid wpa-psk: cannot interpret key with 64 bytes as hex"
 #~ msgstr "ogiltig wpa-psk: kan inte tolka nyckel med 64 byte som hexadecimal"
+
+#~ msgid "Disable connected notifications"
+#~ msgstr "Inaktivera anslutningsaviseringar"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when connecting to a network."
+#~ msgstr ""
+#~ "Sätt till true (sant) för att inaktivera aviseringar vid anslutning till "
+#~ "ett nätverk."
+
+#~ msgid "Disable disconnected notifications"
+#~ msgstr "Inaktivera aviseringar om frånkopplingar"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when disconnecting from a "
+#~ "network."
+#~ msgstr ""
+#~ "Sätt till true (sant) för att inaktivera aviseringar när du kopplar från "
+#~ "ett nätverk."
+
+#~ msgid "Disable VPN notifications"
+#~ msgstr "Inaktivera VPN-aviseringar"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when connecting to or "
+#~ "disconnecting from a VPN."
+#~ msgstr ""
+#~ "Sätt till true (sant) för att inaktivera aviseringar när du ansluter till "
+#~ "eller kopplar från ett VPN."
+
+#~ msgid "Suppress networks available notifications"
+#~ msgstr "Visa inte aviseringar om tillgängliga nätverk"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when Wi-Fi networks are "
+#~ "available."
+#~ msgstr ""
+#~ "Sätt till true (sant) för att inaktivera aviseringar när trådlösa nätverk "
+#~ "är tillgängliga."
+
+#~ msgid "Stamp"
+#~ msgstr "Stämpel"
+
+#~ msgid ""
+#~ "Used to determine whether settings should be migrated to a new version."
+#~ msgstr ""
+#~ "Används för att fastställa huruvida inställningar ska migreras till en ny "
+#~ "version."
+
+#~ msgid "Disable WiFi Create"
+#~ msgstr "Inaktivera skapande av trådlösa nätverk"
+
+#~ msgid ""
+#~ "Set to true to disable creation of adhoc networks when using the applet."
+#~ msgstr ""
+#~ "Sätt till true (sant) för att inaktivera skapandet av adhoc-nätverk när "
+#~ "du använder miniprogrammet."
+
+#~ msgid "Show the applet in notification area"
+#~ msgstr "Visa miniprogrammet i aviseringsytan"
+
+#~ msgid ""
+#~ "Set to FALSE to disable displaying the applet in the notification area."
+#~ msgstr ""
+#~ "Sätt till FALSE (falskt) för att inaktivera visning av miniprogrammet i "
+#~ "aviseringsytan."
 
 #~ msgid "Ignore CA certificate"
 #~ msgstr "Ignorera CA-certifikat"
@@ -4748,11 +4718,20 @@ msgstr "DER, PEM, eller PKCS#12 privata nycklar (*.der, *.pem, *.p12, *.key)"
 #~ msgid "Set up a Mobile Broadband Connection"
 #~ msgstr "Konfigurera en mobil bredbandsanslutning"
 
+#, fuzzy
+#~ msgid "Country or region:"
+#~ msgstr "Land eller region"
+
 #~ msgid "Choose your Provider’s Country or Region"
 #~ msgstr "Välj land eller region för din leverantör"
 
 #~ msgid "Select your provider from a _list:"
 #~ msgstr "Välj din leverantör från en _lista:"
+
+#, fuzzy
+#~ msgid ""
+#~ "I can’t find my provider and I wish to set up the connection _manually:"
+#~ msgstr "Jag kan inte hitta min leverantör och vill ange den _manuellt:"
 
 #~ msgid "My provider uses GSM technology (GPRS, EDGE, UMTS, HSPA)"
 #~ msgstr "Min leverantör använder GSM-tekniken (GPRS, EDGE, UMTS, HSPA)"

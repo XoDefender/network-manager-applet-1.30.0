@@ -1,11 +1,11 @@
---- a/src/connection-editor/nm-connection-editor.c	2022-10-06 13:03:45.000000000 +0300
-+++ b/src/connection-editor/nm-connection-editor.c	2024-04-11 13:38:06.667973304 +0300
-@@ -153,6 +153,8 @@
- 		sensitive = ce_polkit_button_get_authorized (CE_POLKIT_BUTTON (editor->ok_button));
+--- a/src/connection-editor/nm-connection-editor.c	2024-04-11 11:07:31.000000000 +0300
++++ b/src/connection-editor/nm-connection-editor.c	2024-04-11 11:10:01.406119927 +0300
+@@ -154,7 +154,7 @@
  	}
  
+ 	gtk_widget_set_sensitive (editor->export_button, sensitive);
+-	gtk_widget_set_sensitive (editor->ok_button, sensitive);
 +	gtk_widget_set_sensitive (editor->ok_button, sensitive && !editor->last_validation_error);
-+
+ 
  	/* Cancel button is always sensitive */
  	gtk_widget_set_sensitive (GTK_WIDGET (editor->cancel_button), TRUE);
- 

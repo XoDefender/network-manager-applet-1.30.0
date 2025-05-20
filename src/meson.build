@@ -27,13 +27,11 @@ resource_data = files(
   'info.ui'
 )
 
-resource_sources = gnome.compile_resources(
+sources += gnome.compile_resources(
   'applet-resources',
   'applet.gresource.xml',
   dependencies: resource_data
 )
-
-sources += resource_sources
 
 incs = [
   top_inc,
@@ -47,6 +45,7 @@ deps = [
   gtk_dep,
   libnm_dep,
   libnma_dep,
+  libnotify_dep,
   libsecret_dep,
   m_dep,
   libxsettings_dep,

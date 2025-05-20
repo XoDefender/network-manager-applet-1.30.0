@@ -80,7 +80,7 @@ NMConnectionEditor *nm_connection_editor_new (GtkWindow *parent_window,
                                               NMConnection *connection,
                                               NMClient *client);
 NMConnectionEditor *nm_connection_editor_get (NMConnection *connection);
-NMConnectionEditor *nm_connection_editor_get_master (NMConnection *port);
+NMConnectionEditor *nm_connection_editor_get_master (NMConnection *slave);
 
 void                nm_connection_editor_present (NMConnectionEditor *editor);
 void                nm_connection_editor_run (NMConnectionEditor *editor);

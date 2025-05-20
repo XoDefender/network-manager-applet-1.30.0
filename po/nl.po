@@ -8,26 +8,26 @@
 # Rachid BM <rachidbm@ubuntu.com>, 2012.
 # Reinout van Schouwen <reinouts@gnome.org>, 2013.
 # Hannie Dumoleyn <hannie@ubuntu-nl.org>, 2016, 2017, 2018.
-# Nathan Follens <nfollens@gnome.org>, 2018-2022.
+# Nathan Follens <nthn@unseen.is>, 2018-2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-applet\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/network-manager-"
 "applet/\n"
-"POT-Creation-Date: 2022-11-07 08:48+0100\n"
-"PO-Revision-Date: 2022-03-26 23:39+0100\n"
-"Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
+"POT-Creation-Date: 2021-02-03 09:54+0100\n"
+"PO-Revision-Date: 2020-02-26 14:06+0100\n"
+"Last-Translator: Nathan Follens <nthn@unseen.is>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 2.3\n"
 "X-Launchpad-Export-Date: 2012-05-18 08:04+0000\n"
 "X-Project-Style: gnome\n"
 
-#: nm-applet.desktop.in:3 src/applet-dialogs.c:724 src/applet.c:3166
+#: nm-applet.desktop.in:3 src/applet-dialogs.c:724 src/applet.c:3223
 msgid "Network"
 msgstr "Netwerk"
 
@@ -73,81 +73,6 @@ msgstr "Geavanceerde netwerkconfiguratie"
 msgid "Manage and change your network connection settings"
 msgstr "De instellingen voor uw netwerkverbindingen beheren en bewerken"
 
-#: org.gnome.nm-applet.gschema.xml.in:6
-msgid "Disable connected notifications"
-msgstr "Geen meldingen tonen bij verbinding"
-
-#: org.gnome.nm-applet.gschema.xml.in:7
-msgid "Set this to true to disable notifications when connecting to a network."
-msgstr ""
-"Stel dit in op ‘true’ om geen meldingen te krijgen bij het verbinden met een "
-"netwerk."
-
-#: org.gnome.nm-applet.gschema.xml.in:11
-msgid "Disable disconnected notifications"
-msgstr "Geen meldingen tonen bij verbroken verbinding"
-
-#: org.gnome.nm-applet.gschema.xml.in:12
-msgid ""
-"Set this to true to disable notifications when disconnecting from a network."
-msgstr ""
-"Stel dit in op ‘true’ om geen meldingen te krijgen bij het verbreken van een "
-"verbinding met een netwerk."
-
-#: org.gnome.nm-applet.gschema.xml.in:16
-msgid "Disable VPN notifications"
-msgstr "VPN-meldingen uitschakelen"
-
-#: org.gnome.nm-applet.gschema.xml.in:17
-msgid ""
-"Set this to true to disable notifications when connecting to or "
-"disconnecting from a VPN."
-msgstr ""
-"Stel dit in op ‘true’ om geen meldingen te krijgen bij het maken of "
-"verbreken van een verbinding met een VPN."
-
-#: org.gnome.nm-applet.gschema.xml.in:21
-msgid "Suppress networks available notifications"
-msgstr "Meldingen over beschikbare draadloze netwerken onderdrukken"
-
-#: org.gnome.nm-applet.gschema.xml.in:22
-msgid ""
-"Set this to true to disable notifications when Wi-Fi networks are available."
-msgstr ""
-"Stel dit in op ‘true’ om geen meldingen te krijgen wanneer er wifi-netwerken "
-"beschikbaar zijn."
-
-#: org.gnome.nm-applet.gschema.xml.in:26
-msgid "Stamp"
-msgstr "Stempel"
-
-#: org.gnome.nm-applet.gschema.xml.in:27
-msgid "Used to determine whether settings should be migrated to a new version."
-msgstr ""
-"Gebruikt om te bepalen of instellingen moeten worden overgezet naar een "
-"nieuwe versie."
-
-#: org.gnome.nm-applet.gschema.xml.in:31
-msgid "Disable WiFi Create"
-msgstr "Wifi-aanmaken uitschakelen"
-
-#: org.gnome.nm-applet.gschema.xml.in:32
-msgid ""
-"Set to true to disable creation of adhoc networks when using the applet."
-msgstr ""
-"Stel dit in op ‘true’ om te zorgen dat er geen ad-hocnetwerken aangemaakt "
-"kunnen worden bij gebruik van de toepassing."
-
-#: org.gnome.nm-applet.gschema.xml.in:36
-msgid "Show the applet in notification area"
-msgstr "Toon het programmaatje in het mededelingengebied"
-
-#: org.gnome.nm-applet.gschema.xml.in:37
-msgid "Set to FALSE to disable displaying the applet in the notification area."
-msgstr ""
-"Stel dit in op FALSE om het weergeven van het programmaatje in het "
-"mededelingengebied, uit te schakelen."
-
 #: shared/nm-utils/nm-shared-utils.c:793
 #, c-format
 msgid "object class '%s' has no property named '%s'"
@@ -187,7 +112,7 @@ msgstr ""
 "waarde ‘%s’ van type ‘%s’ is ongeldig of buiten bereik voor eigenschap ‘%s’ "
 "type ‘%s’"
 
-#: src/8021x.ui:7 src/ethernet-dialog.c:90
+#: src/8021x.ui:11 src/ethernet-dialog.c:87
 msgid "802.1X authentication"
 msgstr "802.1X-authenticatie"
 
@@ -220,17 +145,13 @@ msgstr "_Verbinden"
 msgid "_Network name"
 msgstr "_Netwerknaam"
 
-#: src/ap-menu-item.c:68
+#: src/ap-menu-item.c:67
 msgid "ad-hoc"
 msgstr "ad hoc"
 
-#: src/ap-menu-item.c:73
+#: src/ap-menu-item.c:72
 msgid "secure."
 msgstr "veilig."
-
-#: src/ap-menu-item.c:77
-msgid "insecure."
-msgstr "onveilig."
 
 #: src/applet-device-broadband.c:147
 msgid "Wrong PUK code; please contact your provider."
@@ -257,7 +178,7 @@ msgid "Mobile Broadband"
 msgstr "Mobiel breedband"
 
 #: src/applet-device-broadband.c:780 src/applet-device-bt.c:61
-#: src/applet-device-ethernet.c:107
+#: src/applet-device-ethernet.c:107 src/applet-device-wifi.c:890
 msgid "Available"
 msgstr "Beschikbaar"
 
@@ -267,7 +188,7 @@ msgid "New Mobile Broadband connection…"
 msgstr "Nieuwe mobiele breedbandverbinding…"
 
 #: src/applet-device-broadband.c:809 src/applet-device-bt.c:75
-#: src/applet-device-ethernet.c:124 src/applet-device-wifi.c:1251
+#: src/applet-device-ethernet.c:124 src/applet-device-wifi.c:1293
 msgid "Connection Established"
 msgstr "Verbinding ingesteld"
 
@@ -306,7 +227,7 @@ msgstr "Mobiele breedbandverbinding ‘%s’ aan het instellen…"
 msgid "User authentication required for mobile broadband connection “%s”…"
 msgstr "Gebruikersauthenticatie vereist voor mobiele breedbandverbinding ‘%s’…"
 
-#: src/applet-device-bt.c:113 src/applet.c:2510 src/mobile-helpers.c:593
+#: src/applet-device-bt.c:113 src/applet.c:2579 src/mobile-helpers.c:593
 #, c-format
 msgid "Requesting a network address for “%s”…"
 msgstr "Er wordt een netwerkadres aangevraagd voor ‘%s’…"
@@ -345,7 +266,7 @@ msgstr "Bekabeld netwerk"
 
 # niet verbonden/verbinding verbroken
 #. Notify user of unmanaged or unavailable device
-#: src/applet-device-ethernet.c:99 src/applet.c:1265
+#: src/applet-device-ethernet.c:99 src/applet.c:1328
 msgid "disconnected"
 msgstr "verbinding verbroken"
 
@@ -411,84 +332,88 @@ msgstr "_Nieuw wifi-netwerk aanmaken…"
 msgid "(none)"
 msgstr "(geen)"
 
-#: src/applet-device-wifi.c:523 src/applet-device-wifi.c:1349
+#: src/applet-device-wifi.c:519 src/applet-device-wifi.c:1393
 msgid "Failed to add new connection"
 msgstr "Toevoegen van nieuwe verbinding mislukt"
 
-#: src/applet-device-wifi.c:524
+#: src/applet-device-wifi.c:520
 msgid "Insufficient privileges."
 msgstr "Onvoldoende rechten."
 
-#: src/applet-device-wifi.c:526 src/applet-device-wifi.c:1332
-#: src/applet-device-wifi.c:1352 src/applet.c:414 src/applet.c:497
+#: src/applet-device-wifi.c:522 src/applet-device-wifi.c:1375
+#: src/applet-device-wifi.c:1398 src/applet.c:417 src/applet.c:506
 msgid "Connection failure"
 msgstr "Verbindingsfout"
 
 # vaste netwerk/kabelnetwerk
-#: src/applet-device-wifi.c:827
+#: src/applet-device-wifi.c:822
 #, c-format
 msgid "Wi-Fi Networks (%s)"
 msgstr "Wifi-netwerken (%s)"
 
 # vaste netwerk
-#: src/applet-device-wifi.c:829
+#: src/applet-device-wifi.c:824
 #, c-format
 msgid "Wi-Fi Network (%s)"
 msgstr "Wifi-netwerk (%s)"
 
 # vaste netwerk
-#: src/applet-device-wifi.c:831
+#: src/applet-device-wifi.c:826
 msgid "Wi-Fi Network"
 msgid_plural "Wi-Fi Networks"
 msgstr[0] "Wifi-netwerk"
 msgstr[1] "Wifi-netwerken"
 
-#: src/applet-device-wifi.c:860
+#: src/applet-device-wifi.c:855
 msgid "Wi-Fi is disabled"
 msgstr "Wifi is uitgeschakeld"
 
-#: src/applet-device-wifi.c:861
+#: src/applet-device-wifi.c:856
 msgid "Wi-Fi is disabled by hardware switch"
 msgstr "Wifi is met de fysieke schakelaar uitgeschakeld"
 
-#: src/applet-device-wifi.c:887
-msgid "_Available networks"
-msgstr "Beschikb_are netwerken"
+#: src/applet-device-wifi.c:917
+msgid "More networks"
+msgstr "Meer netwerken"
 
-#: src/applet-device-wifi.c:1066
+#: src/applet-device-wifi.c:1107
 msgid "Wi-Fi Networks Available"
 msgstr "Wifi-netwerken beschikbaar"
 
-#: src/applet-device-wifi.c:1067
+#: src/applet-device-wifi.c:1108
 msgid "Use the network menu to connect to a Wi-Fi network"
 msgstr "Gebruik het netwerkmenu om verbinding te maken met een wifi-netwerk"
 
-#: src/applet-device-wifi.c:1249
+#: src/applet-device-wifi.c:1111 src/applet.c:828
+msgid "Don’t show this message again"
+msgstr "Dit bericht niet meer tonen"
+
+#: src/applet-device-wifi.c:1292
 #, c-format
 msgid "You are now connected to the Wi-Fi network “%s”."
 msgstr "U bent nu verbonden met het wifi-netwerk ‘%s’."
 
-#: src/applet-device-wifi.c:1286
+#: src/applet-device-wifi.c:1327
 #, c-format
 msgid "Preparing Wi-Fi network connection “%s”…"
 msgstr "Wifi-netwerkverbinding ‘%s’ aan het voorbereiden…"
 
-#: src/applet-device-wifi.c:1289
+#: src/applet-device-wifi.c:1330
 #, c-format
 msgid "Configuring Wi-Fi network connection “%s”…"
 msgstr "Wifi-netwerkverbinding ‘%s’ aan het instellen…"
 
-#: src/applet-device-wifi.c:1292
+#: src/applet-device-wifi.c:1333
 #, c-format
 msgid "User authentication required for Wi-Fi network “%s”…"
 msgstr "Gebruikersauthenticatie vereist voor wifi-netwerk ‘%s’…"
 
-#: src/applet-device-wifi.c:1295
+#: src/applet-device-wifi.c:1336
 #, c-format
 msgid "Requesting a Wi-Fi network address for “%s”…"
 msgstr "Aanvragen van een adres voor wifi-netwerk ‘%s’…"
 
-#: src/applet-device-wifi.c:1306
+#: src/applet-device-wifi.c:1347
 #, c-format
 msgid "Wi-Fi network connection “%s” active: %s (%d%%)"
 msgstr "Verbinding via wifi-netwerk ‘%s’ actief: %s (%d%%)"
@@ -497,17 +422,17 @@ msgstr "Verbinding via wifi-netwerk ‘%s’ actief: %s (%d%%)"
 # netwerkverbinding via de kabel/netwerk/netwerkverbinding
 # vaste netwerk/kabelnetwerkverbinding
 # verbinding via kabelnetwerk
-#: src/applet-device-wifi.c:1310
+#: src/applet-device-wifi.c:1351
 #, c-format
 msgid "Wi-Fi network connection “%s” active"
 msgstr "Verbinding via wifi-netwerk ‘%s’ actief"
 
-#: src/applet-device-wifi.c:1329
+#: src/applet-device-wifi.c:1370
 msgid "Failed to activate connection"
 msgstr "Activeren van verbinding mislukt"
 
-#: src/applet-device-wifi.c:1330 src/applet-device-wifi.c:1350 src/applet.c:412
-#: src/applet.c:463 src/applet.c:495
+#: src/applet-device-wifi.c:1372 src/applet-device-wifi.c:1395 src/applet.c:414
+#: src/applet.c:468 src/applet.c:503
 msgid "Unknown error"
 msgstr "Onbekende fout"
 
@@ -515,7 +440,7 @@ msgstr "Onbekende fout"
 msgid "Error displaying connection information:"
 msgstr "Fout bij weergeven van verbindingsinformatie:"
 
-#: src/applet-dialogs.c:60 src/connection-editor/page-wifi-security.c:384
+#: src/applet-dialogs.c:60 src/connection-editor/page-wifi-security.c:369
 msgid "LEAP"
 msgstr "LEAP"
 
@@ -523,7 +448,7 @@ msgstr "LEAP"
 msgid "Dynamic WEP"
 msgstr "Dynamisch WEP"
 
-#: src/applet-dialogs.c:64 src/applet-dialogs.c:226
+#: src/applet-dialogs.c:64 src/applet-dialogs.c:226 src/applet-dialogs.c:228
 msgid "WPA/WPA2"
 msgstr "WPA/WPA2"
 
@@ -536,18 +461,13 @@ msgstr "Meer adressen"
 msgid "WEP"
 msgstr "WEP"
 
-#: src/applet-dialogs.c:228
-#, fuzzy
-msgid "WPA/WPA2/WPA3"
-msgstr "WPA/WPA2"
-
 #: src/applet-dialogs.c:230
 msgid "WPA3"
 msgstr "WPA3"
 
 # zonder/geen
 #: src/applet-dialogs.c:234 src/applet-dialogs.c:243
-#: src/connection-editor/page-wifi-security.c:327
+#: src/connection-editor/page-wifi-security.c:320
 msgctxt "Wi-Fi/Ethernet security"
 msgid "None"
 msgstr "Geen"
@@ -726,7 +646,7 @@ msgstr "Website Netwerkbeheer"
 #: src/applet-dialogs.c:1137
 msgid "translator-credits"
 msgstr ""
-"Nathan Follens <nfollens@gnome.org>\n"
+"Nathan Follens <nthn@unseen.is>\n"
 "\n"
 "Meer info over Gnome-NL http://nl.gnome.org/"
 
@@ -840,27 +760,23 @@ msgstr ""
 "Kon verbinding niet naar VPN-gebruikersinterface schrijven: onvolledig "
 "schrijven"
 
-#: src/applet.c:411
+#: src/applet.c:412
 msgid "Failed to add/activate connection"
 msgstr "Toevoegen/activeren van de verbinding is mislukt"
 
-#: src/applet.c:462
+#: src/applet.c:466
 msgid "Device disconnect failed"
 msgstr "Verbreken van verbinding met apparaat is mislukt"
 
-#: src/applet.c:465
+#: src/applet.c:471
 msgid "Disconnect failure"
 msgstr "Verbinding verbreken mislukt"
 
-#: src/applet.c:494
+#: src/applet.c:501
 msgid "Connection activation failed"
 msgstr "Verbinding activeren mislukt"
 
-#: src/applet.c:731
-msgid "Don’t show this message again"
-msgstr "Dit bericht niet meer tonen"
-
-#: src/applet.c:831
+#: src/applet.c:918
 #, c-format
 msgid ""
 "\n"
@@ -871,7 +787,7 @@ msgstr ""
 "De verbinding met het VPN-netwerk ‘%s’ is verbroken omdat de "
 "netwerkverbinding werd onderbroken."
 
-#: src/applet.c:833
+#: src/applet.c:920
 #, c-format
 msgid ""
 "\n"
@@ -882,7 +798,7 @@ msgstr ""
 "De verbinding met het VPN-netwerk ‘%s’ is mislukt omdat de netwerkverbinding "
 "werd onderbroken."
 
-#: src/applet.c:835
+#: src/applet.c:922
 #, c-format
 msgid ""
 "\n"
@@ -892,7 +808,7 @@ msgstr ""
 "De verbinding met het VPN-netwerk  ‘%s’ is mislukt omdat de VPN-service "
 "onverwacht gestopt is."
 
-#: src/applet.c:837
+#: src/applet.c:924
 #, c-format
 msgid ""
 "\n"
@@ -904,7 +820,7 @@ msgstr ""
 "ongeldige configuratie teruggaf."
 
 # niet goed/onjuist
-#: src/applet.c:839
+#: src/applet.c:926
 #, c-format
 msgid ""
 "\n"
@@ -914,7 +830,7 @@ msgstr ""
 "De verbinding met het VPN-netwerk ‘%s’ is mislukt omdat de verbindingspoging "
 "de tijdslimiet heeft overschreden."
 
-#: src/applet.c:841
+#: src/applet.c:928
 #, c-format
 msgid ""
 "\n"
@@ -924,7 +840,7 @@ msgstr ""
 "De verbinding met het VPN-netwerk ‘%s’ is mislukt omdat de VPN-service niet "
 "tijdig gestart werd."
 
-#: src/applet.c:843
+#: src/applet.c:930
 #, c-format
 msgid ""
 "\n"
@@ -934,7 +850,7 @@ msgstr ""
 "De verbinding met het VPN-netwerk ‘%s’ is mislukt omdat de VPN-service niet "
 "opgestart kon worden."
 
-#: src/applet.c:845
+#: src/applet.c:932
 #, c-format
 msgid ""
 "\n"
@@ -944,7 +860,7 @@ msgstr ""
 "De verbinding met het VPN-netwerk ‘%s’ is mislukt omdat er geen geldige VPN-"
 "geheimen waren."
 
-#: src/applet.c:847
+#: src/applet.c:934
 #, c-format
 msgid ""
 "\n"
@@ -954,7 +870,7 @@ msgstr ""
 "De verbinding met het VPN-netwerk ‘%s’ is mislukt vanwege ongeldige VPN-"
 "geheimen."
 
-#: src/applet.c:852
+#: src/applet.c:939
 #, c-format
 msgid ""
 "\n"
@@ -963,7 +879,7 @@ msgstr ""
 "\n"
 "De VPN-verbinding met ‘%s’ is mislukt."
 
-#: src/applet.c:879
+#: src/applet.c:966
 #, c-format
 msgid ""
 "VPN connection has been successfully established.\n"
@@ -974,19 +890,19 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/applet.c:881
+#: src/applet.c:968
 msgid "VPN connection has been successfully established.\n"
 msgstr "VPN-verbinding is met succes opgebouwd.\n"
 
-#: src/applet.c:883
+#: src/applet.c:970
 msgid "VPN Login Message"
 msgstr "VPN-aanmeldbericht"
 
-#: src/applet.c:891 src/applet.c:931
+#: src/applet.c:978 src/applet.c:1018
 msgid "VPN Connection Failed"
 msgstr "VPN-verbinding mislukt"
 
-#: src/applet.c:935
+#: src/applet.c:1022
 #, c-format
 msgid ""
 "\n"
@@ -1000,7 +916,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/applet.c:938
+#: src/applet.c:1025
 #, c-format
 msgid ""
 "\n"
@@ -1013,142 +929,142 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/applet.c:1253
+#: src/applet.c:1316
 msgid "device not ready (firmware missing)"
 msgstr "apparaat niet gereed (firmware ontbreekt)"
 
-#: src/applet.c:1255
+#: src/applet.c:1318
 msgid "device not ready"
 msgstr "apparaat niet gereed"
 
-#: src/applet.c:1281
+#: src/applet.c:1344
 msgid "Disconnect"
 msgstr "Verbinding verbreken"
 
-#: src/applet.c:1295
+#: src/applet.c:1358
 msgid "device not managed"
 msgstr "apparaat wordt niet beheerd"
 
 # Er zijn geen netwerkapparaten geconfigureerd/gevonden
-#: src/applet.c:1369
+#: src/applet.c:1432
 msgid "No network devices available"
 msgstr "Er zijn geen netwerkapparaten beschikbaar"
 
 # Netwerken
-#: src/applet.c:1415
+#: src/applet.c:1484
 msgid "_VPN Connections"
 msgstr "_VPN-verbindingen"
 
-#: src/applet.c:1459
+#: src/applet.c:1528
 msgid "_Configure VPN…"
 msgstr "VPN _configureren…"
 
 # Netwerken
-#: src/applet.c:1462
+#: src/applet.c:1531
 msgid "_Add a VPN connection…"
 msgstr "Een _VPN-verbinding toevoegen…"
 
-#: src/applet.c:1568
+#: src/applet.c:1637
 msgid "NetworkManager is not running…"
 msgstr "Netwerkbeheer draait niet…"
 
-#: src/applet.c:1573 src/applet.c:2641
+#: src/applet.c:1642 src/applet.c:2710
 msgid "Networking disabled"
 msgstr "Netwerken is uitgeschakeld"
 
 #. 'Enable Networking' item
-#: src/applet.c:1783
+#: src/applet.c:1852
 msgid "Enable _Networking"
 msgstr "_Netwerk inschakelen"
 
 # Wireless gebruiken
 #. 'Enable Wi-Fi' item
-#: src/applet.c:1792
+#: src/applet.c:1861
 msgid "Enable _Wi-Fi"
 msgstr "_Wifi inschakelen"
 
 # gebruiken/aanzetten/inschakelen
 #. 'Enable Mobile Broadband' item
-#: src/applet.c:1801
+#: src/applet.c:1870
 msgid "Enable _Mobile Broadband"
 msgstr "_Mobiel breedband inschakelen"
 
 #. Toggle notifications item
-#: src/applet.c:1813
+#: src/applet.c:1882
 msgid "Enable N_otifications"
 msgstr "_Meldingen inschakelen"
 
 #. 'Connection Information' item
-#: src/applet.c:1825
+#: src/applet.c:1894
 msgid "Connection _Information"
 msgstr "Verbindings_informatie"
 
 #. 'Edit Connections...' item
-#: src/applet.c:1833
+#: src/applet.c:1902
 msgid "Edit Connections…"
 msgstr "Verbindingen bewerken…"
 
-#: src/applet.c:1847
+#: src/applet.c:1916
 msgid "_About"
 msgstr "I_nfo"
 
 # met het netwerk %s/via het netwerk
-#: src/applet.c:2161
+#: src/applet.c:2230
 #, c-format
 msgid "You are now connected to “%s”."
 msgstr "U bent nu verbonden met ‘%s’."
 
-#: src/applet.c:2201
+#: src/applet.c:2270
 msgid "Disconnected"
 msgstr "Verbinding verbroken"
 
-#: src/applet.c:2202
+#: src/applet.c:2271
 msgid "The network connection has been disconnected."
 msgstr "De verbinding met het netwerk is verbroken."
 
-#: src/applet.c:2504
+#: src/applet.c:2573
 #, c-format
 msgid "Preparing network connection “%s”…"
 msgstr "Netwerkverbinding ‘%s’ aan het voorbereiden…"
 
-#: src/applet.c:2507
+#: src/applet.c:2576
 #, c-format
 msgid "User authentication required for network connection “%s”…"
 msgstr "Gebruikersauthenticatie vereist voor netwerkverbinding ‘%s’…"
 
 # is actief/actief
-#: src/applet.c:2513
+#: src/applet.c:2582
 #, c-format
 msgid "Network connection “%s” active"
 msgstr "Netwerkverbinding ‘%s’ is actief"
 
-#: src/applet.c:2586
+#: src/applet.c:2655
 #, c-format
 msgid "Starting VPN connection “%s”…"
 msgstr "Bezig met starten van VPN-verbinding ‘%s’…"
 
-#: src/applet.c:2589
+#: src/applet.c:2658
 #, c-format
 msgid "User authentication required for VPN connection “%s”…"
 msgstr "Gebruikersauthenticatie vereist voor VPN-verbinding ‘%s’…"
 
-#: src/applet.c:2592
+#: src/applet.c:2661
 #, c-format
 msgid "Requesting a VPN address for “%s”…"
 msgstr "VPN-adres aanvragen voor ‘%s’…"
 
 # actief/ingesteld/in werking
 # met/via
-#: src/applet.c:2595
+#: src/applet.c:2664
 msgid "VPN connection active"
 msgstr "VPN-verbinding is actief"
 
 # geen netwerk/netwerkverbinding
-#: src/applet.c:2645
+#: src/applet.c:2714
 msgid "No network connection"
 msgstr "Geen netwerkverbinding"
 
-#: src/applet.c:3280
+#: src/applet.c:3324
 msgid "NetworkManager Applet"
 msgstr "Netwerkbeheer-applet"
 
@@ -1278,7 +1194,7 @@ msgid "Bonded _connections"
 msgstr "Ge_bundelde verbindingen"
 
 #: src/connection-editor/ce-page-bond.ui:105
-#: src/connection-editor/ce-page-wifi.ui:294
+#: src/connection-editor/ce-page-wifi.ui:400
 msgid "M_ode"
 msgstr "M_odus"
 
@@ -1337,10 +1253,10 @@ msgstr "_Primair"
 #: src/connection-editor/ce-page-bond.ui:495
 msgid ""
 "The interface name of the primary device. If set, this device will always be "
-"the active port when it is available."
+"the active slave when it is available."
 msgstr ""
-"De interfacenaam van het primaire apparaat. Indien ingesteld zal dit "
-"apparaat altijd de actieve poort zijn wanneer het beschikbaar is."
+"De interfacenaam van het primaire apparaat. Indien ingesteld, zal dit "
+"apparaat altijd de actieve slave zijn wanneer het beschikbaar is."
 
 #: src/connection-editor/ce-page-bond.ui:507
 #: src/connection-editor/ce-page-ethernet.ui:188
@@ -2174,18 +2090,11 @@ msgstr "IPv6 _privacyuitbreidingen"
 msgid ""
 "If enabled, it makes the kernel generate a temporary IPv6 address in "
 "addition to the public one generated from MAC address. This enhances "
-"privacy, but could cause problems in some applications. If set to "
-"\"Default\", the value from NetworkManager global configuration is used. If "
-"that is also unset, use the kernel default value read from file \"/proc/sys/"
-"net/ipv6/conf/default/use_tempaddr\""
+"privacy, but could cause problems in some applications. If set to \"Default"
+"\", the value from NetworkManager global configuration is used. If that is "
+"also unset, use the kernel default value read from file \"/proc/sys/net/ipv6/"
+"conf/default/use_tempaddr\""
 msgstr ""
-"Indien ingeschakeld genereert de kernel een tijdelijk IPv6-adres naast het "
-"publieke adres dat op basis van het MAC-adres wordt gegenereerd. Dit "
-"verbetert uw privacy, maar kan in sommige toepassingen voor problemen "
-"zorgen. Indien ingeschakeld op ‘Standaard’ wordt de waarde van de globale "
-"configuratie van NetworkManager gebruikt. Als die ook niet ingesteld is, "
-"wordt de kernelstandaardwaarde uit het bestand ‘/proc/sys/net/ipv6/conf/"
-"default/use_tempaddr’ gebruikt"
 
 #: src/connection-editor/ce-page-ip6.ui:323
 msgid "IPv6 address _generation mode"
@@ -2273,7 +2182,7 @@ msgstr "C_AK"
 
 #: src/connection-editor/ce-page-macsec.ui:181
 msgid "The pre-shared Connectivity Association Key"
-msgstr "De voorafgedeelde Connectivity Association Key"
+msgstr "The pre-shared Connectivity Association Key"
 
 #: src/connection-editor/ce-page-macsec.ui:193
 msgid "C_KN"
@@ -2281,8 +2190,8 @@ msgstr "C_KN"
 
 # Lastig te vertalen, dus laat ik het even zo. - Hannie
 #: src/connection-editor/ce-page-macsec.ui:206
-msgid "The pre-shared Connectivity-association Key Name"
-msgstr "De naam van de voorafgedeelde Connectivity Association Key"
+msgid " The pre-shared Connectivity-association Key Name"
+msgstr " The pre-shared Connectivity-association Key Name"
 
 #: src/connection-editor/ce-page-macsec.ui:217
 msgid "Parameters"
@@ -2982,7 +2891,7 @@ msgstr "Apparaatnaam + nummer"
 #. LEAVE "vlan" UNTRANSLATED. In context, this means "concatenate the string 'vlan' and the VLAN ID number together".
 #: src/connection-editor/ce-page-vlan.ui:288
 msgid "\"vlan\" + number"
-msgstr "“vlan” + nummer"
+msgstr "\"vlan\" + nummer"
 
 #: src/connection-editor/ce-page-wifi-security.ui:29
 msgid "S_ecurity"
@@ -3004,55 +2913,74 @@ msgstr "Client"
 msgid "Ad-hoc"
 msgstr "Ad-hoc"
 
-#: src/connection-editor/ce-page-wifi.ui:205
+#: src/connection-editor/ce-page-wifi.ui:203
+msgid "mW"
+msgstr "mW"
+
+# signaalsterkte
+#: src/connection-editor/ce-page-wifi.ui:222
+msgid "Transmission po_wer"
+msgstr "Si_gnaalsterkte"
+
+#: src/connection-editor/ce-page-wifi.ui:256
+msgid "Mb/s"
+msgstr "Mb/s"
+
+# bandbreedte/snelheid/frequentie
+# B/G
+#: src/connection-editor/ce-page-wifi.ui:275
+msgid "_Rate"
+msgstr "S_nelheid"
+
+#: src/connection-editor/ce-page-wifi.ui:311
 msgid "_BSSID"
 msgstr "_BSSID"
 
-#: src/connection-editor/ce-page-wifi.ui:230
+#: src/connection-editor/ce-page-wifi.ui:336
 msgid "C_hannel"
 msgstr "_Kanaal"
 
-#: src/connection-editor/ce-page-wifi.ui:262
+#: src/connection-editor/ce-page-wifi.ui:368
 msgid "Ban_d"
 msgstr "Ban_d"
 
-#: src/connection-editor/ce-page-wifi.ui:308
+#: src/connection-editor/ce-page-wifi.ui:414
 msgid "SS_ID"
 msgstr "SS_ID"
 
 #: src/connection-editor/ce-page-wireguard.ui:23
 msgid "Edit WireGuard peer"
-msgstr "WireGuard-peer bewerken"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:55
 msgid "_Apply"
-msgstr "Toep_assen"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:159
 msgid "_Public key"
-msgstr "_Publieke sleutel"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:173
+#, fuzzy
 msgid "Allowed _IPs"
-msgstr "Toegestane _IP-adressen"
+msgstr "Toegestane methoden"
 
 #: src/connection-editor/ce-page-wireguard.ui:187
 msgid "_Endpoint"
-msgstr "_Eindpunt"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:201
+#, fuzzy
 msgid "Pre_shared key"
-msgstr "_Voorafgedeelde sleutel"
+msgstr "Gedeelde sleutel"
 
 #: src/connection-editor/ce-page-wireguard.ui:215
 msgid "Persistent _keepalive"
-msgstr "Blijvend _actief houden"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:228
 msgid "A base64 public key calculated by 'wg pubkey' from a private key."
 msgstr ""
-"Een publieke sleutel in base64-codering berekend door ‘wg pubkey’ van een "
-"privésleutel."
 
 #: src/connection-editor/ce-page-wireguard.ui:240
 msgid ""
@@ -3060,16 +2988,11 @@ msgid ""
 "incoming traffic for this peer is allowed and to which outgoing traffic for "
 "this peer is directed."
 msgstr ""
-"Lijst, gescheiden door komma’s, met IP-adressen (v4 of v6) met CIDR-maskers "
-"waarvoor inkomend verkeer voor deze peer wordt toegestaan en naar waar "
-"uitgaand verkeerd voor deze peer wordt verwezen."
 
 #: src/connection-editor/ce-page-wireguard.ui:252
 msgid ""
 "An endpoint IP or hostname, followed by a colon, and then a port number."
 msgstr ""
-"Een eindpunt-IP of -hostnaam, gevolgd door een dubbelpunt, en vervolgens een "
-"poortnummer."
 
 #: src/connection-editor/ce-page-wireguard.ui:264
 msgid ""
@@ -3078,10 +3001,6 @@ msgid ""
 "into the already existing public-key cryptography, for post-quantum "
 "resistance."
 msgstr ""
-"Een voorafgedeelde sleutel in base64-codering gegenereerd door ‘wg genpsk’. "
-"Optioneel, en kan weggelaten worden. Voegt een extra laag "
-"symmetrischesleutelcryptografie toe aan de reeds bestaande "
-"publiekesleutelcryptografie voor post-quantum-resistentie."
 
 #: src/connection-editor/ce-page-wireguard.ui:280
 msgid ""
@@ -3089,71 +3008,66 @@ msgid ""
 "of keeping a stateful firewall or NAT mapping valid. This is optional and "
 "not recommended outside of specific setups."
 msgstr ""
-"Hoe vaak een geauthenticeerd leeg pakket naar de peer gezonden moet worden "
-"om een firewall staatvol of NAT-toewijzing geldig te houden. Dit is "
-"optioneel en wordt niet aanbevolen buiten specifieke configuraties."
 
 #: src/connection-editor/ce-page-wireguard.ui:297
 msgid "seconds"
-msgstr "seconden"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:313
+#, fuzzy
 msgid "Sho_w preshared key"
-msgstr "Voorafgedeelde sleutel _tonen"
+msgstr "Sleutel _tonen"
 
 #: src/connection-editor/ce-page-wireguard.ui:386
 msgid "The name of the wireguard interface to create."
-msgstr "De naam van de aan te maken WireGuard-interface."
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:400
+#, fuzzy
 msgid "Private _key"
-msgstr "Privé_sleutel"
+msgstr "%s privé_sleutel"
 
 #: src/connection-editor/ce-page-wireguard.ui:413
 msgid "The 256 bit private key in base64 encoding"
-msgstr "De 256-bits privésleutel in base64-codering"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:429
+#, fuzzy
 msgid "_Listen port"
-msgstr "_Luisterpoort"
+msgstr "_Minimum aantal poorten"
 
 #: src/connection-editor/ce-page-wireguard.ui:442
 msgid ""
 "A port to listen on. If set to 'automatic', the port will be chosen randomly "
 "when the interface comes up."
 msgstr ""
-"Een poort om op te luisteren. Indien ingesteld op ‘automatisch’ zal de poort "
-"willekeurig gekozen worden wanneer de interface verschijnt."
 
 #: src/connection-editor/ce-page-wireguard.ui:459
 msgid "_Fwmark"
-msgstr "_Fwmark"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:489
 msgid "Add peer _routes"
-msgstr "Peer_routes toevoegen"
+msgstr ""
 
 #: src/connection-editor/ce-page-wireguard.ui:503
 msgid ""
 "Whether to automatically add routes for the AllowedIPs ranges of the peers"
 msgstr ""
-"Of routes voor de bereiken met toegestane IP-adressen van de peers "
-"automatisch toegevoegd dienen te worden"
 
 #: src/connection-editor/ce-page-wireguard.ui:543
 msgid ""
 "A 32-bit fwmark for outgoing packets. Leave it to 'off' to disable fwmark."
 msgstr ""
-"Een 32-bits fwmark voor uitgaande pakketten. Stel dit in op ‘uit’ om fwmark "
-"uit te schakelen."
 
 #: src/connection-editor/ce-page-wireguard.ui:554
+#, fuzzy
 msgid "_Show private key"
-msgstr "Privé_sleutel tonen"
+msgstr "%s privé_sleutel"
 
 #: src/connection-editor/ce-page-wireguard.ui:641
 msgid "<b>_Peers</b>"
-msgstr "<b>_Peers</b>"
+msgstr ""
 
 #: src/connection-editor/ce-page.c:105
 msgid "automatic"
@@ -3161,7 +3075,7 @@ msgstr "automatisch"
 
 #: src/connection-editor/ce-page.c:117
 msgid "off"
-msgstr "uit"
+msgstr ""
 
 #: src/connection-editor/ce-page.c:163
 msgid "unspecified error"
@@ -3388,12 +3302,13 @@ msgstr "MACsec"
 # wired/wireless/VPN/GSM
 #: src/connection-editor/connection-helpers.c:110
 #: src/connection-editor/page-wireguard.c:510
+#, fuzzy
 msgid "WireGuard"
-msgstr "WireGuard"
+msgstr "Kabel"
 
 #: src/connection-editor/connection-helpers.c:112
 #: src/connection-editor/connection-helpers.c:374
-#: src/connection-editor/page-vpn.c:92
+#: src/connection-editor/page-vpn.c:86
 msgid "VPN"
 msgstr "VPN"
 
@@ -3560,11 +3475,11 @@ msgstr ""
 "Waarschuwing: de verbinding bevat enkele eigenschappen die niet ondersteund "
 "worden door de editor. Ze zullen bij opslaan gewist worden."
 
-#: src/connection-editor/nm-connection-editor.c:751
+#: src/connection-editor/nm-connection-editor.c:749
 msgid "Error initializing editor"
 msgstr "Fout bij het initialiseren van de editor"
 
-#: src/connection-editor/nm-connection-editor.c:1176
+#: src/connection-editor/nm-connection-editor.c:1159
 msgid "Connection add failed"
 msgstr "Verbinding toevoegen is mislukt"
 
@@ -3745,15 +3660,15 @@ msgstr "Netwerkverbindingen"
 msgid "Add a new connection"
 msgstr "Een nieuwe verbindingen toevoegen"
 
-#: src/connection-editor/page-8021x-security.c:97
+#: src/connection-editor/page-8021x-security.c:96
 msgid "802.1X Security"
 msgstr "802.1X-beveiliging"
 
-#: src/connection-editor/page-8021x-security.c:99
+#: src/connection-editor/page-8021x-security.c:98
 msgid "Could not load 802.1X Security user interface."
 msgstr "Kon de gebruikersinterface voor 802.1X-beveiliging niet laden."
 
-#: src/connection-editor/page-8021x-security.c:113
+#: src/connection-editor/page-8021x-security.c:112
 msgid "Use 802.1_X security for this connection"
 msgstr "Gebruik 802.1_X-beveiliging voor deze verbinding"
 
@@ -4053,30 +3968,29 @@ msgstr "Laden van de gebruikersinterface voor MACsec-gebruiker is mislukt."
 msgid "MACSEC connection %d"
 msgstr "MACSEC-verbinding %d"
 
-# Moet beter kunnen - Nathan
 #: src/connection-editor/page-master.c:221
 #: src/connection-editor/page-master.c:232
-msgid "Duplicate ports"
-msgstr "Dubbele poorten"
+msgid "Duplicate slaves"
+msgstr "Duplicaat-slaves"
 
 #: src/connection-editor/page-master.c:222
 #, c-format
-msgid "Ports “%s” and “%s” both apply to device “%s”"
-msgstr "Poorten ‘%s’ en ‘%s’ gelden beide voor apparaat ‘%s’"
+msgid "Slaves “%s” and “%s” both apply to device “%s”"
+msgstr "Slaves ‘%s’ en ‘%s’ gelden beide voor apparaat ‘%s’"
 
 #: src/connection-editor/page-master.c:233
 #, c-format
 msgid ""
-"Ports “%s” and “%s” apply to different virtual ports (“%s” and “%s”) of the "
+"Slaves “%s” and “%s” apply to different virtual ports (“%s” and “%s”) of the "
 "same physical device."
 msgstr ""
-"Poorten ‘%s’ en ‘%s’ gelden voor verschillende virtuele poorten (‘%s’ en "
+"Slaves ‘%s’ en ‘%s’ gelden voor verschillende virtuele poorten (‘%s’ en "
 "‘%s’) van hetzelfde fysieke apparaat."
 
 #: src/connection-editor/page-master.c:357
 #, c-format
-msgid "%s port %d"
-msgstr "%s poort %d"
+msgid "%s slave %d"
+msgstr "%s slave %d"
 
 #: src/connection-editor/page-mobile.c:297
 msgid "Could not load mobile broadband user interface."
@@ -4225,26 +4139,26 @@ msgstr "Laden van de VPN-plugin-editor voor ‘%s’ (%s) is mislukt."
 msgid "unknown failure"
 msgstr "onbekende fout"
 
-#: src/connection-editor/page-vpn.c:94
+#: src/connection-editor/page-vpn.c:88
 msgid "Could not load VPN user interface."
 msgstr "Kon de VPN-gebruikersinterface niet laden."
 
-#: src/connection-editor/page-vpn.c:109
+#: src/connection-editor/page-vpn.c:103
 #, c-format
 msgid "Could not find VPN plugin for “%s”."
 msgstr "VPN-plugin voor ‘%s’ niet gevonden."
 
-#: src/connection-editor/page-vpn.c:191
+#: src/connection-editor/page-vpn.c:185
 #, c-format
 msgid "VPN connection %d"
 msgstr "VPN-verbinding %d"
 
 # Kies een VPN-verbindingstype
-#: src/connection-editor/page-vpn.c:197
+#: src/connection-editor/page-vpn.c:191
 msgid "Choose a VPN Connection Type"
 msgstr "Een VPN-verbindingstype kiezen"
 
-#: src/connection-editor/page-vpn.c:198
+#: src/connection-editor/page-vpn.c:192
 msgid ""
 "Select the type of VPN you wish to use for the new connection. If the type "
 "of VPN connection you wish to create does not appear in the list, you may "
@@ -4254,38 +4168,35 @@ msgstr ""
 "Wanneer het gewenste type VPN-verbinding niet in de lijst voorkomt is de "
 "juiste VPN-plugin mogelijk niet geïnstalleerd."
 
-#: src/connection-editor/page-wifi-security.c:359
+#: src/connection-editor/page-wifi-security.c:346
 msgid "WEP 40/128-bit Key (Hex or ASCII)"
 msgstr "WEP 40/128-bit sleutel (Hex or ASCII)"
 
-#: src/connection-editor/page-wifi-security.c:372
+#: src/connection-editor/page-wifi-security.c:356
 msgid "WEP 128-bit Passphrase"
 msgstr "WEP 128-bit wachtwoordzin"
 
-#: src/connection-editor/page-wifi-security.c:397
+#: src/connection-editor/page-wifi-security.c:382
 msgid "Dynamic WEP (802.1X)"
 msgstr "Dynamisch WEP (802.1X)"
 
-#: src/connection-editor/page-wifi-security.c:410
-#, fuzzy
-msgid "WPA/WPA2/WPA3 Personal"
+#: src/connection-editor/page-wifi-security.c:395
+msgid "WPA & WPA2 Personal"
 msgstr "WPA & WPA2 persoonlijk"
 
-#: src/connection-editor/page-wifi-security.c:423
-#, fuzzy
-msgid "WPA/WPA2 Enterprise"
+#: src/connection-editor/page-wifi-security.c:408
+msgid "WPA & WPA2 Enterprise"
 msgstr "WPA & WPA2 zakelijk"
 
-#: src/connection-editor/page-wifi-security.c:436
+#: src/connection-editor/page-wifi-security.c:421
 msgid "WPA3 Personal"
 msgstr "WPA3 persoonlijk"
 
-#: src/connection-editor/page-wifi-security.c:449
-#: src/connection-editor/page-wifi-security.c:457
+#: src/connection-editor/page-wifi-security.c:431
 msgid "Enhanced Open"
-msgstr "Enhanced Open"
+msgstr ""
 
-#: src/connection-editor/page-wifi-security.c:503
+#: src/connection-editor/page-wifi-security.c:476
 msgid "Could not load Wi-Fi security user interface; missing Wi-Fi setting."
 msgstr ""
 "Laden van gebruikersinterface voor beveiliging wifi-netwerk mislukt; wifi-"
@@ -4293,19 +4204,19 @@ msgstr ""
 
 # Bedoeld wordt beveiliging van het draadloos netwerk.
 # niet dat de beveiling draadloos is.
-#: src/connection-editor/page-wifi-security.c:514
+#: src/connection-editor/page-wifi-security.c:487
 msgid "Wi-Fi Security"
 msgstr "Wifi-beveiliging"
 
-#: src/connection-editor/page-wifi-security.c:516
+#: src/connection-editor/page-wifi-security.c:489
 msgid "Could not load Wi-Fi security user interface."
 msgstr "Laden van gebruikersinterface voor wifi-beveiliging mislukt."
 
-#: src/connection-editor/page-wifi-security.c:597
+#: src/connection-editor/page-wifi-security.c:570
 msgid "missing SSID"
 msgstr "ontbrekende SSID"
 
-#: src/connection-editor/page-wifi-security.c:603
+#: src/connection-editor/page-wifi-security.c:576
 msgid "Security not compatible with Ad-Hoc mode"
 msgstr "Beveiliging niet compatibel met Ad-Hoc-modus"
 
@@ -4351,21 +4262,23 @@ msgstr "Wifi-verbinding %d"
 
 #: src/connection-editor/page-wireguard.c:261
 msgid "Public key"
-msgstr "Publieke sleutel"
+msgstr ""
 
 #: src/connection-editor/page-wireguard.c:268
+#, fuzzy
 msgid "Allowed IPs"
-msgstr "Toegestane IP-adressen"
+msgstr "Toegestane methoden"
 
 #: src/connection-editor/page-wireguard.c:512
+#, fuzzy
 msgid "Could not load WireGuard user interface."
-msgstr "Kon de WireGuard-gebruikersinterface niet laden."
+msgstr "Kon de team-gebruikersinterface niet laden."
 
 # draadloos verbinding
 #: src/connection-editor/page-wireguard.c:628
-#, c-format
+#, fuzzy, c-format
 msgid "WireGuard connection %d"
-msgstr "WireGuard-verbinding %d"
+msgstr "Draadloze verbinding %d"
 
 #: src/connection-editor/vpn-helpers.c:118
 #, c-format
@@ -4424,10 +4337,11 @@ msgstr "Gebruik:"
 
 #: src/main.c:30
 msgid ""
-"This program is a component of NetworkManager (https://networkmanager.dev)."
+"This program is a component of NetworkManager (https://wiki.gnome.org/"
+"Projects/NetworkManager/)."
 msgstr ""
-"Dit programma is een onderdeel van Netwerkbeheer (https://networkmanager."
-"dev)."
+"Dit programma is een onderdeel van Netwerkbeheer (https://wiki.gnome.org/"
+"Projects/NetworkManager/)."
 
 #: src/main.c:31
 msgid ""
@@ -4556,29 +4470,11 @@ msgstr "PEM-certificaten (*.pem, *.crt, *.cer)"
 msgid "DER, PEM, or PKCS#12 private keys (*.der, *.pem, *.p12, *.key)"
 msgstr "DER, PEM, of PKCS#12 private sleutels (*.der, *.pem, *.p12, *.key)"
 
-#~ msgid "mW"
-#~ msgstr "mW"
-
-# signaalsterkte
-#~ msgid "Transmission po_wer"
-#~ msgstr "Si_gnaalsterkte"
-
-#~ msgid "Mb/s"
-#~ msgstr "Mb/s"
-
-# bandbreedte/snelheid/frequentie
-# B/G
-#~ msgid "_Rate"
-#~ msgstr "S_nelheid"
-
 #~ msgid "nm-device-wireless"
 #~ msgstr "nm-device-wireless"
 
 #~ msgid "preferences-system-network"
 #~ msgstr "preferences-system-network"
-
-#~ msgid "More networks"
-#~ msgstr "Meer netwerken"
 
 #~ msgid "missing EAP-FAST PAC file"
 #~ msgstr "ontbrekend EAP-FAST PAC-bestand"
@@ -4727,12 +4623,14 @@ msgstr "DER, PEM, of PKCS#12 private sleutels (*.der, *.pem, *.p12, *.key)"
 #~ msgid "missing wep-key"
 #~ msgstr "ontbrekende wep-sleutel"
 
+#, c-format
 #~ msgid ""
 #~ "invalid wep-key: key with a length of %zu must contain only hex-digits"
 #~ msgstr ""
 #~ "ongeldige wep-sleutel: sleutel met een lengte van %zu mag alleen hex-"
 #~ "cijfers bevatten"
 
+#, c-format
 #~ msgid ""
 #~ "invalid wep-key: key with a length of %zu must contain only ascii "
 #~ "characters"
@@ -4740,6 +4638,7 @@ msgstr "DER, PEM, of PKCS#12 private sleutels (*.der, *.pem, *.p12, *.key)"
 #~ "ongeldige wep-sleutel: sleutel met een lengte van %zu mag alleen ascii-"
 #~ "tekens bevatten"
 
+#, c-format
 #~ msgid ""
 #~ "invalid wep-key: wrong key length %zu. A key must be either of length "
 #~ "5/13 (ascii) or 10/26 (hex)"
@@ -4766,6 +4665,7 @@ msgstr "DER, PEM, of PKCS#12 private sleutels (*.der, *.pem, *.p12, *.key)"
 #~ msgid "WEP inde_x"
 #~ msgstr "WEP-inde_x"
 
+#, c-format
 #~ msgid ""
 #~ "invalid wpa-psk: invalid key-length %zu. Must be [8,63] bytes or 64 hex "
 #~ "digits"
@@ -4777,6 +4677,72 @@ msgstr "DER, PEM, of PKCS#12 private sleutels (*.der, *.pem, *.p12, *.key)"
 #~ msgstr ""
 #~ "ongeldige wpa-psk: interpreteren van sleutel met 64 bytes als hex is niet "
 #~ "mogelijk"
+
+#~ msgid "Disable connected notifications"
+#~ msgstr "Geen meldingen tonen bij verbinding"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when connecting to a network."
+#~ msgstr ""
+#~ "Stel dit in op ‘true’ om geen meldingen te krijgen bij het verbinden met "
+#~ "een netwerk."
+
+#~ msgid "Disable disconnected notifications"
+#~ msgstr "Geen meldingen tonen bij verbroken verbinding"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when disconnecting from a "
+#~ "network."
+#~ msgstr ""
+#~ "Stel dit in op ‘true’ om geen meldingen te krijgen bij het verbreken van "
+#~ "een verbinding met een netwerk."
+
+#~ msgid "Disable VPN notifications"
+#~ msgstr "VPN-meldingen uitschakelen"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when connecting to or "
+#~ "disconnecting from a VPN."
+#~ msgstr ""
+#~ "Stel dit in op ‘true’ om geen meldingen te krijgen bij het maken of "
+#~ "verbreken van een verbinding met een VPN."
+
+#~ msgid "Suppress networks available notifications"
+#~ msgstr "Meldingen over beschikbare draadloze netwerken onderdrukken"
+
+#~ msgid ""
+#~ "Set this to true to disable notifications when Wi-Fi networks are "
+#~ "available."
+#~ msgstr ""
+#~ "Stel dit in op ‘true’ om geen meldingen te krijgen wanneer er wifi-"
+#~ "netwerken beschikbaar zijn."
+
+#~ msgid "Stamp"
+#~ msgstr "Stempel"
+
+#~ msgid ""
+#~ "Used to determine whether settings should be migrated to a new version."
+#~ msgstr ""
+#~ "Gebruikt om te bepalen of instellingen moeten worden overgezet naar een "
+#~ "nieuwe versie."
+
+#~ msgid "Disable WiFi Create"
+#~ msgstr "Wifi-aanmaken uitschakelen"
+
+#~ msgid ""
+#~ "Set to true to disable creation of adhoc networks when using the applet."
+#~ msgstr ""
+#~ "Stel dit in op ‘true’ om te zorgen dat er geen ad-hocnetwerken aangemaakt "
+#~ "kunnen worden bij gebruik van de toepassing."
+
+#~ msgid "Show the applet in notification area"
+#~ msgstr "Toon het programmaatje in het mededelingengebied"
+
+#~ msgid ""
+#~ "Set to FALSE to disable displaying the applet in the notification area."
+#~ msgstr ""
+#~ "Stel dit in op FALSE om het weergeven van het programmaatje in het "
+#~ "mededelingengebied, uit te schakelen."
 
 #~ msgid "Ignore CA certificate"
 #~ msgstr "CA-certificaat negeren"
@@ -5584,6 +5550,9 @@ msgstr "DER, PEM, of PKCS#12 private sleutels (*.der, *.pem, *.p12, *.key)"
 
 #~ msgid "Modem network"
 #~ msgstr "Modemnetwerk"
+
+#~ msgid "Available to all users"
+#~ msgstr "Beschikbaar voor alle gebruikers"
 
 #~ msgid "_SSID:"
 #~ msgstr "_SSID:"

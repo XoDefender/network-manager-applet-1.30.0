@@ -1,8 +1,11 @@
 Force-online-state-with-unmanaged-devices.patch
-rbt-apply-patches.patch
+applet-support-activating-WireGuard-connections-as-VPNs.patch
+editor-fix-crash-when-evaluating-secondaries.patch
+astra_ci-202310161658.patch
+rbt-show-802.1x-security-btn.patch
 rbt-add-cert-password-flags-support.patch
+rbt-block-editor-on-get-secrets-error.patch
 rbt-autostart-applet-in-second-phase.patch
 rbt-block-save-btn-on-validation-error.patch
 rbt-fix-conn-info-ru-po.patch
-rbt-fix-ineffective-notification-button.patch
 rbt-add-notification-on-vpn-user-disconnect.patch

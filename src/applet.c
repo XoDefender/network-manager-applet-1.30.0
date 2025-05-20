@@ -21,6 +21,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <stdlib.h>
+#include <libnotify/notify.h>
 
 #include "applet.h"
 #include "applet-device-bt.h"
@@ -276,7 +277,7 @@ applet_get_default_active_connection (NMApplet *applet, NMDevice **device,
 		/* We have to return default connection/device even if they are of an
 		 * unknown class - otherwise we may end up returning non
 		 * default interface which has nothing to do with our default
-		 * route, e.g. we may return an ethernet port when we have
+		 * route, e.g. we may return slave ethernet when we have
 		 * defult route going through bond */
 
 		if (nm_active_connection_get_default (candidate)) {
@@ -314,7 +315,7 @@ applet_get_all_connections (NMApplet *applet)
 	all_connections = nm_client_get_connections (applet->nm_client);
 	connections = g_ptr_array_new_full (all_connections->len, g_object_unref);
 
-	/* Ignore port connections unless they are wifi connections */
+	/* Ignore slave connections unless they are wifi connections */
 	for (i = 0; i < all_connections->len; i++) {
 		connection = all_connections->pdata[i];
 
@@ -409,9 +410,12 @@ add_and_activate_cb (GObject *client,
 
 	if (error) {
 		const char *text = _("Failed to add/activate connection");
-		const char *err_text = error->message ? error->message : _("Unknown error");
+		char *err_text = g_strdup_printf ("(%d) %s", error->code,
+		                                  error->message ? error->message : _("Unknown error"));
 
+		g_warning ("%s: %s", text, err_text);
 		utils_show_error_dialog (_("Connection failure"), text, err_text, FALSE, NULL);
+		g_free (err_text);
 		g_error_free (error);
 	}
 
@@ -460,9 +464,12 @@ disconnect_cb (GObject *device,
 	nm_device_disconnect_finish (NM_DEVICE (device), result, &error);
 	if (error) {
 		const char *text = _("Device disconnect failed");
-		const char *err_text = error->message ? error->message : _("Unknown error");
+		char *err_text = g_strdup_printf ("(%d) %s", error->code,
+		                                  error->message ? error->message : _("Unknown error"));
 
+		g_warning ("%s: %s: %s", __func__, text, err_text);
 		utils_show_error_dialog (_("Disconnect failure"), text, err_text, FALSE, NULL);
+		g_free (err_text);
 		g_error_free (error);
 	}
 
@@ -492,9 +499,12 @@ activate_connection_cb (GObject *client,
 
 	if (error) {
 		const char *text = _("Connection activation failed");
-		const char *err_text = error->message ? error->message : _("Unknown error");
+		char *err_text = g_strdup_printf ("(%d) %s", error->code,
+		                                  error->message ? error->message : _("Unknown error"));
 
+		g_warning ("%s: %s", text, err_text);
 		utils_show_error_dialog (_("Connection failure"), text, err_text, FALSE, NULL);
+		g_free (err_text);
 		g_error_free (error);
 	}
 
@@ -627,7 +637,7 @@ menu_item_draw_generic (GtkWidget *widget, cairo_t *cr)
 	label = gtk_bin_get_child (GTK_BIN (widget));
 	text = gtk_label_get_text (GTK_LABEL (label));
 
-	layout = gtk_widget_create_pango_layout (widget, NULL);
+	layout = pango_cairo_create_layout (cr);
 	style = gtk_widget_get_style_context (widget);
 	gtk_style_context_get (style, gtk_style_context_get_state (style),
 	                       "font", &desc,
@@ -684,23 +694,58 @@ applet_menu_item_create_device_item_helper (NMDevice *device,
 	return item;
 }
 
+static void
+applet_clear_notify (NMApplet *applet)
+{
+	if (applet->notification == NULL)
+		return;
+
+	notify_notification_close (applet->notification, NULL);
+	g_object_unref (applet->notification);
+	applet->notification = NULL;
+}
+
+static gboolean
+applet_notify_server_has_actions (void)
+{
+	static gboolean has_actions = FALSE;
+	static gboolean initialized = FALSE;
+	GList *server_caps, *iter;
+
+	if (initialized)
+		return has_actions;
+	initialized = TRUE;
+
+	server_caps = notify_get_server_caps();
+	for (iter = server_caps; iter; iter = g_list_next (iter)) {
+		if (!strcmp ((const char *) iter->data, NOTIFY_CAPS_ACTIONS_KEY)) {
+			has_actions = TRUE;
+			break;
+		}
+	}
+	g_list_free_full (server_caps, g_free);
+
+	return has_actions;
+}
+
 void
 applet_do_notify (NMApplet *applet,
-                  const char *title,
-                  const char *body,
-                  const char *icon_name,
-                  const char *pref)
+                  NotifyUrgency urgency,
+                  const char *summary,
+                  const char *message,
+                  const char *icon,
+                  const char *action1,
+                  const char *action1_label,
+                  NotifyActionCallback action1_cb,
+                  gpointer action1_user_data)
 {
-	gs_unref_object GNotification *notify = NULL;
-	GIcon *icon;
+	NotifyNotification *notify;
+	GError *error = NULL;
 	char *escaped;
 
 	g_return_if_fail (applet != NULL);
-	g_return_if_fail (title != NULL);
-	g_return_if_fail (body != NULL);
-
-	if (pref && g_settings_get_boolean (applet->gsettings, pref))
-		return;
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (message != NULL);
 
 	if (INDICATOR_ENABLED (applet)) {
 #ifdef WITH_APPINDICATOR
@@ -716,24 +761,73 @@ applet_do_notify (NMApplet *applet,
 	if (!applet->agent)
 		return;
 
-	notify = g_notification_new (title);
+	applet_clear_notify (applet);
 
-	escaped = utils_escape_notify_body (body);
-	g_notification_set_body (notify, escaped);
+	escaped = utils_escape_notify_message (message);
+	notify = notify_notification_new (summary,
+	                                  escaped,
+	                                  icon ? icon : "network-workgroup"
+#if HAVE_LIBNOTIFY_07
+	                                  );
+#else
+	                                  , NULL);
+#endif
 	g_free (escaped);
+	applet->notification = notify;
 
-	icon = g_themed_icon_new (icon_name ?: "network-workgroup");
-	g_notification_set_icon (notify, icon);
-	g_object_unref (icon);
+#if HAVE_LIBNOTIFY_07
+	notify_notification_set_hint (notify, "transient", g_variant_new_boolean (TRUE));
+	notify_notification_set_hint (notify, "desktop-entry", g_variant_new_string ("nm-applet"));
+#else
+	notify_notification_attach_to_status_icon (notify, applet->status_icon);
+#endif
+	notify_notification_set_urgency (notify, urgency);
+	notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);
 
-	if (pref) {
-		g_notification_add_button_with_target (notify,
-						       _("Don’t show this message again"),
-						       "app.enable-pref", "s", pref);
-
+	if (applet_notify_server_has_actions () && action1) {
+		notify_notification_clear_actions (notify);
+		notify_notification_add_action (notify, action1, action1_label,
+		                                action1_cb, action1_user_data, NULL);
 	}
 
-	g_application_send_notification (G_APPLICATION (applet), "nm-applet", notify);
+	if (!notify_notification_show (notify, &error)) {
+		g_warning ("Failed to show notification: %s",
+		           error && error->message ? error->message : "(unknown)");
+		g_clear_error (&error);
+	}
+}
+
+static void
+notify_dont_show_cb (NotifyNotification *notify,
+                     gchar *id,
+                     gpointer user_data)
+{
+	NMApplet *applet = NM_APPLET (user_data);
+
+	if (!id)
+		return;
+
+	if (   strcmp (id, PREF_DISABLE_CONNECTED_NOTIFICATIONS)
+	    && strcmp (id, PREF_DISABLE_DISCONNECTED_NOTIFICATIONS)
+	    && strcmp (id, PREF_DISABLE_VPN_NOTIFICATIONS))
+		return;
+
+	g_settings_set_boolean (applet->gsettings, id, TRUE);
+}
+
+void applet_do_notify_with_pref (NMApplet *applet,
+                                 const char *summary,
+                                 const char *message,
+                                 const char *icon,
+                                 const char *pref)
+{
+	if (g_settings_get_boolean (applet->gsettings, pref))
+		return;
+
+	applet_do_notify (applet, NOTIFY_URGENCY_LOW, summary, message, icon, pref,
+	                  _("Don’t show this message again"),
+	                  notify_dont_show_cb,
+	                  applet);
 }
 
 static gboolean
@@ -883,15 +977,15 @@ vpn_active_connection_state_changed (NMVpnConnection *vpn,
 			msg = g_strdup (_("VPN connection has been successfully established.\n"));
 
 		title = _("VPN Login Message");
-		applet_do_notify (applet, title, msg, "gnome-lockscreen",
-		                  PREF_DISABLE_VPN_NOTIFICATIONS);
+		applet_do_notify_with_pref (applet, title, msg, "gnome-lockscreen",
+		                            PREF_DISABLE_VPN_NOTIFICATIONS);
 		g_free (msg);
 		break;
 	case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
 		title = _("VPN Connection Failed");
 		msg = make_active_failure_message (NM_ACTIVE_CONNECTION (vpn), reason, applet);
-		applet_do_notify (applet, title, msg, "gnome-lockscreen",
-		                  PREF_DISABLE_VPN_NOTIFICATIONS);
+		applet_do_notify_with_pref (applet, title, msg, "gnome-lockscreen",
+		                            PREF_DISABLE_VPN_NOTIFICATIONS);
 		g_free (msg);
 		break;
 	default:
@@ -939,8 +1033,8 @@ activate_vpn_cb (GObject *client,
 			                       info->vpn_name, error->message);
 		}
 
-		applet_do_notify (info->applet, title, msg, "gnome-lockscreen",
-		                  PREF_DISABLE_VPN_NOTIFICATIONS);
+		applet_do_notify_with_pref (info->applet, title, msg, "gnome-lockscreen",
+		                            PREF_DISABLE_VPN_NOTIFICATIONS);
 		g_warning ("VPN Connection activation failed: (%s) %s", name, error->message);
 		g_free (msg);
 		g_free (name);
@@ -2201,9 +2295,8 @@ foo_client_state_changed_cb (NMClient *client, GParamSpec *pspec, gpointer user_
 
 	switch (nm_client_get_state (client)) {
 	case NM_STATE_DISCONNECTED:
-		if (NM_DEVICE_STATE_REASON_IP_ADDRESS_DUPLICATE == applet->state_reason)
-		{
-			applet_do_notify (applet,
+		if (NM_DEVICE_STATE_REASON_IP_ADDRESS_DUPLICATE == applet->state_reason) {
+			applet_do_notify_with_pref (applet,
 				_("NetworkManager has detected an IP address conflict."),
 				_("Another computer on this network has the same IP address as this computer.\n"
 				"Contact your network administrator for help resolving this issue.\n"
@@ -2211,12 +2304,11 @@ foo_client_state_changed_cb (NMClient *client, GParamSpec *pspec, gpointer user_
 				"nm-no-connection",
 				PREF_DISABLE_DISCONNECTED_NOTIFICATIONS);
 		}
-		else
-		{
-			applet_do_notify (applet, _("Disconnected"),
-			                        _("The network connection has been disconnected."),
-			                        "nm-no-connection",
-			                        PREF_DISABLE_DISCONNECTED_NOTIFICATIONS);
+		else {
+			applet_do_notify_with_pref (applet, _("Disconnected"),
+			                            _("The network connection has been disconnected."),
+			                            "nm-no-connection",
+			                            PREF_DISABLE_DISCONNECTED_NOTIFICATIONS);
 		}
 		break;
 	default:
@@ -2721,10 +2813,8 @@ applet_update_icon (gpointer user_data)
 	} else
 		applet->tip = g_strdup (dev_tip);
 
-	if (applet->status_icon) {
-			gtk_status_icon_set_tooltip_text (applet->status_icon, applet->tip);
-			gtk_status_icon_set_title (applet->status_icon, applet->tip);
-	}
+	if (applet->status_icon)
+		gtk_status_icon_set_tooltip_text (applet->status_icon, applet->tip);
 
 	return FALSE;
 }
@@ -2996,7 +3086,7 @@ nma_tray_icon_check_and_load (const char *name, NMApplet *applet)
 	 */
 	if (!applet->icon_theme_tray)
         return nma_icon_check_and_load (name, applet);
-
+	 
 	if (!(icon = gtk_icon_theme_load_icon (applet->icon_theme_tray, name, applet->icon_size, GTK_ICON_LOOKUP_FORCE_SIZE, &error))) {
 		g_warning ("failed to load icon \"%s\": %s", name, error->message);
 		g_clear_error (&error);
@@ -3049,6 +3139,7 @@ nma_icons_reload (NMApplet *applet)
 
 	g_return_if_fail (applet->icon_size > 0);
 
+	g_hash_table_remove_all (applet->icon_cache);
 	g_hash_table_remove_all (applet->icon_cache_tray); //alex
 	nma_icons_free (applet);
 
@@ -3133,7 +3224,7 @@ static void _xsettings_watch_cb(Window window, Bool is_start, long mask, void  *
 
 static void nma_icons_init (NMApplet *applet)
 {
-	XSettingsSetting *s;
+    XSettingsSetting *s;
     GdkDisplay* gd = gdk_display_get_default();
     Display* d = GDK_DISPLAY_XDISPLAY(gd);
 
@@ -3153,7 +3244,7 @@ static void nma_icons_init (NMApplet *applet)
 	else
 		applet->icon_theme = gtk_icon_theme_get_default ();
 
-	//alex: load tray icon theme-------------------------------------------------------------
+    //alex: load tray icon theme-------------------------------------------------------------
     //g_debug("nma_icons_init: get white or back or none theme from xsettings");
     if (applet->icon_theme_tray)      { g_clear_object (&applet->icon_theme_tray); applet->icon_theme_tray =NULL; }
     if (applet->icon_theme_tray_name) { free(applet->icon_theme_tray_name); applet->icon_theme_tray_name=NULL; }
@@ -3203,18 +3294,8 @@ status_icon_size_changed_cb (GtkStatusIcon *icon,
 	/* icon_size may be 0 if for example the panel hasn't given us any space
 	 * yet.  We'll get resized later, but for now just load the 16x16 icons.
 	 */
-	if (size > 0) {
-		if (size < 22)
-			applet->icon_size = 16;
-		else if (size < 24)
-			applet->icon_size = 22;
-		else if (size < 32)
-			applet->icon_size = 24;
-		else if (size < 48)
-			applet->icon_size = 32;
-		else
-			applet->icon_size = size;
-	}
+	if (size > 0)
+		applet->icon_size = size;
 	else {
 		applet->icon_size = 16;
 		g_warn_if_fail (size == 0);
@@ -3233,7 +3314,7 @@ status_icon_activate_cb (GtkStatusIcon *icon, NMApplet *applet)
 	/* Have clicking on the applet act also as acknowledgement
 	 * of the notification.
 	 */
-	g_application_withdraw_notification (G_APPLICATION (applet), "nm-applet");
+	applet_clear_notify (applet);
 
 	applet_start_wifi_scan (applet, NULL);
 
@@ -3265,7 +3346,7 @@ status_icon_popup_menu_cb (GtkStatusIcon *icon,
 	/* Have clicking on the applet act also as acknowledgement
 	 * of the notification.
 	 */
-	g_application_withdraw_notification (G_APPLICATION (applet), "nm-applet");
+	applet_clear_notify (applet);
 
 	nma_context_menu_update (applet);
 	gtk_menu_popup (GTK_MENU (applet->context_menu), NULL, NULL,
@@ -3375,19 +3456,6 @@ applet_gsettings_show_changed (GSettings *settings,
 /****************************************************************/
 
 static void
-applet_enable_pref (GSimpleAction *action, GVariant *parameter, gpointer user_data)
-{
-	g_settings_set_boolean (NM_APPLET (user_data)->gsettings,
-	                        g_variant_get_string (parameter, NULL),
-	                        TRUE);
-}
-
-static GActionEntry app_entries[] =
-{
-	{ "enable-pref", applet_enable_pref, "s" },
-};
-
-static void
 applet_activate (GApplication *app, gpointer user_data)
 {
 	/* Nothing to do, but glib requires this handler */
@@ -3401,9 +3469,6 @@ applet_startup (GApplication *app, gpointer user_data)
 
 	g_set_application_name (_("NetworkManager Applet"));
 	gtk_window_set_default_icon_name ("network-workgroup");
-
-	g_action_map_add_action_entries (G_ACTION_MAP (app), app_entries,
-	                                 G_N_ELEMENTS (app_entries), app);
 
 	applet->info_dialog_ui = gtk_builder_new ();
 
@@ -3432,17 +3497,18 @@ applet_startup (GApplication *app, gpointer user_data)
 	                                            g_str_equal,
 	                                            g_free,
 	                                            nm_g_object_unref);
-
 	applet->icon_cache_tray = g_hash_table_new_full (g_str_hash, //alex
-	                                            	g_str_equal,
-	                                            	g_free,
-	                                            	nm_g_object_unref);
+	                                            g_str_equal,
+	                                            g_free,
+	                                            nm_g_object_unref);
     applet->icon_theme_tray     =NULL;
     applet->icon_theme_tray_name=NULL;
     applet->xsettings_client    =NULL;
 
-
 	nma_icons_init (applet);
+
+	if (!notify_is_initted ())
+		notify_init ("NetworkManager");
 
 	/* Initialize device classes */
 	applet->ethernet_class = applet_device_ethernet_get_class (applet);
@@ -3500,19 +3566,24 @@ static void finalize (GObject *object)
 	g_clear_object (&applet->status_icon);
 	g_clear_object (&applet->menu);
 	g_clear_pointer (&applet->icon_cache, g_hash_table_destroy);
-
+	
 	//alex: destoy tray icon theme and xsettings
 	g_clear_pointer (&applet->icon_cache_tray, g_hash_table_destroy);
 	if (applet->icon_theme_tray_name) free(applet->icon_theme_tray_name);
 	if (applet->xsettings_client) xsettings_client_destroy(applet->xsettings_client);
 	g_clear_object (&applet->icon_theme_tray);
-
+	
 	g_clear_object (&applet->fallback_icon);
 	g_free (applet->tip);
 	nma_icons_free (applet);
 
 	while (g_slist_length (applet->secrets_reqs))
 		applet_secrets_request_free ((SecretsRequest *) applet->secrets_reqs->data);
+
+	if (applet->notification) {
+		notify_notification_close (applet->notification, NULL);
+		g_object_unref (applet->notification);
+	}
 
 	g_clear_object (&applet->info_dialog_ui);
 	g_clear_object (&applet->gsettings);

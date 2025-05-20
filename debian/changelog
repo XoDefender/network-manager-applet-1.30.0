@@ -1,109 +1,53 @@
-network-manager-applet (1.30.0-2astra7) unstable; urgency=medium
+network-manager-applet (1.20.0-3astra13) unstable; urgency=medium
 
   * Add rbt-add-notification-on-vpn-user-disconnect.patch
 
- -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Mon, 03 Mar 2025 14:25:54 +0300
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Sun, 02 Mar 2024 15:22:47 +0300
 
-network-manager-applet (1.30.0-2astra6) unstable; urgency=medium
-
-  * Add rbt-fix-ineffective-notification-button.patch
-
- -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Thu, 12 Dec 2024 15:26:17 +0300
-
-network-manager-applet (1.30.0-2astra5) unstable; urgency=medium
+network-manager-applet (1.20.0-3astra12) unstable; urgency=medium
 
   * Add rbt-fix-conn-info-ru-po.patch
 
- -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Mon, 19 Aug 2024 13:48:15 +0300
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Mon, 19 Aug 2024 13:05:18 +0300
 
-network-manager-applet (1.30.0-2astra4) unstable; urgency=medium
+network-manager-applet (1.20.0-3astra11) unstable; urgency=medium
 
   * Add rbt-block-save-btn-on-validation-error.patch
 
- -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Thu, 11 Apr 2024 13:44:28 +0300
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Thu, 11 Apr 2024 11:19:28 +0300
 
-network-manager-applet (1.30.0-2astra3) unstable; urgency=medium
+network-manager-applet (1.20.0-3astra10) unstable; urgency=medium
 
+  * Add rbt-block-editor-on-get-secrets-error.patch
   * Add rbt-autostart-applet-in-second-phase.patch
 
- -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Wed, 27 Mar 2024 11:43:19 +0300
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Wed, 27 Mar 2024 10:48:34 +0300
 
-network-manager-applet (1.30.0-2astra2) unstable; urgency=medium
+network-manager-applet (1.20.0-3astra9) unstable; urgency=medium
 
   * Add rbt-add-cert-password-flags-support.patch
 
  -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Mon, 12 Feb 2024 20:47:21 +0300
 
-network-manager-applet (1.30.0-2astra1) unstable; urgency=medium
+network-manager-applet (1.20.0-3astra8) unstable; urgency=medium
 
-  * Add rbt-apply-patches.patch
-    - Add a notification about NetworkManager has detected an IP address conflict (BT-21199)
-    - workaround for invisibale tray icon when Gdk/WindowScalingFactor > 1 (BT-25391)
-    - fix margins in info dialog (BT-17377)
-    - desktop entry translation (BT-15076)
-    - fix new connection dialog black margins (BT-9836)
-    - tray icon theme
-    - Fix meson.build buildfix
+  * Add rbt-show-802.1x-security-btn.patch
 
- -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Mon, 20 Nov 2023 15:17:12 +0300
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Tue, 07 Nov 2023 19:38:12 +0300
 
-network-manager-applet (1.30.0-2) unstable; urgency=medium
+network-manager-applet (1.20.0-3+ci202310161658+astra7) unstable; urgency=medium
 
-  * Reclaim org.gnome.nm-applet schema from libnma.
-    Add a proper Breaks/Replaces against libnma-common.
-    (Closes: #1023630)
+  *  Add a notification about NetworkManager has detected an IP address
+    conflict (BT-21199).
+  *  workaround for invisibale tray icon when Gdk/WindowScalingFactor >
+    1 (BT-25391)
+  *  fix margins in info dialog (BT-17377)
+  *  desktop entry translation (BT-15076)
+  *  fix new connection dialog black margins (BT-9836)
+  *  tray icon theme
+  *  Fix meson.build buildfix
 
- -- Michael Biebl <biebl@debian.org>  Tue, 08 Nov 2022 00:03:20 +0100
-
-network-manager-applet (1.30.0-1) unstable; urgency=medium
-
-  * New upstream version 1.30.0
-  * Rebase patches
-  * Update Build-Depends as per meson.build
-
- -- Michael Biebl <biebl@debian.org>  Mon, 07 Nov 2022 18:00:25 +0100
-
-network-manager-applet (1.28.0-1) unstable; urgency=medium
-
-  * New upstream version 1.28.0
-  * Rebase patches
-  * Bump Standards-Version to 4.6.1
-
- -- Michael Biebl <biebl@debian.org>  Tue, 07 Jun 2022 23:21:36 +0200
-
-network-manager-applet (1.26.0-1) unstable; urgency=medium
-
-  * New upstream version 1.26.0
-  * Rebase patches
-  * Drop unnecessary version restriction
-
- -- Michael Biebl <biebl@debian.org>  Tue, 29 Mar 2022 22:17:24 +0200
-
-network-manager-applet (1.24.0-2) unstable; urgency=medium
-
-  * meson.build: address meson 0.61 failures (Closes: #1005529)
-  * Add Recommends gnome-icon-theme for gnome-lockscreen icons
-    (Closes: #990252)
-  * Update debian/copyright
-  * Update debian/watch to version 4
-  * Enable all hardening build flags
-
- -- Michael Biebl <biebl@debian.org>  Sun, 13 Feb 2022 12:58:56 +0100
-
-network-manager-applet (1.24.0-1) unstable; urgency=medium
-
-  * New upstream version 1.24.0
-  * Rebase patches
-  * Bump Standards-Version to 4.6.0
-
- -- Michael Biebl <biebl@debian.org>  Mon, 23 Aug 2021 11:38:34 +0200
-
-network-manager-applet (1.22.0-1) unstable; urgency=medium
-
-  * New upstream version 1.22.0
-  * Rebase patches
-
- -- Michael Biebl <biebl@debian.org>  Mon, 16 Aug 2021 10:46:27 +0200
+ -- Aleksey V. Kolin <support@astralinux.ru>  Mon, 16 Oct 2023 16:58:35 +0300
 
 network-manager-applet (1.20.0-3) unstable; urgency=medium
 
@@ -1187,7 +1131,7 @@ network-manager-applet (0.7.0-1) experimental; urgency=low
     - The nm-editor tool has been replaced by nm-connection-editor.
       (Closes: #494148, #482107, #485651)
     - Show the correct configuration for WPA Enterprise setups in
-      nm-connection-editor (Closes: #480039)
+      nm-connection-editor (Closes: #480039)  
 
   [ Sjoerd Simons ]
   * debian/patches/02-nm-api-update.patch:
@@ -1277,9 +1221,9 @@ network-manager-applet (0.6.6-1) unstable; urgency=low
     - Better handling of VPN and WPA Enterprise security. (Closes: #444977)
   * debian/control
     - The Vcs-* fields are now officially supported, so remove the XS- prefix.
-    - Bump Standards-Version to 3.7.3. No further changes required.
+    - Bump Standards-Version to 3.7.3. No further changes required. 
     - Fix Xfce spelling error in the package description.
-    - Bump Build-Depends on libnm-util-dev and network-manager-dev to
+    - Bump Build-Depends on libnm-util-dev and network-manager-dev to 
       (>= 0.6.6).
   * Removed patches
     - debian/patches/10-po_fr.patch (merged upstream)
@@ -1310,7 +1254,7 @@ network-manager-applet (0.6.5-3) unstable; urgency=low
 network-manager-applet (0.6.5-2) unstable; urgency=low
 
   * debian/patches/30-connection_info_hide_on_delete_event.patch
-    - Patch from Ubuntu. Hide connection info dialog on delete-event.
+    - Patch from Ubuntu. Hide connection info dialog on delete-event. 
       (Closes: #406073)
 
  -- Michael Biebl <biebl@debian.org>  Wed, 19 Sep 2007 22:34:18 +0200
