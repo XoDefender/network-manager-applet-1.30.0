@@ -83,6 +83,7 @@ vpn_get_plugin_infos (void)
 	return plugins;
 }
 
+// TODO:Kirill - on save btn click (vpn)
 static void
 export_vpn_to_file_cb (GtkWidget *dialog, gint response, gpointer user_data)
 {

@@ -134,6 +134,7 @@ clear_widget_errors (GtkWidget *widget,
 	}
 }
 
+// FYI:Kirill - validata 802x1
 static gboolean
 ce_page_validate_v (CEPage *page, NMConnection *connection, GError **error)
 {

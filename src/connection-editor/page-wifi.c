@@ -425,6 +425,7 @@ ce_page_wifi_get_ssid (CEPageWifi *self)
 	return ssid;
 }
 
+// FYI:Kirill - fill settings from page data
 static void
 ui_to_setting (CEPageWifi *self)
 {

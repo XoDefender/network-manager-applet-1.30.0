@@ -32,6 +32,8 @@
 #include "applet-vpn-request.h"
 #include "utils.h"
 
+#include "nma-cert-chooser.h"
+
 #if WITH_WWAN
 # include "applet-device-broadband.h"
 #endif
@@ -511,6 +513,27 @@ activate_connection_cb (GObject *client,
 	applet_schedule_update_icon (NM_APPLET (user_data));
 }
 
+static void
+show_cert_chooser_dialog(GtkWidget *cert_chooser)
+{
+	GtkWidget *dialog;
+    GtkWidget *content_area;
+
+    dialog = gtk_dialog_new_with_buttons("Certificate Chooser",
+                                         NULL,
+                                         GTK_DIALOG_MODAL,
+                                         "_OK", GTK_RESPONSE_OK,
+                                         "_Cancel", GTK_RESPONSE_CANCEL,
+                                         NULL);
+
+    content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+
+    gtk_box_pack_start(GTK_BOX(content_area), cert_chooser, TRUE, TRUE, 0);
+    gtk_widget_show(cert_chooser);
+    gtk_widget_show(dialog);
+    gtk_dialog_run(GTK_DIALOG(dialog));
+}
+
 void
 applet_menu_item_activate_helper (NMDevice *device,
                                   NMConnection *connection,
@@ -522,6 +545,31 @@ applet_menu_item_activate_helper (NMDevice *device,
 	NMADeviceClass *dclass;
 
 	if (connection) {
+		// TODO:Kirill - read ask cert setting on 802x1
+		// if true, create and show dialog with cert and key chooser
+		// pass data to connection settings
+		NMSetting8021x *s_8021x = nm_connection_get_setting_802_1x (connection);
+		if(s_8021x && nm_setting_802_1x_get_num_eap_methods (s_8021x)) 
+		{
+			const char *method = nm_setting_802_1x_get_eap_method (s_8021x, 0);
+			GtkWidget *cert_chooser;
+
+			if(method && (!strcmp(method, "tls"))) 
+			{
+				cert_chooser = nma_cert_chooser_new("User", 
+					NMA_CERT_CHOOSER_FLAG_CERT | 
+					NMA_CERT_CHOOSER_FLAG_NO_PASSWORDS);
+			}
+			else if(method && (!strcmp(method, "ttls"))) 
+			{
+				cert_chooser = nma_cert_chooser_new("User", 
+					NMA_CERT_CHOOSER_FLAG_CERT | 
+					NMA_CERT_CHOOSER_FLAG_NO_PASSWORDS);
+			}
+			
+			show_cert_chooser_dialog(cert_chooser);
+		}
+
 		/* If the menu item had an associated connection already, just tell
 		 * NM to activate that connection.
 		 */

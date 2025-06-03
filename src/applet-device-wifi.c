@@ -432,6 +432,7 @@ can_get_permission (NMApplet *applet, NMClientPermission perm)
 	return FALSE;
 }
 
+// FYI:Kirill - probably init settings
 static gboolean
 wifi_new_auto_connection (NMDevice *device,
                           gpointer dclass_data,

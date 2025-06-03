@@ -151,6 +151,7 @@ ce_get_property_default (NMSetting *setting, const char *property_name)
 	return 0;
 }
 
+// FYI:Kirill - validate page and settings
 gboolean
 ce_page_validate (CEPage *self, NMConnection *connection, GError **error)
 {

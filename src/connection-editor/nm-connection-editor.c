@@ -1207,6 +1207,8 @@ updated_connection_cb (GObject *connection,
 	g_clear_error (&error);
 }
 
+
+// FYI:Kirill - pass data to nm on save
 static void
 ok_button_clicked_save_connection (NMConnectionEditor *self)
 {
