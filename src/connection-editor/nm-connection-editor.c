@@ -1228,6 +1228,7 @@ ok_button_clicked_save_connection (NMConnectionEditor *self)
 		                                added_connection_cb,
 		                                self);
 	} else {
+		// FYI:Kirill - Probably saves data to connection file
 		nm_remote_connection_commit_changes_async (NM_REMOTE_CONNECTION (self->orig_connection),
 		                                           TRUE, NULL, updated_connection_cb, self);
 	}

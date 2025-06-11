@@ -513,26 +513,70 @@ activate_connection_cb (GObject *client,
 	applet_schedule_update_icon (NM_APPLET (user_data));
 }
 
-static void
-show_cert_chooser_dialog(GtkWidget *cert_chooser)
-{
-	GtkWidget *dialog;
-    GtkWidget *content_area;
+// FYI:Kirill - probably ask for data not here
+// static void 
+// save_cert_chooser_data(GtkWidget *widget, gpointer _s_8021x) 
+// {
+//     if (NMA_IS_CERT_CHOOSER(widget)) 
+// 	{	
+// 		NMSetting8021x *s_8021x = _s_8021x;
+// 		char *value = NULL;
+// 		GError *error = NULL;
+// 		NMSetting8021xCKScheme scheme;
+// 		NMSetting8021xCKFormat format = NM_SETTING_802_1X_CK_FORMAT_UNKNOWN;
 
-    dialog = gtk_dialog_new_with_buttons("Certificate Chooser",
-                                         NULL,
-                                         GTK_DIALOG_MODAL,
-                                         "_OK", GTK_RESPONSE_OK,
-                                         "_Cancel", GTK_RESPONSE_CANCEL,
-                                         NULL);
+// 		printf("Data is being saved\n");
 
-    content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+// 		value = nma_cert_chooser_get_cert (NMA_CERT_CHOOSER (widget), &scheme);
+// 		format = NM_SETTING_802_1X_CK_FORMAT_UNKNOWN;
+		
+// 		if (!nm_setting_802_1x_set_client_cert (s_8021x, value, scheme, &format, &error)) {
+// 			g_warning ("Couldn't read client certificate '%s': %s", value, error ? error->message : "(unknown)");
+// 			g_clear_error (&error);
+// 		}
+// 		else {
+// 			printf("Cert saved: %s\n", value);
+// 		}
+// 		g_free (value);
+//     }
+// }
 
-    gtk_box_pack_start(GTK_BOX(content_area), cert_chooser, TRUE, TRUE, 0);
-    gtk_widget_show(cert_chooser);
-    gtk_widget_show(dialog);
-    gtk_dialog_run(GTK_DIALOG(dialog));
-}
+// static void
+// cert_chooser_dialog_response (GtkDialog *dialog, int response_id, gpointer s_8021x)
+// {
+// 	if (response_id == GTK_RESPONSE_OK) {
+// 		gtk_container_foreach(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), 
+// 														save_cert_chooser_data, s_8021x);
+// 	}
+
+// 	gtk_widget_destroy (dialog);
+// }
+
+// static void
+// show_cert_chooser_dialog(GtkWidget *cert_chooser, NMSetting8021x *s_8021x)
+// {
+// 	g_assert(cert_chooser);
+
+// 	GtkWidget *dialog;
+//     GtkWidget *content_area;
+
+//     dialog = gtk_dialog_new_with_buttons("Certificate Chooser",
+//                                          NULL,
+//                                          GTK_DIALOG_MODAL,
+//                                          "_OK", GTK_RESPONSE_OK,
+//                                          "_Cancel", GTK_RESPONSE_CANCEL,
+//                                          NULL);
+
+//     content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+
+//     gtk_box_pack_start(GTK_BOX(content_area), cert_chooser, TRUE, TRUE, 0);
+//     gtk_widget_show(cert_chooser);
+
+// 	g_signal_connect (dialog, "response", G_CALLBACK (cert_chooser_dialog_response), s_8021x);
+	
+//     gtk_widget_show(dialog);
+//     gtk_dialog_run(GTK_DIALOG(dialog));
+// }
 
 void
 applet_menu_item_activate_helper (NMDevice *device,
@@ -548,27 +592,6 @@ applet_menu_item_activate_helper (NMDevice *device,
 		// TODO:Kirill - read ask cert setting on 802x1
 		// if true, create and show dialog with cert and key chooser
 		// pass data to connection settings
-		NMSetting8021x *s_8021x = nm_connection_get_setting_802_1x (connection);
-		if(s_8021x && nm_setting_802_1x_get_num_eap_methods (s_8021x)) 
-		{
-			const char *method = nm_setting_802_1x_get_eap_method (s_8021x, 0);
-			GtkWidget *cert_chooser;
-
-			if(method && (!strcmp(method, "tls"))) 
-			{
-				cert_chooser = nma_cert_chooser_new("User", 
-					NMA_CERT_CHOOSER_FLAG_CERT | 
-					NMA_CERT_CHOOSER_FLAG_NO_PASSWORDS);
-			}
-			else if(method && (!strcmp(method, "ttls"))) 
-			{
-				cert_chooser = nma_cert_chooser_new("User", 
-					NMA_CERT_CHOOSER_FLAG_CERT | 
-					NMA_CERT_CHOOSER_FLAG_NO_PASSWORDS);
-			}
-			
-			show_cert_chooser_dialog(cert_chooser);
-		}
 
 		/* If the menu item had an associated connection already, just tell
 		 * NM to activate that connection.
@@ -2997,6 +3020,7 @@ get_existing_secrets_cb (NMSecretAgentOld *agent,
 	/* Otherwise success; wait for the secrets callback */
 }
 
+// FYI:Kirill - Get secrets call starts here
 static void
 applet_agent_get_secrets_cb (AppletAgent *agent,
                              gpointer request_id,

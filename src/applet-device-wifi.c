@@ -544,6 +544,7 @@ wifi_new_auto_connection (NMDevice *device,
 	return TRUE;
 }
 
+// FYI:Kirill - connect on item clicked
 static void
 wifi_menu_item_activate (GtkMenuItem *item, gpointer user_data)
 {
@@ -1483,8 +1484,35 @@ done:
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
-static GVariant *
-remove_unwanted_secrets (GVariant *secrets, gboolean keep_8021X)
+// Function to print all the data in a GVariant dictionary
+void print_variant_dict(GVariant *dict) {
+    GVariantIter iter;
+    const char *key;
+    GVariant *value;
+
+    g_variant_iter_init(&iter, dict);
+
+    while (g_variant_iter_next(&iter, "{&s@v}", &key, &value)) {
+        // Print key and value (you might want to handle value types more carefully depending on your needs)
+        printf("Key: %s\n", key);
+
+        // For printing the value, let's assume it's a basic type (you can handle more types as needed)
+        if (G_VARIANT_TYPE(value) == G_VARIANT_TYPE_STRING) {
+            printf("Value (String): %s\n", g_variant_get_string(value, NULL));
+        } else if (G_VARIANT_TYPE(value) == G_VARIANT_TYPE_INT32) {
+            printf("Value (Int32): %d\n", g_variant_get_int32(value));
+        } else if (G_VARIANT_TYPE(value) == G_VARIANT_TYPE_BOOLEAN) {
+            printf("Value (Boolean): %s\n", g_variant_get_boolean(value) ? "TRUE" : "FALSE");
+        } else {
+            printf("Value (Other type): %s\n", g_variant_print(value, TRUE));
+        }
+
+        g_variant_unref(value);  // Don't forget to unref the variant when you're done
+    }
+}
+
+static void
+print_variant_dict_parent (GVariant *secrets) 
 {
 	GVariant *copy, *setting_dict;
 	const char *setting_name;
@@ -1493,14 +1521,57 @@ remove_unwanted_secrets (GVariant *secrets, gboolean keep_8021X)
 
 	g_variant_builder_init (&conn_builder, NM_VARIANT_TYPE_CONNECTION);
 	g_variant_iter_init (&conn_iter, secrets);
-	while (g_variant_iter_next (&conn_iter, "{&s@a{sv}}", &setting_name, &setting_dict)) {
-		if (   !strcmp (setting_name, NM_SETTING_WIRELESS_SECURITY_SETTING_NAME)
-		    || (!strcmp (setting_name, NM_SETTING_802_1X_SETTING_NAME) && keep_8021X))
-			g_variant_builder_add (&conn_builder, "{s@a{sv}}", setting_name, setting_dict);
-
+	while (g_variant_iter_next (&conn_iter, "{&s@a{sv}}", &setting_name, &setting_dict)) 
+	{	
+		print_variant_dict(setting_dict);
 		g_variant_unref (setting_dict);
 	}
+}
+
+static GVariant *
+remove_unwanted_secrets (GVariant *secrets, gboolean keep_8021X, NMConnection *connection)
+{
+	GVariant *copy, *setting_dict;
+	const char *setting_name;
+	GVariantBuilder conn_builder;
+	GVariantIter conn_iter;
+
+	g_variant_builder_init (&conn_builder, NM_VARIANT_TYPE_CONNECTION);
+	g_variant_iter_init (&conn_iter, secrets);
+	while (g_variant_iter_next (&conn_iter, "{&s@a{sv}}", &setting_name, &setting_dict)) 
+	{	
+		//print_variant_dict(setting_dict);
+
+		if (   !strcmp (setting_name, NM_SETTING_WIRELESS_SECURITY_SETTING_NAME)
+		    || (!strcmp (setting_name, NM_SETTING_802_1X_SETTING_NAME) && keep_8021X)) 
+		{
+			g_variant_builder_add (&conn_builder, "{s@a{sv}}", setting_name, setting_dict);
+			g_variant_unref (setting_dict);
+		}
+	}
+
+	if(keep_8021X)
+	{
+		NMSetting8021x *s_8021x = nm_connection_get_setting_802_1x (connection);
+		const char *cert = nm_setting_802_1x_get_client_cert_uri(s_8021x);
+		const char *pin = nm_setting_802_1x_get_pin(s_8021x);
+		const char *priv_key = nm_setting_802_1x_get_private_key_uri(s_8021x);
+
+		//char* type = g_variant_type_peek_string (g_variant_get_type(setting_dict));
+
+		if(cert && pin && priv_key)
+		{
+			GVariantBuilder dict_builder;
+    		g_variant_builder_init (&dict_builder, NM_VARIANT_TYPE_SETTING);
+			g_variant_builder_add(&dict_builder, "{sv}", "pin", g_variant_new_string(pin));
+			g_variant_builder_add(&dict_builder, "{sv}", "client-cert", g_variant_new_string(cert));
+			g_variant_builder_add(&dict_builder, "{sv}", "private-key", g_variant_new_string(priv_key));
+			g_variant_builder_add (&conn_builder, "{s@a{sv}}", setting_name, g_variant_builder_end(&dict_builder));
+		}
+	}
+
 	copy = g_variant_builder_end (&conn_builder);
+	//print_variant_dict_parent(copy);
 	g_variant_unref (secrets);
 
 	return copy;
@@ -1525,6 +1596,8 @@ free_wifi_info (SecretsRequest *req)
 	}
 }
 
+
+// FYI:Kirill - ask for secrets here and save them
 static void
 get_secrets_dialog_response_cb (GtkDialog *foo,
                                 gint response,
@@ -1539,7 +1612,7 @@ get_secrets_dialog_response_cb (GtkDialog *foo,
 	const char *key_mgmt, *auth_alg;
 	gboolean keep_8021X = FALSE;
 	GError *error = NULL;
-
+	
 	if (response != GTK_RESPONSE_OK) {
 		g_set_error (&error,
 		             NM_SECRET_AGENT_ERROR,
@@ -1549,6 +1622,7 @@ get_secrets_dialog_response_cb (GtkDialog *foo,
 		goto done;
 	}
 
+	// FYI:Kirill - get connection with sec data
 	connection = nma_wifi_dialog_get_connection (dialog, NULL, NULL);
 	if (!connection) {
 		g_set_error (&error,
@@ -1572,6 +1646,7 @@ get_secrets_dialog_response_cb (GtkDialog *foo,
 	}
 
 	secrets = nm_connection_to_dbus (connection, NM_CONNECTION_SERIALIZE_ONLY_SECRETS);
+	//secrets = nm_connection_to_dbus (connection, NM_CONNECTION_SERIALIZE_ALL);
 	if (!secrets) {
 		g_set_error (&error,
 		             NM_SECRET_AGENT_ERROR,
@@ -1608,7 +1683,7 @@ get_secrets_dialog_response_cb (GtkDialog *foo,
 	}
 
 	/* Remove all not-relevant secrets (inner dicts) */
-	secrets = remove_unwanted_secrets (secrets, keep_8021X);
+	secrets = remove_unwanted_secrets (secrets, keep_8021X, connection);
 	g_variant_take_ref (secrets);
 
 done:
@@ -1621,6 +1696,7 @@ done:
 		nm_connection_clear_secrets (connection);
 }
 
+// FYI:Kirill - init ask secrets dialog
 static gboolean
 wifi_get_secrets (SecretsRequest *req, GError **error)
 {
