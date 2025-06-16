@@ -1540,8 +1540,6 @@ remove_unwanted_secrets (GVariant *secrets, gboolean keep_8021X, NMConnection *c
 	g_variant_iter_init (&conn_iter, secrets);
 	while (g_variant_iter_next (&conn_iter, "{&s@a{sv}}", &setting_name, &setting_dict)) 
 	{	
-		//print_variant_dict(setting_dict);
-
 		if (   !strcmp (setting_name, NM_SETTING_WIRELESS_SECURITY_SETTING_NAME)
 		    || (!strcmp (setting_name, NM_SETTING_802_1X_SETTING_NAME) && keep_8021X)) 
 		{
@@ -1554,16 +1552,12 @@ remove_unwanted_secrets (GVariant *secrets, gboolean keep_8021X, NMConnection *c
 	{
 		NMSetting8021x *s_8021x = nm_connection_get_setting_802_1x (connection);
 		const char *cert = nm_setting_802_1x_get_client_cert_uri(s_8021x);
-		const char *pin = nm_setting_802_1x_get_pin(s_8021x);
 		const char *priv_key = nm_setting_802_1x_get_private_key_uri(s_8021x);
 
-		//char* type = g_variant_type_peek_string (g_variant_get_type(setting_dict));
-
-		if(cert && pin && priv_key)
+		if(cert && priv_key)
 		{
 			GVariantBuilder dict_builder;
     		g_variant_builder_init (&dict_builder, NM_VARIANT_TYPE_SETTING);
-			g_variant_builder_add(&dict_builder, "{sv}", "pin", g_variant_new_string(pin));
 			g_variant_builder_add(&dict_builder, "{sv}", "client-cert", g_variant_new_string(cert));
 			g_variant_builder_add(&dict_builder, "{sv}", "private-key", g_variant_new_string(priv_key));
 			g_variant_builder_add (&conn_builder, "{s@a{sv}}", setting_name, g_variant_builder_end(&dict_builder));
