@@ -45,56 +45,6 @@ extern gboolean with_appindicator;
 
 G_DEFINE_TYPE (NMApplet, nma, G_TYPE_APPLICATION)
 
-static void authorization_cb(GObject *source, GAsyncResult *res, gpointer user_data)
-{
-	GtkWidget *save_button;
-    GError *error = NULL;
-    PolkitAuthorizationResult *result;
-
-	save_button = GTK_WIDGET(user_data);
-    result = polkit_authority_check_authorization_finish(POLKIT_AUTHORITY(source), res, &error);
-    
-    if (error != NULL) {
-        g_error_free(error);
-        return;
-    }
-    
-    if (polkit_authorization_result_get_is_authorized(result)) {
-		gtk_widget_set_sensitive(save_button, TRUE);
-    }
-    
-    if (result != NULL) {
-		g_object_unref(result);
-	}
-}
-
-static void check_polkit_authorization_async(const gchar *action_id, GtkWidget *save_button)
-{
-    PolkitAuthority *authority;
-    PolkitSubject *subject;
-    GError *error = NULL;
-    
-    authority = polkit_authority_get_sync(NULL, &error);
-    if (authority == NULL) {
-        g_error_free(error);
-        return;
-    }
-    
-    subject = polkit_unix_process_new_for_owner(getpid(), 0, getuid());
-    
-    polkit_authority_check_authorization(authority,
-                                        subject,
-                                        action_id,
-                                        NULL,
-                                        POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION,
-                                        NULL,
-                                        authorization_cb, 
-										save_button);
-    
-    g_object_unref(subject);
-    g_object_unref(authority);
-}
-
 /********************************************************************/
 
 static gboolean
@@ -734,6 +684,58 @@ applet_menu_item_create_device_item_helper (NMDevice *device,
 	if (!INDICATOR_ENABLED (applet))
 		g_signal_connect (item, "draw", G_CALLBACK (menu_title_item_draw), NULL);
 	return item;
+}
+
+static void 
+authorization_cb(GObject *source, GAsyncResult *res, gpointer user_data)
+{
+	GtkWidget *save_button;
+    GError *error = NULL;
+    PolkitAuthorizationResult *result;
+
+	save_button = GTK_WIDGET(user_data);
+    result = polkit_authority_check_authorization_finish(POLKIT_AUTHORITY(source), res, &error);
+    
+    if (error != NULL) {
+        g_error_free(error);
+        return;
+    }
+    
+    if (polkit_authorization_result_get_is_authorized(result)) {
+		gtk_widget_set_sensitive(save_button, TRUE);
+    }
+    
+    if (result != NULL) {
+		g_object_unref(result);
+	}
+}
+
+static void 
+check_polkit_authorization_async(const gchar *action_id, GtkWidget *save_button)
+{
+    PolkitAuthority *authority;
+    PolkitSubject *subject;
+    GError *error = NULL;
+    
+    authority = polkit_authority_get_sync(NULL, &error);
+    if (authority == NULL) {
+        g_error_free(error);
+        return;
+    }
+    
+    subject = polkit_unix_process_new_for_owner(getpid(), 0, getuid());
+    
+    polkit_authority_check_authorization(authority,
+                                        subject,
+                                        action_id,
+                                        NULL,
+                                        POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION,
+                                        NULL,
+                                        authorization_cb, 
+										save_button);
+    
+    g_object_unref(subject);
+    g_object_unref(authority);
 }
 
 static const char *
@@ -1853,20 +1855,20 @@ static void
 apply_notification_prefs(GtkWidget *widget, gpointer applet) 
 {
    	const char *pref = g_object_get_data(G_OBJECT(widget), "notification-pref");
-	if(pref)
-	{
-		gboolean is_active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	gboolean is_active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	if(pref) {
 		g_settings_set_boolean (((NMApplet *)applet)->gsettings, pref, is_active);
-	}
+	}	
 }
 
 static void 
 on_vpn_notifications_dialog_response(GtkDialog *dialog, gint response_id, NMApplet *applet) 
 {
 	if (response_id == GTK_RESPONSE_OK) {
-		gtk_container_foreach(GTK_CONTAINER(applet->notifications_menu), apply_notification_prefs, applet);
+		gtk_container_foreach(GTK_CONTAINER(applet->notifications_menu), 
+							  apply_notification_prefs, 
+							  applet);
 	}
-
 	gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
@@ -1922,7 +1924,7 @@ create_check_button_for_reason(NMApplet *applet, NMActiveConnectionStateReason r
 	check = gtk_check_button_new_with_label(label);
     is_active = g_settings_get_boolean(applet->gsettings, pref);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), is_active);
-    g_object_set_data_full(G_OBJECT(check), "notification-pref", GINT_TO_POINTER(pref), NULL);
+    g_object_set_data_full(G_OBJECT(check), "notification-pref", g_strdup(pref), g_free);
 
     return check;
 }
@@ -1979,7 +1981,7 @@ create_notification_check(NMApplet *applet, BaseNotificationTypes type)
 	check = gtk_check_button_new_with_label(label);
     is_active = g_settings_get_boolean(applet->gsettings, pref);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), is_active);
-    g_object_set_data_full(G_OBJECT(check), "notification-pref", GINT_TO_POINTER(pref), NULL);
+    g_object_set_data_full(G_OBJECT(check), "notification-pref", g_strdup(pref), g_free);
 
 	return check;
 }
@@ -2000,7 +2002,8 @@ nma_populate_notification_dialog(GtkWidget *content_area, NMApplet *applet)
     gtk_widget_set_size_request(separator, -1, 1);
 	gtk_box_pack_start(GTK_BOX(top_box), separator, FALSE, FALSE, 5);
     
-    for (BaseNotificationTypes i = CONNECTED_NOTIFICATIONS; i <= END_NOTIFICATIONS; i++) {
+    for (BaseNotificationTypes i = CONNECTED_NOTIFICATIONS; i <= END_NOTIFICATIONS; i++) 
+	{
         check = create_notification_check(applet, i);
         if (check) {
             gtk_box_pack_start(GTK_BOX(bottom_box), check, FALSE, FALSE, 0);
@@ -2011,7 +2014,8 @@ nma_populate_notification_dialog(GtkWidget *content_area, NMApplet *applet)
     gtk_widget_set_size_request(separator, -1, 1);
     gtk_box_pack_start(GTK_BOX(bottom_box), separator, FALSE, FALSE, 5);
     
-    for (int i = 0; i < G_N_ELEMENTS(vpn_reasons); i++) {
+    for (int i = 0; i < G_N_ELEMENTS(vpn_reasons); i++) 
+	{
         check = create_check_button_for_reason(applet, vpn_reasons[i]);
         if (check) {
             gtk_box_pack_start(GTK_BOX(bottom_box), check, FALSE, FALSE, 0);
