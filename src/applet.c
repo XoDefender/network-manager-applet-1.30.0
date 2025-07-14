@@ -697,7 +697,7 @@ authorization_cb(GObject *source, GAsyncResult *res, gpointer user_data)
     result = polkit_authority_check_authorization_finish(POLKIT_AUTHORITY(source), res, &error);
     
     if (error != NULL) {
-		g_warning ("Polkit authentication failed: %s", error->message);
+		g_warning ("Polkit authorization failed: %s", error->message);
         g_error_free(error);
         return;
     }
