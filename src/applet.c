@@ -32,6 +32,8 @@
 #include "applet-vpn-request.h"
 #include "utils.h"
 
+#include <polkit/polkit.h>
+
 #if WITH_WWAN
 # include "applet-device-broadband.h"
 #endif
@@ -728,6 +730,58 @@ applet_notify_server_has_actions (void)
 	return has_actions;
 }
 
+static void 
+authorization_cb(GObject *source, GAsyncResult *res, gpointer user_data)
+{
+	GtkWidget *save_button;
+    GError *error = NULL;
+    PolkitAuthorizationResult *result;
+
+	save_button = GTK_WIDGET(user_data);
+    result = polkit_authority_check_authorization_finish(POLKIT_AUTHORITY(source), res, &error);
+
+    if (error != NULL) {
+        g_error_free(error);
+        return;
+    }
+
+    if (polkit_authorization_result_get_is_authorized(result)) {
+		gtk_widget_set_sensitive(save_button, TRUE);
+    }
+
+    if (result != NULL) {
+		g_object_unref(result);
+	}
+}
+
+static void 
+check_polkit_authorization_async(const gchar *action_id, GtkWidget *save_button)
+{
+    PolkitAuthority *authority;
+    PolkitSubject *subject;
+    GError *error = NULL;
+
+    authority = polkit_authority_get_sync(NULL, &error);
+    if (authority == NULL) {
+        g_error_free(error);
+        return;
+    }
+
+    subject = polkit_unix_process_new_for_owner(getpid(), 0, getuid());
+
+    polkit_authority_check_authorization(authority,
+                                        subject,
+                                        action_id,
+                                        NULL,
+                                        POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION,
+                                        NULL,
+                                        authorization_cb, 
+										save_button);
+
+    g_object_unref(subject);
+    g_object_unref(authority);
+}
+
 static const char *
 vpn_reasons_prefs[] = {
 	PREF_DISABLE_REASON_DEVICE_DISCONNECTED,
@@ -755,9 +809,11 @@ vpn_reasons[] = {
 };
 
 typedef enum {
-    CONNECTED_NOTIFICATIONS    = 0,
-    DISCONNECTED_NOTIFICATIONS = 1,
-    VPN_NOTIFICATIONS          = 2,
+    CONNECTED_NOTIFICATIONS       = 0,
+    DISCONNECTED_NOTIFICATIONS    = 1,
+    VPN_NOTIFICATIONS             = 2,
+	AVAILABLE_WIFI_NOTIFICATIONS  = 3,
+	END_NOTIFICATIONS             = 4,
 } BaseNotificationTypes;
 
 static gboolean 
@@ -1664,44 +1720,16 @@ static void
 set_notification_menu_item_state(GtkWidget *widget, gpointer data) 
 {
 	gboolean state;
-	state = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (data));
-    if (GTK_IS_CHECK_MENU_ITEM(widget)) {
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (widget), !state);
+	state = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data));
+    if (GTK_IS_CHECK_BUTTON(widget)) {
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), !state);
     }
-}
-
-static void
-change_vpn_notifications_state(NMApplet *applet, gboolean state)
-{
-	for (int i = 0; i < G_N_ELEMENTS (vpn_reasons_prefs); i++) {
-		g_settings_set_boolean (applet->gsettings, vpn_reasons_prefs[i], state);
-	}
 }
 
 static void
 nma_set_notifications_enabled_cb (GtkWidget *widget, NMApplet *applet)
 {
-	gboolean state;
-
 	g_return_if_fail (applet != NULL);
-
-	state = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (widget));
-
-	g_settings_set_boolean (applet->gsettings,
-	                        PREF_DISABLE_CONNECTED_NOTIFICATIONS,
-	                        !state);
-	g_settings_set_boolean (applet->gsettings,
-	                        PREF_DISABLE_DISCONNECTED_NOTIFICATIONS,
-	                        !state);
-	g_settings_set_boolean (applet->gsettings,
-	                        PREF_DISABLE_VPN_NOTIFICATIONS,
-	                        !state);
-	g_settings_set_boolean (applet->gsettings,
-	                        PREF_SUPPRESS_WIFI_NETWORKS_AVAILABLE,
-	                        !state);
-
-	change_vpn_notifications_state(applet, !state);
-
 	gtk_container_foreach(GTK_CONTAINER(applet->notifications_menu), set_notification_menu_item_state, widget);
 }
 
@@ -1813,7 +1841,6 @@ nma_context_menu_update (NMApplet *applet)
 	gboolean have_wwan = FALSE;
 	gboolean wifi_hw_enabled;
 	gboolean wwan_hw_enabled;
-	gboolean notifications_enabled = TRUE;
 	gboolean sensitive = FALSE;
 
 	state = nm_client_get_state (applet->nm_client);
@@ -1860,20 +1887,6 @@ nma_context_menu_update (NMApplet *applet)
 	wwan_hw_enabled = nm_client_wwan_hardware_get_enabled (applet->nm_client);
 	gtk_widget_set_sensitive (GTK_WIDGET (applet->wwan_enabled_item),
 	                          wwan_hw_enabled && is_permission_yes (applet, NM_CLIENT_PERMISSION_ENABLE_DISABLE_WWAN));
-
-	if (!INDICATOR_ENABLED (applet)) {
-		/* Enabled notifications */
-		g_signal_handler_block (G_OBJECT (applet->notifications_enabled_item),
-			                    applet->notifications_enabled_toggled_id);
-		if (   g_settings_get_boolean (applet->gsettings, PREF_DISABLE_CONNECTED_NOTIFICATIONS)
-			&& g_settings_get_boolean (applet->gsettings, PREF_DISABLE_DISCONNECTED_NOTIFICATIONS)
-			&& g_settings_get_boolean (applet->gsettings, PREF_DISABLE_VPN_NOTIFICATIONS)
-			&& g_settings_get_boolean (applet->gsettings, PREF_SUPPRESS_WIFI_NETWORKS_AVAILABLE))
-			notifications_enabled = FALSE;
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (applet->notifications_enabled_item), notifications_enabled);
-		g_signal_handler_unblock (G_OBJECT (applet->notifications_enabled_item),
-			                      applet->notifications_enabled_toggled_id);
-	}
 
 	/* Don't show wifi-specific stuff if wifi is off */
 	if (state != NM_STATE_ASLEEP) {
@@ -1933,32 +1946,27 @@ applet_connection_info_cb (NMApplet *applet)
 	applet_info_dialog_show (applet);
 }
 
-static void
-nma_menu_notification_item_clicked (GtkMenuItem *item, NMApplet *applet)
-{
-	const char *pref = g_object_get_data(G_OBJECT(item), "notification-pref");
-	gboolean state = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item));
-	g_settings_set_boolean (applet->gsettings, pref, state);
-}
-
 static void 
-update_notification_prefs(GtkWidget *widget, gpointer applet) 
+apply_notification_prefs(GtkWidget *widget, gpointer applet) 
 {
-    if (GTK_IS_CHECK_BUTTON(widget)) {
-        gboolean is_active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-		const char *pref = g_object_get_data(G_OBJECT(widget), "connection-reason-pref");
-		g_settings_set_boolean (((NMApplet *)applet)->gsettings, pref, is_active);
-    }
+	if (GTK_IS_CHECK_BUTTON(widget)) 
+	{
+		const char *pref = g_object_get_data(G_OBJECT(widget), "notification-pref");
+		gboolean is_active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+		if(pref) {
+			g_settings_set_boolean (((NMApplet *)applet)->gsettings, pref, is_active);
+		}	
+	}
 }
 
 static void 
 on_vpn_notifications_dialog_response(GtkDialog *dialog, gint response_id, NMApplet *applet) 
 {
 	if (response_id == GTK_RESPONSE_OK) {
-		gtk_container_foreach(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), 
-						  	  update_notification_prefs, applet);
+		gtk_container_foreach(GTK_CONTAINER(applet->notifications_menu), 
+							  apply_notification_prefs, 
+							  applet);
 	}
-
 	gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
@@ -2014,41 +2022,35 @@ create_check_button_for_reason(NMApplet *applet, NMActiveConnectionStateReason r
 	check = gtk_check_button_new_with_label(label);
     is_active = g_settings_get_boolean(applet->gsettings, pref);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), is_active);
-    g_object_set_data_full(G_OBJECT(check), "connection-reason-pref", GINT_TO_POINTER(pref), NULL);
+    g_object_set_data_full(G_OBJECT(check), "notification-pref", g_strdup(pref), g_free);
 
     return check;
 }
 
-static void
-nma_menu_configure_notify_item_activate (GtkMenuItem *item, NMApplet *applet)
+static GtkWidget* 
+create_check_button_for_enable_all(NMApplet *applet) 
 {
-	GtkWidget *dialog, *content_area;
+	GtkWidget *check;
+	bool is_active;
 
-	dialog = gtk_dialog_new_with_buttons(_("Manage VPN notifications"), NULL, 
-										 GTK_DIALOG_MODAL, "Сохранить",  
-										 GTK_RESPONSE_OK, NULL);
+	is_active = TRUE;
+	check = gtk_check_button_new_with_label("Включить все уведомления");
+    if (g_settings_get_boolean(applet->gsettings, PREF_DISABLE_CONNECTED_NOTIFICATIONS) &&
+        g_settings_get_boolean(applet->gsettings, PREF_DISABLE_DISCONNECTED_NOTIFICATIONS) &&
+        g_settings_get_boolean(applet->gsettings, PREF_DISABLE_VPN_NOTIFICATIONS) &&
+        g_settings_get_boolean(applet->gsettings, PREF_SUPPRESS_WIFI_NETWORKS_AVAILABLE)) {
+        is_active = FALSE;
+    }
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), is_active);
+    g_signal_connect(check, "toggled", G_CALLBACK(nma_set_notifications_enabled_cb), applet);
 
-	g_signal_connect(dialog, "response", G_CALLBACK(on_vpn_notifications_dialog_response), applet);
-	gtk_window_set_default_size(GTK_WINDOW(dialog), 500, 500);
-
-	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
-
-	for(int i = 0; i < G_N_ELEMENTS (vpn_reasons); i++) 
-	{
-		GtkWidget *check = create_check_button_for_reason(applet, vpn_reasons[i]);
-        if (check) {
-            gtk_box_pack_start(GTK_BOX(content_area), check, TRUE, TRUE, 0);
-        }
-	}
-
-    gtk_widget_show_all(dialog);
-    gtk_dialog_run(GTK_DIALOG(dialog));
+    return check;
 }
 
-static GtkMenuItem* 
-create_notifications_menu_item(NMApplet *applet, BaseNotificationTypes type)
+static GtkWidget* 
+create_notification_check(NMApplet *applet, BaseNotificationTypes type)
 {
-	GtkMenuItem *item;
+	GtkWidget *check;
     const char *label;
     const char *pref;
 	bool is_active;
@@ -2066,47 +2068,100 @@ create_notifications_menu_item(NMApplet *applet, BaseNotificationTypes type)
 			label = "Отключить уведомления о статусе VPN";
 			pref = PREF_DISABLE_VPN_NOTIFICATIONS;
 			break;
+		case AVAILABLE_WIFI_NOTIFICATIONS:
+			label = "Отключить уведомления о доступных Wi-Fi сетях";
+			pref = PREF_SUPPRESS_WIFI_NETWORKS_AVAILABLE;
+			break;
 		default:
 			return NULL;
 	}
 
-	item = GTK_MENU_ITEM (gtk_check_menu_item_new_with_label (label));
-	is_active = g_settings_get_boolean (applet->gsettings, pref);
-	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), is_active);
-	g_object_set_data_full(G_OBJECT(item), "notification-pref", GINT_TO_POINTER(pref), NULL);
-	g_signal_connect (item, "activate", G_CALLBACK (nma_menu_notification_item_clicked), applet);
+	check = gtk_check_button_new_with_label(label);
+    is_active = g_settings_get_boolean(applet->gsettings, pref);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), is_active);
+    g_object_set_data_full(G_OBJECT(check), "notification-pref", g_strdup(pref), g_free);
 
-	return item;
+	return check;
+}
+
+static void
+nma_populate_notification_dialog(GtkWidget *content_area, NMApplet *applet)
+{
+    GtkWidget *check, *separator;
+    GtkWidget *top_box, *bottom_box;
+
+    top_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    bottom_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+
+	check = create_check_button_for_enable_all(applet);
+    gtk_box_pack_start(GTK_BOX(top_box), check, FALSE, FALSE, 0);
+
+    separator = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_widget_set_size_request(separator, -1, 1);
+	gtk_box_pack_start(GTK_BOX(top_box), separator, FALSE, FALSE, 5);
+
+    for (BaseNotificationTypes i = CONNECTED_NOTIFICATIONS; i <= END_NOTIFICATIONS; i++) 
+	{
+        check = create_notification_check(applet, i);
+        if (check) {
+            gtk_box_pack_start(GTK_BOX(bottom_box), check, FALSE, FALSE, 0);
+        }
+    }
+
+    separator = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_widget_set_size_request(separator, -1, 1);
+    gtk_box_pack_start(GTK_BOX(bottom_box), separator, FALSE, FALSE, 5);
+
+    for (int i = 0; i < G_N_ELEMENTS(vpn_reasons); i++) 
+	{
+        check = create_check_button_for_reason(applet, vpn_reasons[i]);
+        if (check) {
+            gtk_box_pack_start(GTK_BOX(bottom_box), check, FALSE, FALSE, 0);
+        }
+    }
+
+    gtk_box_pack_start(GTK_BOX(content_area), top_box, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(content_area), bottom_box, FALSE, FALSE, 0);
+
+    gtk_widget_show_all(content_area);
+
+	applet->notifications_menu = bottom_box;
+}
+
+static void
+nma_menu_configure_notify_item_activate (GtkMenuItem *item, NMApplet *applet)
+{
+	GtkWidget *dialog, *content_area, *save_button;
+	const gchar *action_id;
+
+	dialog = gtk_dialog_new_with_buttons(_("Manage VPN notifications"), NULL, 
+										 GTK_DIALOG_MODAL, "Сохранить",  
+										 GTK_RESPONSE_OK, NULL);
+
+	g_signal_connect(dialog, "response", G_CALLBACK(on_vpn_notifications_dialog_response), applet);
+	gtk_window_set_default_size(GTK_WINDOW(dialog), 500, 400);
+
+	save_button = gtk_dialog_get_widget_for_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
+	gtk_widget_set_sensitive(save_button, FALSE);
+
+	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+	nma_populate_notification_dialog(content_area, applet);
+
+	action_id = "org.gnome.nm-applet.managenotifications";
+    check_polkit_authorization_async(action_id, save_button);
+
+    gtk_widget_show_all(dialog);
+    gtk_dialog_run(GTK_DIALOG(dialog));
 }
 
 static void
 nma_menu_add_notification_submenu (GtkWidget *menu, NMApplet *applet)
 {
-	GtkMenu *notifications_menu;
 	GtkMenuItem *item;
-
-	notifications_menu = GTK_MENU (gtk_menu_new ());
-
 	item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (_("Notification settings")));
-	gtk_menu_item_set_submenu (item, GTK_WIDGET (notifications_menu));
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), GTK_WIDGET (item));
-	gtk_widget_show (GTK_WIDGET (item));
-
-	for (BaseNotificationTypes i = CONNECTED_NOTIFICATIONS; i <= VPN_NOTIFICATIONS; i++) 
-	{
-		item = create_notifications_menu_item(applet, i);
-		if(item) {
-			gtk_menu_shell_append (GTK_MENU_SHELL (notifications_menu), GTK_WIDGET (item));
-		}
-	}
-
-	nma_menu_add_separator_item (GTK_WIDGET (notifications_menu));
-	item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (_("Detailed VPN notification settings")));
 	g_signal_connect (item, "activate", G_CALLBACK (nma_menu_configure_notify_item_activate), applet);
-	gtk_menu_shell_append (GTK_MENU_SHELL (notifications_menu), GTK_WIDGET (item));
 	gtk_widget_show (GTK_WIDGET (item));
-
-	applet->notifications_menu = notifications_menu;
 }
 
 /*
@@ -2164,17 +2219,7 @@ static void nma_context_menu_populate (NMApplet *applet, GtkMenu *menu)
 	nma_menu_add_separator_item (GTK_WIDGET (menu_shell));
 
 	if (!INDICATOR_ENABLED (applet)) {
-		/* Toggle notifications item */
-		applet->notifications_enabled_item = gtk_check_menu_item_new_with_mnemonic (_("Enable all notifications"));
-		id = g_signal_connect (applet->notifications_enabled_item,
-			                   "toggled",
-			                   G_CALLBACK (nma_set_notifications_enabled_cb),
-			                   applet);
-		applet->notifications_enabled_toggled_id = id;
-		gtk_menu_shell_append (menu_shell, applet->notifications_enabled_item);
-
 		nma_menu_add_notification_submenu(GTK_WIDGET (menu_shell), applet);
-
 		nma_menu_add_separator_item (GTK_WIDGET (menu_shell));
 	}
 

@@ -145,9 +145,7 @@ typedef struct {
 	GtkWidget *     menu;
 	GtkWidget *     context_menu;
 
-	GtkWidget *     notifications_enabled_item;
-	guint           notifications_enabled_toggled_id;
-	GtkMenu   *     notifications_menu;
+	GtkWidget *     notifications_menu;
 
 	GtkWidget *     networking_enabled_item;
 	guint           networking_enabled_toggled_id;
