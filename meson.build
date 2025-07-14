@@ -307,6 +307,11 @@ install_data(
   install_dir: join_paths(nma_datadir, 'GConf', 'gsettings')
 )
 
+install_data(
+  'org.gnome.nm-applet.policy',
+  install_dir: join_paths(nma_datadir, 'polkit-1', 'actions')
+)
+
 config = 'config.h'
 
 configure_file(
