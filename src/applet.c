@@ -697,6 +697,7 @@ authorization_cb(GObject *source, GAsyncResult *res, gpointer user_data)
     result = polkit_authority_check_authorization_finish(POLKIT_AUTHORITY(source), res, &error);
     
     if (error != NULL) {
+		g_warning ("Polkit authentication failed: %s", error->message);
         g_error_free(error);
         return;
     }
@@ -2052,7 +2053,7 @@ nma_menu_configure_notify_item_activate (GtkMenuItem *item, NMApplet *applet)
 	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
 	nma_populate_notification_dialog(content_area, applet);
 
-	action_id = "org.gnome.nm-applet.managenotifications";
+	action_id = "org.gnome.nmapplet.managenotifications";
     check_polkit_authorization_async(action_id, save_button);
 	
     gtk_widget_show_all(dialog);
