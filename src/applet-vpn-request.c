@@ -124,18 +124,18 @@ save_cert_chooser_data(GtkWidget *widget, gpointer _secret)
     	uri = nma_cert_chooser_get_cert (NMA_CERT_CHOOSER (widget), &scheme);
     	if(uri && scheme == NM_SETTING_802_1X_CK_SCHEME_PKCS11) 
     	{
-    	    id_bytes = nma_cert_chooser_get_cert_id (NMA_CERT_CHOOSER (widget), uri);
-    	    if(id_bytes) 
-    	    {
-    	        gulong id_length = *(gulong*)id_bytes;
-    	        GString* id_formated = g_string_new(NULL);
-    	        format_some_bytes(id_formated, id_bytes + sizeof(id_length), id_length);
-				secret->value = g_strdup(id_formated->str);
+    	    // id_bytes = nma_cert_chooser_get_cert_id (NMA_CERT_CHOOSER (widget), uri);
+    	    // if(id_bytes) 
+    	    // {
+    	    //     gulong id_length = *(gulong*)id_bytes;
+    	    //     GString* id_formated = g_string_new(NULL);
+    	    //     format_some_bytes(id_formated, id_bytes + sizeof(id_length), id_length);
+			// 	secret->value = g_strdup(id_formated->str);
 
-    	        g_string_free(id_formated, TRUE);
-    	        g_free(id_bytes);
-    	    }
-    	    g_free(uri);
+    	    //     g_string_free(id_formated, TRUE);
+    	    //     g_free(id_bytes);
+    	    // }
+    	    // g_free(uri);
     	}
 		else {
 			g_free(secret->value);
