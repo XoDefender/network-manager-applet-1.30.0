@@ -1476,6 +1476,7 @@ nma_menu_add_devices (GtkWidget *menu, NMApplet *applet)
 	n_items = 0;
 	n_items += add_device_items  (NM_DEVICE_TYPE_ETHERNET,
 	                              all_devices, all_connections, menu, applet);
+	// FYI:Kirill - display all wifi access points
 	n_items += add_device_items  (NM_DEVICE_TYPE_WIFI,
 	                              all_devices, all_connections, menu, applet);
 	n_items += add_device_items  (NM_DEVICE_TYPE_MODEM,

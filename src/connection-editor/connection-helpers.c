@@ -567,6 +567,60 @@ new_connection_of_type (GtkWindow *parent_window,
 }
 
 void
+filter_connection_dialog_full (GtkWindow *parent_window,
+                               NMClient *client,
+                               const char *primary_label,
+                               const char *secondary_label,
+                               NewConnectionTypeFilterFunc type_filter_func,
+                               NewConnectionResultFunc result_func,
+                               gpointer user_data)
+{
+
+	GtkBuilder *gui;
+	GtkDialog *type_dialog;
+	int response;
+	GError *error = NULL;
+
+	/* load GUI */
+	gui = gtk_builder_new ();
+	if (!gtk_builder_add_from_resource (gui,
+	                                    "/org/gnome/nm_connection_editor/ce-filter-connectionsce.ui",
+	                                    &error)) {
+		g_warning ("Couldn't load builder resource: %s", error->message);
+		g_error_free (error);
+		g_object_unref (gui);
+		return;
+	}
+
+	type_dialog = GTK_DIALOG (gtk_builder_get_object (gui, "new_connection_type_dialog"));
+	gtk_window_set_transient_for (GTK_WINDOW (type_dialog), parent_window);
+
+	response = gtk_dialog_run (type_dialog);
+	if (response == GTK_RESPONSE_OK) {
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (type_dialog));
+	g_object_unref (gui);
+
+	//result_func (FUNC_TAG_NEW_CONNECTION_RESULT_CALL, NULL, user_data);
+}
+
+
+void
+filter_connection_dialog (GtkWindow *parent_window,
+                       	  NMClient *client,
+                       	  NewConnectionTypeFilterFunc type_filter_func,
+                       	  NewConnectionResultFunc result_func,
+                       	  gpointer user_data)
+{
+	filter_connection_dialog_full (parent_window, client,
+								   NULL, NULL,
+								   type_filter_func,
+								   result_func,
+								   user_data);
+}
+
+void
 new_connection_dialog (GtkWindow *parent_window,
                        NMClient *client,
                        NewConnectionTypeFilterFunc type_filter_func,
