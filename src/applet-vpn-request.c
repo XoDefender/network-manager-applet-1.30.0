@@ -20,7 +20,7 @@
 #include <errno.h>
 
 #include "nma-vpn-password-dialog.h"
-#include "/usr/include/libnma/nma-cert-chooser.h"
+#include "nma-cert-chooser.h"
 #include "nm-utils/nm-compat.h"
 #include "nm-utils/nm-shared-utils.h"
 
