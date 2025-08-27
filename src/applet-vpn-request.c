@@ -180,7 +180,6 @@ external_ui_dialog_response (GtkDialog *dialog, int response_id, gpointer user_d
 
 			switch (i_pw) {
 			case 0:
-				// TODO:Kirill - value is got with nm_setting_vpn_get_secret(vpn, "password");
 				value = nma_vpn_password_dialog_get_password (vpn_dialog);
 				break;
 			case 1:
@@ -286,7 +285,6 @@ external_ui_from_child_response (VpnSecretsInfo *info, GError **error)
 	 * create a dialog and display it. */
 	if (num_ask > 0) 
 	{
-		// TODO:Kirill - ask vpn secrets dialog populates here
 		dialog = (NMAVpnPasswordDialog *) nma_vpn_password_dialog_new (title, message, NULL);
 		req_data->dialog = g_object_ref_sink (dialog);
 
