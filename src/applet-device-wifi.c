@@ -884,7 +884,9 @@ wifi_add_menu_item (NMDevice *device,
 			active_item = item = get_menu_item_for_ap (wdev, active_ap, connections, NULL, applet);
 			if (item) {
 				nm_network_menu_item_set_active (item, TRUE);
+				
 				available_menu_items = g_slist_append (available_menu_items, item);
+				unavailable_menu_items = g_slist_append (unavailable_menu_items, item);
 
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), GTK_WIDGET (item));
 				gtk_widget_show_all (GTK_WIDGET (item));
@@ -930,7 +932,10 @@ wifi_add_menu_item (NMDevice *device,
 	 * to ensure duplicate APs are handled correctly)
 	 */
 	if (active_item)
+	{
 		available_menu_items = g_slist_remove (available_menu_items, active_item);
+		unavailable_menu_items = g_slist_remove (unavailable_menu_items, active_item);
+	}
 
 	available_subitem = gtk_menu_item_new_with_mnemonic (_("_Available networks"));
 	unavailable_subitem = gtk_menu_item_new_with_mnemonic (_("_Unavailable networks"));
