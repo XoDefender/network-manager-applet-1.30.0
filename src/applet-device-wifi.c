@@ -800,7 +800,7 @@ sort_toplevel (gconstpointer tmpa, gconstpointer tmpb)
 
 static void 
 populate_networks_menu (GSList *conn_items, GtkWidget *conn_subitem, 
-						GtkWidget *menu, GSList *iter)
+						GtkWidget *menu, GSList *iter, gboolean is_active)
 {
 	if (g_slist_length (conn_items)) 
 	{
@@ -823,7 +823,12 @@ populate_networks_menu (GSList *conn_items, GtkWidget *conn_subitem,
 
 		/* Add menu items */
 		for (iter = sorted_subitems; iter; iter = g_slist_next (iter))
+		{
 			gtk_menu_shell_append (GTK_MENU_SHELL (submenu), GTK_WIDGET (iter->data));
+			if(!is_active) {
+				gtk_widget_set_sensitive(GTK_WIDGET (iter->data), false);
+			}
+		}
 		g_slist_free (sorted_subitems);
 	} else {
 		gtk_widget_set_sensitive (conn_subitem, FALSE);
@@ -940,8 +945,8 @@ wifi_add_menu_item (NMDevice *device,
 	available_subitem = gtk_menu_item_new_with_mnemonic (_("_Available networks"));
 	unavailable_subitem = gtk_menu_item_new_with_mnemonic (_("_Unavailable networks"));
 
-	populate_networks_menu(available_menu_items, available_subitem, menu, iter);
-	populate_networks_menu(unavailable_menu_items, unavailable_subitem, menu, iter);
+	populate_networks_menu(available_menu_items, available_subitem, menu, iter, true);
+	populate_networks_menu(unavailable_menu_items, unavailable_subitem, menu, iter, false);
 
 out:
 	g_slist_free (available_menu_items);
