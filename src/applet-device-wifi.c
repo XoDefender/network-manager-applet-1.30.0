@@ -822,8 +822,12 @@ wifi_add_menu_item (NMDevice *device,
 			text = g_strdup_printf (_("Wi-Fi Networks (%s)"), desc);
 		else
 			text = g_strdup_printf (_("Wi-Fi Network (%s)"), desc);
-	} else
-		text = g_strdup (ngettext ("Wi-Fi Network", "Wi-Fi Networks", aps ? aps->len : 0));
+	} else {
+		if(aps && aps->len > 1)
+			text = g_strdup (_("Wi-Fi Networks"));
+		else	
+			text = g_strdup (_("Wi-Fi Network"));
+	}
 
 	widget = applet_menu_item_create_device_item_helper (device, applet, text);
 	g_free (text);
