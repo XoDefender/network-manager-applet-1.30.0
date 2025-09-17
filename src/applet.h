@@ -163,7 +163,7 @@ typedef struct {
 
 	guint           wifi_scan_id;
 
-	AccessPointFilterInfo *filter_info
+	AccessPointFilterInfo *filter_info;
 } NMApplet;
 
 typedef void (*AppletNewAutoConnectionCallback) (NMConnection *connection,

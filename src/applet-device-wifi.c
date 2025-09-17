@@ -276,15 +276,6 @@ typedef struct {
 	NMConnection *connection;
 } WifiMenuItemInfo;
 
-// FYI:Kirill - list for adding blacklisted_ssids
-/* List known trojan networks that should never be shown to the user */
-static const char *blacklisted_ssids[] = {
-	/* http://www.npr.org/templates/story/story.php?storyId=130451369 */
-	"Free Public Wi-Fi",
-	"internet 45",
-	NULL
-};
-
 static gboolean
 is_ssid_in_blacklist (GBytes *ssid, GList *list)
 {
@@ -985,11 +976,19 @@ wifi_add_menu_item (NMDevice *device,
 	{
 		// FYI:Kirill - get all available menu items
 		NMAccessPoint *ap = g_ptr_array_index (aps, i);
-		GSList *curr_menu_items = is_access_point_available(ap, applet) ? available_menu_items : unavailable_menu_items;
-		
-		item = get_menu_item_for_ap (wdev, ap, connections, curr_menu_items, applet);
-		if (item) {
-			curr_menu_items = g_slist_append (curr_menu_items, item);
+		if(is_access_point_available(ap, applet))
+		{
+			item = get_menu_item_for_ap (wdev, ap, connections, available_menu_items, applet);
+			if (item) {
+				available_menu_items = g_slist_append (available_menu_items, item);
+			}
+		}
+		else
+		{
+			item = get_menu_item_for_ap (wdev, ap, connections, unavailable_menu_items, applet);
+			if (item) {
+				unavailable_menu_items = g_slist_append (unavailable_menu_items, item);
+			}
 		}
 	}
 
