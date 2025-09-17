@@ -276,6 +276,72 @@ typedef struct {
 	NMConnection *connection;
 } WifiMenuItemInfo;
 
+// FYI:Kirill - list for adding blacklisted_ssids
+/* List known trojan networks that should never be shown to the user */
+static const char *blacklisted_ssids[] = {
+	/* http://www.npr.org/templates/story/story.php?storyId=130451369 */
+	"Free Public Wi-Fi",
+	"internet 45",
+	NULL
+};
+
+static gboolean
+is_ssid_in_blacklist (GBytes *ssid, GList *list)
+{
+	gsize ssid_size;
+    gconstpointer ssid_data;
+    GList *iter;
+
+    if (!ssid || !list) {
+        return FALSE;
+    }
+	
+	ssid_size = g_bytes_get_size(ssid);
+    ssid_data = g_bytes_get_data(ssid, NULL);
+	
+    for (iter = list; iter != NULL; iter = iter->next) 
+	{
+        const char *list_ssid = (const char*)iter->data;
+        gsize list_ssid_len = strlen(list_ssid);
+        if (ssid_size == list_ssid_len &&
+			!memcmp(list_ssid, ssid_data, ssid_size)) {
+            return TRUE;
+        }
+    }
+    
+    return FALSE;
+}
+
+static gboolean 
+is_access_point_available(NMAccessPoint *ap, NMApplet *applet)
+{
+	NM80211ApSecurityFlags flags = nm_access_point_get_flags(ap);
+	NM80211ApSecurityFlags wpa_flags = nm_access_point_get_wpa_flags(ap);
+    NM80211ApSecurityFlags rsn_flags = nm_access_point_get_rsn_flags(ap);
+    NM80211ApSecurityFlags combined_flags = wpa_flags | rsn_flags;
+	GBytes *ssid = nm_access_point_get_ssid (ap);
+	
+	if(applet->filter_info->filter_ccmp && combined_flags & NM_802_11_AP_SEC_PAIR_CCMP) {
+		return FALSE;
+	}
+	if(applet->filter_info->filter_tkip && combined_flags & NM_802_11_AP_SEC_PAIR_TKIP) {
+		return FALSE;
+	}
+
+	if(applet->filter_info->filter_wpa_psk && flags & NM_802_11_AP_SEC_KEY_MGMT_PSK) {
+        return FALSE;
+    }
+    if(applet->filter_info->filter_wpa_ent && flags & NM_802_11_AP_SEC_KEY_MGMT_802_1X) {
+        return FALSE;
+    }
+
+	if (ssid && is_ssid_in_blacklist (ssid, applet->filter_info->blacklisted_ssids)) {
+		return FALSE;
+	}
+
+	return TRUE;
+} 
+
 static void
 wifi_menu_item_info_destroy (gpointer data, GClosure *closure)
 {
@@ -342,13 +408,6 @@ get_ssid_utf8 (NMAccessPoint *ap)
 
 	return ssid_utf8;
 }
-
-/* List known trojan networks that should never be shown to the user */
-static const char *blacklisted_ssids[] = {
-	/* http://www.npr.org/templates/story/story.php?storyId=130451369 */
-	"Free Public Wi-Fi",
-	NULL
-};
 
 static gboolean
 is_blacklisted_ssid (GBytes *ssid)
@@ -687,8 +746,7 @@ get_menu_item_for_ap (NMDeviceWifi *device,
 	/* Don't add BSSs that hide their SSID or are blacklisted */
 	ssid = nm_access_point_get_ssid (ap);
 	if (   !ssid
-	    || nm_utils_is_empty_ssid (g_bytes_get_data (ssid, NULL), g_bytes_get_size (ssid))
-	    || is_blacklisted_ssid (ssid))
+	    || nm_utils_is_empty_ssid (g_bytes_get_data (ssid, NULL), g_bytes_get_size (ssid)))
 		return NULL;
 
 	/* Find out if this AP is a member of a larger network that all uses the
@@ -838,7 +896,6 @@ populate_networks_menu (GSList *conn_items, GtkWidget *conn_subitem,
 	gtk_widget_show_all (conn_subitem);
 }
 
-
 static gboolean
 wifi_add_menu_item (NMDevice *device,
                     gboolean multiple_devices,
@@ -920,15 +977,11 @@ wifi_add_menu_item (NMDevice *device,
 	{
 		// FYI:Kirill - get all available menu items
 		NMAccessPoint *ap = g_ptr_array_index (aps, i);
-
-		item = get_menu_item_for_ap (wdev, ap, connections, available_menu_items, applet);
+		GSList *curr_menu_items = is_access_point_available(ap, applet) ? available_menu_items : unavailable_menu_items;
+		
+		item = get_menu_item_for_ap (wdev, ap, connections, curr_menu_items, applet);
 		if (item) {
-			available_menu_items = g_slist_append (available_menu_items, item);
-		}
-
-		item = get_menu_item_for_ap (wdev, ap, connections, unavailable_menu_items, applet);
-		if (item) {
-			unavailable_menu_items = g_slist_append (unavailable_menu_items, item);
+			curr_menu_items = g_slist_append (curr_menu_items, item);
 		}
 	}
 

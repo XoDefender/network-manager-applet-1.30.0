@@ -74,6 +74,7 @@ typedef struct {
 #define ICON_LAYER_MAX                            ICON_LAYER_VPN
 
 typedef struct NMADeviceClass NMADeviceClass;
+typedef struct AccessPointFilterInfo AccessPointFilterInfo;
 
 /*
  * Applet instance data
@@ -161,6 +162,8 @@ typedef struct {
 	GSList *        secrets_reqs;
 
 	guint           wifi_scan_id;
+
+	AccessPointFilterInfo *filter_info
 } NMApplet;
 
 typedef void (*AppletNewAutoConnectionCallback) (NMConnection *connection,
@@ -236,6 +239,14 @@ struct NMADeviceClass {
 	size_t         secrets_request_size;
 	gboolean       (*get_secrets)          (SecretsRequest *req,
 	                                        GError **error);
+};
+
+struct AccessPointFilterInfo {
+	gboolean filter_ccmp;
+	gboolean filter_tkip;
+	gboolean filter_wpa_psk;
+	gboolean filter_wpa_ent;
+	GList *blacklisted_ssids;
 };
 
 GType nma_get_type (void);

@@ -3702,6 +3702,119 @@ applet_activate (GApplication *app, gpointer user_data)
 	/* Nothing to do, but glib requires this handler */
 }
 
+static gboolean
+add_ssid_to_blacklist(gchar *ssid, AccessPointFilterInfo *filter_info) 
+{
+	GList *iter;
+
+	if (!ssid) {
+		return FALSE;
+	}
+
+    for (iter = filter_info->blacklisted_ssids; iter != NULL; iter = iter->next) {
+        if (g_ascii_strcasecmp(ssid, (const char*)iter->data) == 0) {
+            return FALSE;
+        }
+    }
+    
+    filter_info->blacklisted_ssids = g_list_append(filter_info->blacklisted_ssids, g_strdup(ssid));
+	
+	return TRUE;
+}
+
+static gboolean
+applet_process_filter_config (AccessPointFilterInfo *filter_info)
+{
+	char *config_path = "/etc/xdg/nm-applet/filter.conf";
+    GKeyFile *keyfile = g_key_file_new();
+    GError *error = NULL;
+    
+    // Загружаем конфигурационный файл
+    if (!g_key_file_load_from_file(keyfile, config_path, G_KEY_FILE_NONE, &error)) 
+	{
+        g_key_file_free(keyfile);
+        if (error) {
+            g_error_free(error);
+        }
+        return FALSE;
+    }
+    
+    // Читаем черный список SSID
+    if (g_key_file_has_key(keyfile, "filter", "blacklisted_ssids", NULL)) {
+        gchar **ssids = g_key_file_get_string_list(keyfile, "filter", "blacklisted_ssids", NULL, &error);
+        if (!error && ssids) {
+            for (int i = 0; ssids[i] != NULL; i++) {
+                // Убираем возможные пробелы в начале и конце
+                g_strstrip(ssids[i]);
+                if (strlen(ssids[i]) > 0) {
+                    add_ssid_to_blacklist(ssids[i], filter_info);
+                }
+            }
+
+            g_strfreev(ssids);
+        }
+        if (error) {
+            g_error_free(error);
+            error = NULL;
+        }
+    }
+    
+    // Читаем настройки фильтрации протоколов
+    filter_info->filter_wpa_ent = g_key_file_get_boolean(keyfile, "filter", "filter_wpa_enterprise", &error);
+    if (error) {
+        g_error_free(error);
+        error = NULL;
+        filter_info->filter_wpa_ent = FALSE;
+    }
+    
+    filter_info->filter_wpa_psk = g_key_file_get_boolean(keyfile, "filter", "filter_wpa_psk", &error);
+    if (error) {
+        g_error_free(error);
+        error = NULL;
+        filter_info->filter_wpa_psk = FALSE;
+    }
+    
+    // Читаем настройки фильтрации шифрования
+    filter_info->filter_ccmp = g_key_file_get_boolean(keyfile, "filter", "filter_ccmp", &error);
+    if (error) {
+        g_error_free(error);
+        error = NULL;
+        filter_info->filter_ccmp = FALSE;
+    }
+    
+    filter_info->filter_tkip = g_key_file_get_boolean(keyfile, "filter", "filter_tkip", &error);
+    if (error) {
+        g_error_free(error);
+        error = NULL;
+        filter_info->filter_tkip = FALSE;
+    }
+    
+    g_key_file_free(keyfile);
+
+    return TRUE;
+}
+
+static AccessPointFilterInfo* 
+applet_filter_new(void) 
+{
+	static const AccessPointFilterInfo filter_info_def = {
+		.filter_ccmp = FALSE,
+		.filter_tkip = FALSE,
+		.filter_wpa_psk = FALSE,
+		.filter_wpa_ent = FALSE,
+		.blacklisted_ssids = NULL,
+	};
+
+    AccessPointFilterInfo *filter_info = g_new0(AccessPointFilterInfo, 1); 
+	*filter_info = filter_info_def;
+	
+	if(!applet_process_filter_config(filter_info)) {
+		g_warning ("Could not read applet filter config.");
+	}
+
+    return filter_info;
+}
+
 static void
 applet_startup (GApplication *app, gpointer user_data)
 {
@@ -3771,6 +3884,8 @@ applet_startup (GApplication *app, gpointer user_data)
 #if WITH_WWAN
 	mm1_client_setup (applet);
 #endif
+	
+	applet->filter_info = applet_filter_new();
 
 	if (applet->status_icon) {
 		/* Track embedding to help debug issues where user has removed the
