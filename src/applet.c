@@ -3931,6 +3931,8 @@ static void finalize (GObject *object)
 	if (applet->xsettings_client) xsettings_client_destroy(applet->xsettings_client);
 	g_clear_object (&applet->icon_theme_tray);
 
+	if(applet->filter_info) g_free(applet->filter_info);
+
 	g_clear_object (&applet->fallback_icon);
 	g_free (applet->tip);
 	nma_icons_free (applet);
