@@ -246,7 +246,9 @@ struct AccessPointFilterInfo {
 	gboolean filter_tkip;
 	gboolean filter_wpa_psk;
 	gboolean filter_wpa_ent;
+	gboolean use_whitelist;
 	GList *blacklisted_ssids;
+	GList *whitelisted_ssids;
 };
 
 GType nma_get_type (void);

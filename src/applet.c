@@ -3702,24 +3702,43 @@ applet_activate (GApplication *app, gpointer user_data)
 	/* Nothing to do, but glib requires this handler */
 }
 
-static gboolean
-add_ssid_to_blacklist(gchar *ssid, AccessPointFilterInfo *filter_info) 
+static void
+add_ssid_to_glist(gchar *ssid, GList **list) 
 {
 	GList *iter;
 
 	if (!ssid) {
-		return FALSE;
+		return;
 	}
 
-    for (iter = filter_info->blacklisted_ssids; iter != NULL; iter = iter->next) {
+    for (iter = *list; iter != NULL; iter = iter->next) {
         if (g_ascii_strcasecmp(ssid, (const char*)iter->data) == 0) {
-            return FALSE;
+            return;
         }
     }
     
-    filter_info->blacklisted_ssids = g_list_append(filter_info->blacklisted_ssids, g_strdup(ssid));
-	
-	return TRUE;
+    *list = g_list_append(*list, g_strdup(ssid));
+}
+
+static void
+add_ssids_to_keyfile_list(GKeyFile *keyfile, char *list_name, GList **list) 
+{
+	GError *error = NULL;
+	gchar **ssids = g_key_file_get_string_list(keyfile, "filter", list_name, NULL, &error);
+    if (!error && ssids) 
+	{
+		for (int i = 0; ssids[i] != NULL; i++) 
+		{
+        	g_strstrip(ssids[i]);
+        	if (strlen(ssids[i]) > 0) {
+            	add_ssid_to_glist(ssids[i], list);
+        	}
+    	}
+        g_strfreev(ssids);
+    }
+	else {
+		g_error_free (error);
+	}
 }
 
 static gboolean
@@ -3727,70 +3746,36 @@ applet_process_filter_config (AccessPointFilterInfo *filter_info)
 {
 	char *config_path = "/etc/xdg/nm-applet/filter.conf";
     GKeyFile *keyfile = g_key_file_new();
-    GError *error = NULL;
     
-    // Загружаем конфигурационный файл
-    if (!g_key_file_load_from_file(keyfile, config_path, G_KEY_FILE_NONE, &error)) 
+    if (!g_key_file_load_from_file(keyfile, config_path, G_KEY_FILE_NONE, NULL)) 
 	{
         g_key_file_free(keyfile);
-        if (error) {
-            g_error_free(error);
-        }
         return FALSE;
     }
-    
-    // Читаем черный список SSID
+	
     if (g_key_file_has_key(keyfile, "filter", "blacklisted_ssids", NULL)) {
-        gchar **ssids = g_key_file_get_string_list(keyfile, "filter", "blacklisted_ssids", NULL, &error);
-        if (!error && ssids) {
-            for (int i = 0; ssids[i] != NULL; i++) {
-                // Убираем возможные пробелы в начале и конце
-                g_strstrip(ssids[i]);
-                if (strlen(ssids[i]) > 0) {
-                    add_ssid_to_blacklist(ssids[i], filter_info);
-                }
-            }
+       add_ssids_to_keyfile_list(keyfile, "blacklisted_ssids",
+								 &filter_info->blacklisted_ssids);
+		
+		if(!filter_info->blacklisted_ssids)
+		{
+			printf("List iS NULL\n");
+		}
+    }
+	if (g_key_file_has_key(keyfile, "filter", "whitelisted_ssids", NULL)) {
+        add_ssids_to_keyfile_list(keyfile, "whitelisted_ssids", 
+								  &filter_info->whitelisted_ssids);
+    }
+    
+    filter_info->filter_wpa_ent = g_key_file_get_boolean(keyfile, "filter", "filter_wpa_enterprise", NULL);
+    filter_info->filter_wpa_psk = g_key_file_get_boolean(keyfile, "filter", "filter_wpa_psk", NULL);
+    
+    filter_info->filter_ccmp = g_key_file_get_boolean(keyfile, "filter", "filter_ccmp", NULL);
+    filter_info->filter_tkip = g_key_file_get_boolean(keyfile, "filter", "filter_tkip", NULL);
 
-            g_strfreev(ssids);
-        }
-        if (error) {
-            g_error_free(error);
-            error = NULL;
-        }
-    }
-    
-    // Читаем настройки фильтрации протоколов
-    filter_info->filter_wpa_ent = g_key_file_get_boolean(keyfile, "filter", "filter_wpa_enterprise", &error);
-    if (error) {
-        g_error_free(error);
-        error = NULL;
-        filter_info->filter_wpa_ent = FALSE;
-    }
-    
-    filter_info->filter_wpa_psk = g_key_file_get_boolean(keyfile, "filter", "filter_wpa_psk", &error);
-    if (error) {
-        g_error_free(error);
-        error = NULL;
-        filter_info->filter_wpa_psk = FALSE;
-    }
-    
-    // Читаем настройки фильтрации шифрования
-    filter_info->filter_ccmp = g_key_file_get_boolean(keyfile, "filter", "filter_ccmp", &error);
-    if (error) {
-        g_error_free(error);
-        error = NULL;
-        filter_info->filter_ccmp = FALSE;
-    }
-    
-    filter_info->filter_tkip = g_key_file_get_boolean(keyfile, "filter", "filter_tkip", &error);
-    if (error) {
-        g_error_free(error);
-        error = NULL;
-        filter_info->filter_tkip = FALSE;
-    }
+	filter_info->use_whitelist = g_key_file_get_boolean(keyfile, "filter", "use_whitelist", NULL);
     
     g_key_file_free(keyfile);
-
     return TRUE;
 }
 
@@ -3802,7 +3787,9 @@ applet_filter_new(void)
 		.filter_tkip = FALSE,
 		.filter_wpa_psk = FALSE,
 		.filter_wpa_ent = FALSE,
+		.use_whitelist = FALSE,
 		.blacklisted_ssids = NULL,
+		.whitelisted_ssids = NULL,
 	};
 
     AccessPointFilterInfo *filter_info = g_new0(AccessPointFilterInfo, 1); 
