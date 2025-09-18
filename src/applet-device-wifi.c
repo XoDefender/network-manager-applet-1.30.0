@@ -277,7 +277,7 @@ typedef struct {
 } WifiMenuItemInfo;
 
 static gboolean
-is_ssid_in_blacklist (GBytes *ssid, GList *list)
+is_ssid_in_glist (GBytes *ssid, GList *list)
 {
 	gsize ssid_size;
     gconstpointer ssid_data;
@@ -309,13 +309,13 @@ is_access_point_available(NMAccessPoint *ap, NMApplet *applet)
 	NM80211ApSecurityFlags flags = nm_access_point_get_flags(ap);
 	NM80211ApSecurityFlags wpa_flags = nm_access_point_get_wpa_flags(ap);
     NM80211ApSecurityFlags rsn_flags = nm_access_point_get_rsn_flags(ap);
-    NM80211ApSecurityFlags combined_flags = wpa_flags | rsn_flags;
+    NM80211ApSecurityFlags wpa_rsn_flags = wpa_flags | rsn_flags;
 	GBytes *ssid = nm_access_point_get_ssid (ap);
 	
-	if(applet->filter_info->filter_ccmp && combined_flags & NM_802_11_AP_SEC_PAIR_CCMP) {
+	if(applet->filter_info->filter_ccmp && wpa_rsn_flags & NM_802_11_AP_SEC_PAIR_CCMP) {
 		return FALSE;
 	}
-	if(applet->filter_info->filter_tkip && combined_flags & NM_802_11_AP_SEC_PAIR_TKIP) {
+	if(applet->filter_info->filter_tkip && wpa_rsn_flags & NM_802_11_AP_SEC_PAIR_TKIP) {
 		return FALSE;
 	}
 
@@ -326,7 +326,7 @@ is_access_point_available(NMAccessPoint *ap, NMApplet *applet)
         return FALSE;
     }
 
-	if (ssid && is_ssid_in_blacklist (ssid, applet->filter_info->blacklisted_ssids)) {
+	if (ssid && is_ssid_in_glist (ssid, applet->filter_info->blacklisted_ssids)) {
 		return FALSE;
 	}
 
