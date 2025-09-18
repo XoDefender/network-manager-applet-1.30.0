@@ -326,8 +326,15 @@ is_access_point_available(NMAccessPoint *ap, NMApplet *applet)
         return FALSE;
     }
 
-	if (ssid && is_ssid_in_glist (ssid, applet->filter_info->blacklisted_ssids)) {
-		return FALSE;
+	if (ssid && applet->filter_info->use_whitelist) {
+		if(!is_ssid_in_glist(ssid, applet->filter_info->whitelisted_ssids)) {
+			return FALSE;
+		}
+	}
+	else if (ssid && !applet->filter_info->use_whitelist) {
+		if(is_ssid_in_glist(ssid, applet->filter_info->blacklisted_ssids)) {
+			return FALSE;
+		}
 	}
 
 	return TRUE;
