@@ -306,7 +306,6 @@ is_ssid_in_glist (GBytes *ssid, GList *list)
 static gboolean 
 is_access_point_available(NMAccessPoint *ap, NMApplet *applet)
 {
-	NM80211ApSecurityFlags flags = nm_access_point_get_flags(ap);
 	NM80211ApSecurityFlags wpa_flags = nm_access_point_get_wpa_flags(ap);
     NM80211ApSecurityFlags rsn_flags = nm_access_point_get_rsn_flags(ap);
     NM80211ApSecurityFlags wpa_rsn_flags = wpa_flags | rsn_flags;
@@ -319,10 +318,10 @@ is_access_point_available(NMAccessPoint *ap, NMApplet *applet)
 		return FALSE;
 	}
 
-	if(applet->filter_info->filter_wpa_psk && flags & NM_802_11_AP_SEC_KEY_MGMT_PSK) {
+	if(applet->filter_info->filter_wpa_psk && wpa_rsn_flags & NM_802_11_AP_SEC_KEY_MGMT_PSK) {
         return FALSE;
     }
-    if(applet->filter_info->filter_wpa_ent && flags & NM_802_11_AP_SEC_KEY_MGMT_802_1X) {
+    if(applet->filter_info->filter_wpa_ent && wpa_rsn_flags & NM_802_11_AP_SEC_KEY_MGMT_802_1X) {
         return FALSE;
     }
 
