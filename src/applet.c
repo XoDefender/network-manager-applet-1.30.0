@@ -3747,8 +3747,7 @@ applet_process_filter_config (AccessPointFilterInfo *filter_info)
 	char *config_path = "/etc/xdg/nm-applet/filter.conf";
     GKeyFile *keyfile = g_key_file_new();
     
-    if (!g_key_file_load_from_file(keyfile, config_path, G_KEY_FILE_NONE, NULL)) 
-	{
+    if (!g_key_file_load_from_file(keyfile, config_path, G_KEY_FILE_NONE, NULL)) {
         g_key_file_free(keyfile);
         return FALSE;
     }
@@ -3756,11 +3755,6 @@ applet_process_filter_config (AccessPointFilterInfo *filter_info)
     if (g_key_file_has_key(keyfile, "filter", "blacklisted_ssids", NULL)) {
        add_ssids_to_keyfile_list(keyfile, "blacklisted_ssids",
 								 &filter_info->blacklisted_ssids);
-		
-		if(!filter_info->blacklisted_ssids)
-		{
-			printf("List iS NULL\n");
-		}
     }
 	if (g_key_file_has_key(keyfile, "filter", "whitelisted_ssids", NULL)) {
         add_ssids_to_keyfile_list(keyfile, "whitelisted_ssids", 
