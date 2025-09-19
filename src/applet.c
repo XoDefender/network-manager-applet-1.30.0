@@ -2054,7 +2054,7 @@ nma_menu_configure_notify_item_activate (GtkMenuItem *item, NMApplet *applet)
 	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
 	nma_populate_notification_dialog(content_area, applet);
 
-	action_id = "org.gnome.nmapplet.managenotifications";
+	action_id = "org.gnome.nm-applet.managenotifications";
     check_polkit_authorization_async(action_id, save_button);
 	
     gtk_widget_show_all(dialog);
