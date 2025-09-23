@@ -3,9 +3,6 @@
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 export DEB_LDFLAGS_MAINT_APPEND = -Wl,-z,defs
 
-# Relative base directory for configuration
-CONFDIR := etc/xdg/nm-applet
-
 %:
 	dh $@ --without=autoreconf --buildsystem=meson
 
@@ -16,7 +13,3 @@ override_dh_auto_configure:
 		-Dwwan=true \
 		-Dselinux=true \
 		-Dteam=true
-
-override_dh_install:
-	mkdir -p debian/network-manager-gnome/$(CONFDIR)
-	cp debian/filter.conf debian/network-manager-gnome/$(CONFDIR)

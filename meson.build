@@ -312,6 +312,11 @@ install_data(
   install_dir: join_paths(nma_datadir, 'polkit-1', 'actions')
 )
 
+install_data(
+  'filter.conf',
+  install_dir: join_paths(nma_sysconfdir, 'xdg', 'nm-applet')
+)
+
 config = 'config.h'
 
 configure_file(
