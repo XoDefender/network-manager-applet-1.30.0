@@ -418,12 +418,14 @@ msgstr "Сети Wi-Fi (%s)"
 msgid "Wi-Fi Network (%s)"
 msgstr "Сеть Wi-Fi (%s)"
 
-#: src/applet-device-wifi.c:831
+#: src/applet-device-wifi.c:834
+#, c-format
+msgid "Wi-Fi Networks"
+msgstr "Сети Wi-Fi"
+
+#: src/applet-device-wifi.c:836
 msgid "Wi-Fi Network"
-msgid_plural "Wi-Fi Networks"
-msgstr[0] "Сеть Wi-Fi"
-msgstr[1] "Сети Wi-Fi"
-msgstr[2] "Сетей Wi-Fi"
+msgstr "Сеть Wi-Fi"
 
 #: src/applet-device-wifi.c:860
 msgid "Wi-Fi is disabled"
@@ -439,7 +441,7 @@ msgstr "Доступно"
 
 #: src/applet-device-wifi.c:946
 msgid "_Unavailable networks"
-msgstr "Недоступно"
+msgstr "Недоступно
 
 #: src/applet-device-wifi.c:1066
 msgid "Wi-Fi Networks Available"
@@ -924,7 +926,7 @@ msgid ""
 "The VPN connection “%s” disconnected because user interrupted."
 msgstr ""
 "\n"
-"В связи с тем, что пользователь преравал подключение, связь с VPN «%s» была потеряна"
+"В связи с тем, что пользователь прервал подключение, связь с VPN «%s» была потеряна"
 
 #: src/applet.c:852
 #, c-format
