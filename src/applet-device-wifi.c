@@ -980,21 +980,13 @@ wifi_add_menu_item (NMDevice *device,
 	/* Create menu items for the rest of the APs */
 	for (i = 0; aps && (i < aps->len); i++) 
 	{
-		// FYI:Kirill - get all available menu items
 		NMAccessPoint *ap = g_ptr_array_index (aps, i);
-		if(is_access_point_available(ap, applet))
-		{
-			item = get_menu_item_for_ap (wdev, ap, connections, available_menu_items, applet);
-			if (item) {
-				available_menu_items = g_slist_append (available_menu_items, item);
-			}
-		}
-		else
-		{
-			item = get_menu_item_for_ap (wdev, ap, connections, unavailable_menu_items, applet);
-			if (item) {
-				unavailable_menu_items = g_slist_append (unavailable_menu_items, item);
-			}
+		GSList **target_items_list = is_access_point_available(ap, applet) ? 
+										&available_menu_items : 
+										&unavailable_menu_items;
+		item = get_menu_item_for_ap (wdev, ap, connections, *target_items_list, applet);
+		if (item) {
+			*target_items_list = g_slist_append (*target_items_list, item);
 		}
 	}
 
