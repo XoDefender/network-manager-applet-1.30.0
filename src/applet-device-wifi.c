@@ -655,9 +655,6 @@ find_duplicate (gpointer d, gpointer user_data)
 		data->found = NM_NETWORK_MENU_ITEM (widget);
 }
 
-// FYI:Kirill create ap, 
-// connect signals
-// store necessary data in info
 static NMNetworkMenuItem *
 create_new_ap_item (NMDeviceWifi *device,
                     NMAccessPoint *ap,
@@ -867,12 +864,6 @@ populate_networks_menu (GSList *conn_items, GtkWidget *conn_subitem,
 {
 	if (g_slist_length (conn_items)) 
 	{
-		// TODO:Kirill - for every menu item check permission
-		// allowed or blocked
-		// if allowed we show this AP
-		// By default all AP are allowed
-		// So we need to add a param to NMAccessPointPrivate
-		// Or ask NM to parse its configs and give back results
 		GtkWidget *submenu;
 		GSList *sorted_subitems;
 
