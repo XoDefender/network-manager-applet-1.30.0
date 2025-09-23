@@ -697,7 +697,6 @@ authorization_cb(GObject *source, GAsyncResult *res, gpointer user_data)
     result = polkit_authority_check_authorization_finish(POLKIT_AUTHORITY(source), res, &error);
     
     if (error != NULL) {
-		g_warning ("Polkit authorization failed: %s", error->message);
         g_error_free(error);
         return;
     }
@@ -1855,14 +1854,11 @@ applet_connection_info_cb (NMApplet *applet)
 static void 
 apply_notification_prefs(GtkWidget *widget, gpointer applet) 
 {
-	if (GTK_IS_CHECK_BUTTON(widget)) 
-	{
-		const char *pref = g_object_get_data(G_OBJECT(widget), "notification-pref");
-		gboolean is_active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-		if(pref) {
-			g_settings_set_boolean (((NMApplet *)applet)->gsettings, pref, is_active);
-		}	
-	}
+   	const char *pref = g_object_get_data(G_OBJECT(widget), "notification-pref");
+	gboolean is_active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	if(pref) {
+		g_settings_set_boolean (((NMApplet *)applet)->gsettings, pref, is_active);
+	}	
 }
 
 static void 
@@ -2053,7 +2049,7 @@ nma_menu_configure_notify_item_activate (GtkMenuItem *item, NMApplet *applet)
 	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
 	nma_populate_notification_dialog(content_area, applet);
 
-	action_id = "org.gnome.nmapplet.managenotifications";
+	action_id = "org.gnome.nm-applet.managenotifications";
     check_polkit_authorization_async(action_id, save_button);
 	
     gtk_widget_show_all(dialog);
