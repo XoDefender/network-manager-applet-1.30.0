@@ -276,6 +276,69 @@ typedef struct {
 	NMConnection *connection;
 } WifiMenuItemInfo;
 
+static gboolean
+is_ssid_in_glist (GBytes *ssid, GList *list)
+{
+	gsize ssid_size;
+    gconstpointer ssid_data;
+    GList *iter;
+
+    if (!ssid || !list) {
+        return FALSE;
+    }
+	
+	ssid_size = g_bytes_get_size(ssid);
+    ssid_data = g_bytes_get_data(ssid, NULL);
+	
+    for (iter = list; iter != NULL; iter = iter->next) 
+	{
+        const char *list_ssid = (const char*)iter->data;
+        gsize list_ssid_len = strlen(list_ssid);
+        if (ssid_size == list_ssid_len &&
+			!memcmp(list_ssid, ssid_data, ssid_size)) {
+            return TRUE;
+        }
+    }
+    
+    return FALSE;
+}
+
+static gboolean 
+is_access_point_available(NMAccessPoint *ap, NMApplet *applet)
+{
+	NM80211ApSecurityFlags wpa_flags = nm_access_point_get_wpa_flags(ap);
+    NM80211ApSecurityFlags rsn_flags = nm_access_point_get_rsn_flags(ap);
+    NM80211ApSecurityFlags wpa_rsn_flags = wpa_flags | rsn_flags;
+	GBytes *ssid = nm_access_point_get_ssid (ap);
+	
+	if(applet->filter_info->filter_ccmp && wpa_rsn_flags & NM_802_11_AP_SEC_PAIR_CCMP) {
+		return FALSE;
+	}
+	if(applet->filter_info->filter_tkip && wpa_rsn_flags & NM_802_11_AP_SEC_PAIR_TKIP) {
+		return FALSE;
+	}
+
+	if(applet->filter_info->filter_wpa_psk && wpa_rsn_flags & NM_802_11_AP_SEC_KEY_MGMT_PSK) {
+        return FALSE;
+    }
+    if(applet->filter_info->filter_wpa_ent && wpa_rsn_flags & NM_802_11_AP_SEC_KEY_MGMT_802_1X) {
+        return FALSE;
+    }
+
+	if (ssid && applet->filter_info->use_whitelist) {
+		if(!is_ssid_in_glist(ssid, applet->filter_info->whitelisted_ssids)) {
+			return FALSE;
+		}
+	}
+	else if (ssid && !applet->filter_info->use_whitelist) {
+		if(is_ssid_in_glist(ssid, applet->filter_info->blacklisted_ssids)) {
+			return FALSE;
+		}
+	}
+
+	return TRUE;
+} 
+
 static void
 wifi_menu_item_info_destroy (gpointer data, GClosure *closure)
 {
@@ -625,10 +688,10 @@ create_new_ap_item (NMDeviceWifi *device,
 		for (i = 0; i < ap_connections->len; i++) {
 			NMConnection *connection = NM_CONNECTION (ap_connections->pdata[i]);
 			NMSettingConnection *s_con;
-			GtkWidget *subitem;
+			GtkWidget *available_subitem;
 
 			s_con = nm_connection_get_setting_connection (connection);
-			subitem = gtk_menu_item_new_with_label (nm_setting_connection_get_id (s_con));
+			available_subitem = gtk_menu_item_new_with_label (nm_setting_connection_get_id (s_con));
 
 			info = g_slice_new0 (WifiMenuItemInfo);
 			info->applet = applet;
@@ -636,13 +699,13 @@ create_new_ap_item (NMDeviceWifi *device,
 			info->ap = g_object_ref (ap);
 			info->connection = g_object_ref (connection);
 
-			g_signal_connect_data (subitem, "activate",
+			g_signal_connect_data (available_subitem, "activate",
 			                       G_CALLBACK (wifi_menu_item_activate),
 			                       info,
 			                       wifi_menu_item_info_destroy, 0);
 
-			gtk_menu_shell_append (GTK_MENU_SHELL (submenu), GTK_WIDGET (subitem));
-			gtk_widget_show (subitem);
+			gtk_menu_shell_append (GTK_MENU_SHELL (submenu), GTK_WIDGET (available_subitem));
+			gtk_widget_show (available_subitem);
 		}
 
 		gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), submenu);
@@ -685,7 +748,7 @@ get_menu_item_for_ap (NMDeviceWifi *device,
 	ssid = nm_access_point_get_ssid (ap);
 	if (   !ssid
 	    || nm_utils_is_empty_ssid (g_bytes_get_data (ssid, NULL), g_bytes_get_size (ssid))
-	    || is_blacklisted_ssid (ssid))
+		|| is_blacklisted_ssid (ssid))
 		return NULL;
 
 	/* Find out if this AP is a member of a larger network that all uses the
@@ -795,6 +858,40 @@ sort_toplevel (gconstpointer tmpa, gconstpointer tmpb)
 	return sort_by_name (a, b);
 }
 
+static void 
+populate_networks_menu (GSList *conn_items, GtkWidget *conn_subitem, 
+						GtkWidget *menu, GSList *iter, gboolean is_active)
+{
+	if (g_slist_length (conn_items)) 
+	{
+		GtkWidget *submenu;
+		GSList *sorted_subitems;
+
+		submenu = gtk_menu_new ();
+		gtk_menu_item_set_submenu (GTK_MENU_ITEM (conn_subitem), submenu);
+
+		/* Sort the subitems alphabetically and by importance */
+		sorted_subitems = g_slist_copy (conn_items);
+		sorted_subitems = g_slist_sort (sorted_subitems, sort_by_name);
+		sorted_subitems = g_slist_sort (sorted_subitems, sort_toplevel);
+
+		/* Add menu items */
+		for (iter = sorted_subitems; iter; iter = g_slist_next (iter))
+		{
+			gtk_menu_shell_append (GTK_MENU_SHELL (submenu), GTK_WIDGET (iter->data));
+			if(!is_active) {
+				gtk_widget_set_sensitive(GTK_WIDGET (iter->data), false);
+			}
+		}
+		g_slist_free (sorted_subitems);
+	} else {
+		gtk_widget_set_sensitive (conn_subitem, FALSE);
+	}
+
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), conn_subitem);
+	gtk_widget_show_all (conn_subitem);
+}
+
 static gboolean
 wifi_add_menu_item (NMDevice *device,
                     gboolean multiple_devices,
@@ -811,10 +908,11 @@ wifi_add_menu_item (NMDevice *device,
 	GSList *iter;
 	gboolean wifi_enabled = TRUE;
 	gboolean wifi_hw_enabled = TRUE;
-	GSList *menu_items = NULL;  /* All menu items we'll be adding */
+	GSList *available_menu_items = NULL;  /* All menu items we'll be adding */
+	GSList *unavailable_menu_items = NULL;
 	NMNetworkMenuItem *item, *active_item = NULL;
 	GtkWidget *widget;
-	GtkWidget *subitem;
+	GtkWidget *available_subitem, *unavailable_subitem;
 
 	wdev = NM_DEVICE_WIFI (device);
 	aps = nm_device_wifi_get_access_points (wdev);
@@ -849,7 +947,9 @@ wifi_add_menu_item (NMDevice *device,
 			active_item = item = get_menu_item_for_ap (wdev, active_ap, connections, NULL, applet);
 			if (item) {
 				nm_network_menu_item_set_active (item, TRUE);
-				menu_items = g_slist_append (menu_items, item);
+				
+				available_menu_items = g_slist_append (available_menu_items, item);
+				unavailable_menu_items = g_slist_append (unavailable_menu_items, item);
 
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), GTK_WIDGET (item));
 				gtk_widget_show_all (GTK_WIDGET (item));
@@ -874,12 +974,16 @@ wifi_add_menu_item (NMDevice *device,
 		goto out;
 
 	/* Create menu items for the rest of the APs */
-	for (i = 0; aps && (i < aps->len); i++) {
+	for (i = 0; aps && (i < aps->len); i++) 
+	{
 		NMAccessPoint *ap = g_ptr_array_index (aps, i);
-
-		item = get_menu_item_for_ap (wdev, ap, connections, menu_items, applet);
-		if (item)
-			menu_items = g_slist_append (menu_items, item);
+		GSList **target_items_list = is_access_point_available(ap, applet) ? 
+										&available_menu_items : 
+										&unavailable_menu_items;
+		item = get_menu_item_for_ap (wdev, ap, connections, *target_items_list, applet);
+		if (item) {
+			*target_items_list = g_slist_append (*target_items_list, item);
+		}
 	}
 
 	/* Now remove the active AP item from the list, as we've already dealt with
@@ -887,34 +991,20 @@ wifi_add_menu_item (NMDevice *device,
 	 * to ensure duplicate APs are handled correctly)
 	 */
 	if (active_item)
-		menu_items = g_slist_remove (menu_items, active_item);
+	{
+		available_menu_items = g_slist_remove (available_menu_items, active_item);
+		unavailable_menu_items = g_slist_remove (unavailable_menu_items, active_item);
+	}
 
-	subitem = gtk_menu_item_new_with_mnemonic (_("_Available networks"));
+	available_subitem = gtk_menu_item_new_with_mnemonic (_("_Available networks"));
+	unavailable_subitem = gtk_menu_item_new_with_mnemonic (_("_Unavailable networks"));
 
-	if (g_slist_length (menu_items)) {
-		GtkWidget *submenu;
-		GSList *sorted_subitems;
-
-		submenu = gtk_menu_new ();
-		gtk_menu_item_set_submenu (GTK_MENU_ITEM (subitem), submenu);
-
-		/* Sort the subitems alphabetically and by importance */
-		sorted_subitems = g_slist_copy (menu_items);
-		sorted_subitems = g_slist_sort (sorted_subitems, sort_by_name);
-		sorted_subitems = g_slist_sort (sorted_subitems, sort_toplevel);
-
-		/* Add menu items */
-		for (iter = sorted_subitems; iter; iter = g_slist_next (iter))
-			gtk_menu_shell_append (GTK_MENU_SHELL (submenu), GTK_WIDGET (iter->data));
-		g_slist_free (sorted_subitems);
-	} else
-		gtk_widget_set_sensitive (subitem, FALSE);
-
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), subitem);
-	gtk_widget_show_all (subitem);
+	populate_networks_menu(available_menu_items, available_subitem, menu, iter, true);
+	populate_networks_menu(unavailable_menu_items, unavailable_subitem, menu, iter, false);
 
 out:
-	g_slist_free (menu_items);
+	g_slist_free (available_menu_items);
+	g_slist_free (unavailable_menu_items);
 	return TRUE;
 }
 

@@ -42,6 +42,7 @@ resource_data = files(
   'ce-ip4-routes.ui',
   'ce-ip6-routes.ui',
   'ce-new-connection.ui',
+  'ce-filter-connections.ui',
   'ce-page-bluetooth.ui',
   'ce-page-bond.ui',
   'ce-page-bridge-port.ui',

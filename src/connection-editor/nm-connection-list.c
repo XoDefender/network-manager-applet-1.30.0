@@ -34,6 +34,7 @@ struct _NMConnectionListPrivate {
 	GtkWidget *connection_add;
 	GtkWidget *connection_del;
 	GtkWidget *connection_edit;
+	GtkWidget *connection_filter;
 	GtkTreeView *connection_list;
 	GtkSearchBar *search_bar;
 	GtkEntry *search_entry;
@@ -408,6 +409,29 @@ do_edit (NMConnectionList *list)
 }
 
 static void
+do_filter (NMConnectionList *list,
+		   NMConnectionListCallbackFunc callback,
+		   gpointer user_data)
+{
+	NMConnectionListPrivate *priv;
+	ConnectionResultData *data;
+
+	g_return_if_fail (NM_IS_CONNECTION_LIST (list));
+	priv = NM_CONNECTION_LIST_GET_PRIVATE (list);
+
+	data = g_slice_new0 (ConnectionResultData);
+	data->list = list;
+	data->callback = callback;
+	data->user_data = user_data;
+
+	filter_connection_dialog (GTK_WINDOW (list),
+	                       priv->client,
+	                       NULL,
+	                       really_add_connection,
+	                       data);
+}
+
+static void
 delete_connection_cb (FUNC_TAG_DELETE_CONNECTION_RESULT_IMPL,
                       NMRemoteConnection *connection,
                       gboolean deleted,
@@ -549,12 +573,14 @@ nm_connection_list_class_init (NMConnectionListClass *klass)
         gtk_widget_class_bind_template_child_private (widget_class, NMConnectionList, connection_add);
         gtk_widget_class_bind_template_child_private (widget_class, NMConnectionList, connection_del);
         gtk_widget_class_bind_template_child_private (widget_class, NMConnectionList, connection_edit);
+		gtk_widget_class_bind_template_child_private (widget_class, NMConnectionList, connection_filter);
         gtk_widget_class_bind_template_child_private (widget_class, NMConnectionList, search_bar);
         gtk_widget_class_bind_template_child_private (widget_class, NMConnectionList, search_entry);
 
         gtk_widget_class_bind_template_callback (widget_class, add_clicked);
         gtk_widget_class_bind_template_callback (widget_class, do_edit);
         gtk_widget_class_bind_template_callback (widget_class, delete_clicked);
+		gtk_widget_class_bind_template_callback (widget_class, do_filter);
         gtk_widget_class_bind_template_callback (widget_class, selection_changed_cb);
         gtk_widget_class_bind_template_callback (widget_class, key_press_cb);
         gtk_widget_class_bind_template_callback (widget_class, start_search);

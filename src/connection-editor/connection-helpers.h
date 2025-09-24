@@ -46,6 +46,11 @@ void new_connection_dialog_full (GtkWindow *parent_window,
                                  NewConnectionTypeFilterFunc type_filter_func,
                                  NewConnectionResultFunc result_func,
                                  gpointer user_data);
+void filter_connection_dialog    (GtkWindow *parent_window,
+                                  NMClient *client,
+                                  NewConnectionTypeFilterFunc type_filter_func,
+                                  NewConnectionResultFunc result_func,
+                                  gpointer user_data);
 
 void new_connection_of_type (GtkWindow *parent_window,
                              const char *detail,
