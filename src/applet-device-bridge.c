@@ -63,8 +63,8 @@ bridge_add_menu_item (NMDevice *device,
 	}
 
 	if (!device || !nma_menu_device_check_unusable (device)) {
-		// if (!active || connections->len > 1)
-		// 	applet_menu_item_add_complex_separator_helper (menu, applet, _("Available"));
+		if (!active || connections->len > 1)
+			applet_menu_item_add_complex_separator_helper (menu, applet, _("Available"));
 
 		applet_add_connection_items (device, connections, TRUE, active, NMA_ADD_INACTIVE, menu, applet);
 	}
