@@ -104,6 +104,10 @@ add_project_link_arguments(common_ldflags, language: 'c')
 
 linker_script_ver = join_paths(meson.source_root(), 'linker-script-binary.ver')
 
+# Add Polkit dependency
+polkit_dep = dependency('polkit-gobject-1', version: '>= 0.105')
+config_h.set10('WITH_POLKIT', true)
+
 gio_dep = dependency('gio-2.0', version: '>= 2.38')
 gmodule_export_dep = dependency('gmodule-export-2.0')
 libsecret_dep = dependency('libsecret-1', version: '>= 0.18')
@@ -137,7 +141,8 @@ nm_req_version = '>= 1.7'
 deps = [
   gio_dep,
   gmodule_export_dep,
-  dependency('libnm', version: nm_req_version)
+  dependency('libnm', version: nm_req_version),
+  polkit_dep
 ]
 
 cflags = [
@@ -291,6 +296,11 @@ endif
 install_data(
   'nm-applet.convert',
   install_dir: join_paths(nma_datadir, 'GConf', 'gsettings')
+)
+
+install_data(
+  'org.gnome.nm-applet.policy',
+  install_dir: join_paths(nma_datadir, 'polkit-1', 'actions')
 )
 
 config = 'config.h'
