@@ -441,7 +441,7 @@ msgstr "Доступно"
 
 #: src/applet-device-wifi.c:946
 msgid "_Unavailable networks"
-msgstr "Недоступно
+msgstr "Недоступно"
 
 #: src/applet-device-wifi.c:1066
 msgid "Wi-Fi Networks Available"
