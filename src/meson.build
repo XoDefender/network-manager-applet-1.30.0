@@ -17,7 +17,9 @@ sources = files(
   'ethernet-dialog.c',
   'main.c',
   'mb-menu-item.c',
-  'mobile-helpers.c'
+  'mobile-helpers.c',
+	'applet-device-vlan.c',
+	'applet-device-bridge.c',
 )
 
 resource_data = files(
