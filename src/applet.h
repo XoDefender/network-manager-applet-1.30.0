@@ -109,7 +109,6 @@ typedef struct {
 #endif
 	NMADeviceClass *bt_class;
 	NMADeviceClass *vlan_class;
-	NMADeviceClass *bridge_class;
 
 	/* Data model elements */
 	guint           update_icon_id;
