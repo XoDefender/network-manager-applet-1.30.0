@@ -24,7 +24,6 @@
 #include <libnotify/notify.h>
 
 #include "applet.h"
-#include "applet-device-bridge.h"
 #include "applet-device-bt.h"
 #include "applet-device-ethernet.h"
 #include "applet-device-vlan.h"
@@ -146,8 +145,6 @@ get_device_class (NMDevice *device, NMApplet *applet)
 		return applet->bt_class;
 	else if (NM_IS_DEVICE_VLAN (device))
 		return applet->vlan_class;
-	else if (NM_IS_DEVICE_BRIDGE (device))
-		return applet->bridge_class;
 	else
 		g_debug ("%s: Unknown device type '%s'", __func__, G_OBJECT_TYPE_NAME (device));
 	return NULL;
@@ -178,8 +175,6 @@ get_device_class_from_connection (NMConnection *connection, NMApplet *applet)
 #endif
 	else if (!strcmp (ctype, NM_SETTING_BLUETOOTH_SETTING_NAME))
 		return applet->bt_class;
-	else if (!strcmp (ctype, NM_SETTING_BRIDGE_SETTING_NAME))
-		return applet->bridge_class;
 	else if (!strcmp (ctype, NM_SETTING_VLAN_SETTING_NAME))
 		return applet->vlan_class;
 	else
@@ -1692,8 +1687,6 @@ nma_menu_add_devices (GtkWidget *menu, NMApplet *applet)
 	all_devices = nm_client_get_devices (applet->nm_client);
 
 	n_items = 0;
-	n_items += add_virtual_items (NM_SETTING_BRIDGE_SETTING_NAME,
-	                              all_devices, all_connections, menu, applet);
 	n_items += add_device_items  (NM_DEVICE_TYPE_ETHERNET,
 	                              all_devices, all_connections, menu, applet);
 	n_items += add_virtual_items (NM_SETTING_VLAN_SETTING_NAME,
@@ -3964,9 +3957,6 @@ applet_startup (GApplication *app, gpointer user_data)
 	applet->vlan_class = applet_device_vlan_get_class (applet);
 	g_assert (applet->vlan_class);
 
-	applet->bridge_class = applet_device_bridge_get_class (applet);
-	g_assert (applet->bridge_class);
-
 #if WITH_WWAN
 	mm1_client_setup (applet);
 #endif
@@ -3997,7 +3987,6 @@ static void finalize (GObject *object)
 #endif
 	g_slice_free (NMADeviceClass, applet->bt_class);
 	g_slice_free (NMADeviceClass, applet->vlan_class);
-	g_slice_free (NMADeviceClass, applet->bridge_class);
 
 	nm_clear_g_source (&applet->update_icon_id);
 	nm_clear_g_source (&applet->wifi_scan_id);
