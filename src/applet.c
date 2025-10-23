@@ -567,12 +567,16 @@ nma_cert_auth_data_get_pin_value (NMACertAuthData *data)
 static void
 fill_cert_auth_data_dialog (GtkDialog *dialog, NMACertAuthData *auth_fields)
 {
+    GtkWidget *content_area;
+	GtkWidget *label;
+	GtkWidget *hbox;
+
 	g_assert(auth_fields);
 	g_assert(dialog);
-
-    GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
-	GtkWidget *label = gtk_label_new("PIN:");
-	GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+	
+	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+	label = gtk_label_new("PIN:");
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
 
 	gtk_box_pack_start(GTK_BOX(content_area), auth_fields->client_cert_chooser, TRUE, TRUE, 10);
 	gtk_box_pack_start(GTK_BOX(content_area), hbox, FALSE, FALSE, 10);
