@@ -573,7 +573,7 @@ fill_cert_auth_data_dialog (GtkDialog *dialog, NMACertAuthData *auth_fields)
 
 	g_assert(auth_fields);
 	g_assert(dialog);
-	
+
 	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
 	label = gtk_label_new("PIN:");
 	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
@@ -617,48 +617,48 @@ nma_cert_auth_data_new(void)
 	return method;
 }
 
-static gchar *
-nma_cert_to_priv_key_type(const gchar* cert, const gchar* new_type) 
-{
-	g_assert(cert);
-	g_assert(new_type);
+// static gchar *
+// nma_cert_to_priv_key_type(const gchar* cert, const gchar* new_type) 
+// {
+// 	g_assert(cert);
+// 	g_assert(new_type);
 
-    const char* old_type_prefix;
-    const char* old_type_value;
-    char* pos; 
+//     const char* old_type_prefix;
+//     const char* old_type_value;
+//     char* pos; 
 	
-	size_t new_len;
-	size_t prefix_len;
-    char* new_string;
+// 	size_t new_len;
+// 	size_t prefix_len;
+//     char* new_string;
 
-	old_type_prefix = "type=";
-    old_type_value = "cert";
-    pos = strstr(cert, "type=cert");
+// 	old_type_prefix = "type=";
+//     old_type_value = "cert";
+//     pos = strstr(cert, "type=cert");
 
-    if (pos == NULL) {
-        char* copy = strdup(cert);
-        if (copy == NULL) {
-            perror("strdup");
-        }
-        return copy;
-    }
+//     if (pos == NULL) {
+//         char* copy = strdup(cert);
+//         if (copy == NULL) {
+//             perror("strdup");
+//         }
+//         return copy;
+//     }
 
-    new_len = strlen(cert) - strlen(old_type_value) + strlen(new_type);
-    new_string = malloc(new_len + 1);
-    if (new_string == NULL) {
-        perror("malloc");
-        return NULL;
-    }
+//     new_len = strlen(cert) - strlen(old_type_value) + strlen(new_type);
+//     new_string = malloc(new_len + 1);
+//     if (new_string == NULL) {
+//         perror("malloc");
+//         return NULL;
+//     }
 
-    prefix_len = pos - cert + strlen(old_type_prefix);
-    strncpy(new_string, cert, prefix_len);
-    new_string[prefix_len] = '\0';
+//     prefix_len = pos - cert + strlen(old_type_prefix);
+//     strncpy(new_string, cert, prefix_len);
+//     new_string[prefix_len] = '\0';
 
-    strcat(new_string, new_type);
-    strcat(new_string, pos + strlen("type=cert"));
+//     strcat(new_string, new_type);
+//     strcat(new_string, pos + strlen("type=cert"));
 
-    return new_string;
-}
+//     return new_string;
+// }
 
 static void
 cert_auth_dialog_response (GtkDialog *dialog, int response_id, gpointer _ctx)
@@ -676,26 +676,26 @@ cert_auth_dialog_response (GtkDialog *dialog, int response_id, gpointer _ctx)
 
 		format = NM_SETTING_802_1X_CK_FORMAT_UNKNOWN;
 		cert_value = nma_cert_chooser_get_cert (NMA_CERT_CHOOSER (ctx->cert_fields->client_cert_chooser), &scheme);
-		pin_value = nma_cert_auth_data_get_pin_value(ctx->cert_fields);
-
-		if(scheme == NM_SETTING_802_1X_CK_SCHEME_PKCS11) 
-		{
+		if(scheme == NM_SETTING_802_1X_CK_SCHEME_PKCS11) {
 			if (!nm_setting_802_1x_set_client_cert (ctx->s_8021x, cert_value, scheme, &format, &error)) {
 				g_warning ("Couldn't read client certificate '%s': %s", cert_value, error ? error->message : "(unknown)");
 				g_clear_error (&error);
 			}
+		} else {
+			g_warning ("Not pkcs11 cert selected");
+		}
 
-			priv_key_value = nma_cert_to_priv_key_type(cert_value, "private");
-
+		priv_key_value = nma_cert_chooser_get_key (NMA_CERT_CHOOSER (ctx->cert_fields->client_cert_chooser), &scheme);
+		if(scheme == NM_SETTING_802_1X_CK_SCHEME_PKCS11) {
 			if (!nm_setting_802_1x_set_private_key(ctx->s_8021x, priv_key_value, NULL, scheme, &format, &error)) {
 				g_warning ("Couldn't read private key '%s': %s", priv_key_value, error ? error->message : "(unknown)");
 				g_clear_error (&error);
 			}
-		}
-		else {
-			g_warning ("Not pkcs11 cert selected");
+		} else {
+			g_warning ("Not pkcs11 private key selected");
 		}
 		
+		pin_value = nma_cert_auth_data_get_pin_value(ctx->cert_fields);
 		g_object_set (ctx->s_8021x, NM_SETTING_802_1X_PIN, pin_value, NULL);
 
 		nm_remote_connection_commit_changes_async(ctx->connection,
