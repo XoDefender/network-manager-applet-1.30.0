@@ -574,12 +574,19 @@ fill_cert_auth_data_dialog (GtkDialog *dialog, NMACertAuthData *auth_fields)
 	GtkWidget *label = gtk_label_new("PIN:");
 	GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
 
- 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(auth_fields->pin_entry), TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(content_area), auth_fields->client_cert_chooser, TRUE, TRUE, 10);
+	gtk_box_pack_start(GTK_BOX(content_area), hbox, FALSE, FALSE, 10);
+	
+ 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 5);
+	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(auth_fields->pin_entry), TRUE, TRUE, 5);
 
-    //gtk_box_pack_start(GTK_BOX(content_area), auth_fields->ca_cert_chooser, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(content_area), auth_fields->client_cert_chooser, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(content_area), hbox, TRUE, TRUE, 0);
+	gtk_widget_set_size_request(GTK_WIDGET(auth_fields->pin_entry), -1, 30);
+
+	gtk_widget_set_margin_left(auth_fields->client_cert_chooser, 15);
+	gtk_widget_set_margin_right(auth_fields->client_cert_chooser, 15);
+
+	gtk_widget_set_margin_left(hbox, 15);
+	gtk_widget_set_margin_right(hbox, 15);
 
 	gtk_widget_show_all(hbox);
 }
@@ -594,7 +601,7 @@ nma_cert_auth_data_new(void)
 	}
 
 	method->ca_cert_chooser = nma_cert_chooser_new ("CA", NMA_CERT_CHOOSER_FLAG_CERT);
-	method->client_cert_chooser = nma_cert_chooser_new ("User", 9);
+	method->client_cert_chooser = nma_cert_chooser_new ("User", NMA_CERT_CHOOSER_FLAG_NO_PASSWORDS);
 	method->pin_entry = GTK_ENTRY(gtk_entry_new());
 
 	gtk_entry_set_visibility(method->pin_entry, FALSE);
@@ -709,7 +716,8 @@ show_ask_cert_auth_data_dialog(ActivateContext *ctx)
                                           			"_OK", GTK_RESPONSE_OK,
                                           			"_Cancel", GTK_RESPONSE_CANCEL,
                                           			NULL);
-
+	
+	gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
 	g_signal_connect (dialog, "response", G_CALLBACK (cert_auth_dialog_response), ctx);
 
 	fill_cert_auth_data_dialog(GTK_DIALOG (dialog), ctx->cert_fields);
