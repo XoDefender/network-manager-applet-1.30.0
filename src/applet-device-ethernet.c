@@ -306,6 +306,7 @@ show_password_toggled (GtkToggleButton *button, gpointer user_data)
 static gboolean
 pppoe_get_secrets (SecretsRequest *req, GError **error)
 {
+	printf("pppoe_get_secrets\n");
 	NMPppoeInfo *info = (NMPppoeInfo *) req;
 	GtkWidget *w;
 	GtkBuilder* builder;

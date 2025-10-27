@@ -1475,12 +1475,12 @@ nma_menu_add_devices (GtkWidget *menu, NMApplet *applet)
 	n_items = 0;
 	n_items += add_device_items  (NM_DEVICE_TYPE_ETHERNET,
 	                              all_devices, all_connections, menu, applet);
-	n_items += add_device_items  (NM_DEVICE_TYPE_WIFI,
-	                              all_devices, all_connections, menu, applet);
-	n_items += add_device_items  (NM_DEVICE_TYPE_MODEM,
-	                              all_devices, all_connections, menu, applet);
-	n_items += add_device_items  (NM_DEVICE_TYPE_BT,
-	                              all_devices, all_connections, menu, applet);
+	// n_items += add_device_items  (NM_DEVICE_TYPE_WIFI,
+	//                               all_devices, all_connections, menu, applet);
+	// n_items += add_device_items  (NM_DEVICE_TYPE_MODEM,
+	//                               all_devices, all_connections, menu, applet);
+	// n_items += add_device_items  (NM_DEVICE_TYPE_BT,
+	//                               all_devices, all_connections, menu, applet);
 
 	g_ptr_array_unref (all_connections);
 
@@ -1495,6 +1495,30 @@ sort_vpn_connections (gconstpointer a, gconstpointer b)
 	NMConnection **cb = (NMConnection **) b;
 
 	return strcmp (nm_connection_get_id (NM_CONNECTION (*ca)), nm_connection_get_id (NM_CONNECTION (*cb)));
+}
+
+static void
+nma_menu_dsl_item_clicked (GtkMenuItem *item, gpointer user_data)
+{
+	NMApplet *applet = NM_APPLET (user_data);
+	NMConnection *connection;
+	NMActiveConnection *active;
+
+	connection = NM_CONNECTION (g_object_get_data (G_OBJECT (item), "connection"));
+	if (!connection) {
+		g_warning ("%s: no connection associated with menu item!", __func__);
+		return;
+	}
+
+	active = applet_get_active_for_connection (applet, connection);
+	if (active) {
+		/* Connection already active; disconnect it */
+		nm_client_deactivate_connection (applet->nm_client, active, NULL, NULL);
+		return;
+	}
+
+	/* Connection inactive, activate it */
+	applet_menu_item_activate_helper (NULL, connection, NULL, applet, NULL);
 }
 
 static GPtrArray *
@@ -1519,6 +1543,30 @@ get_vpn_connections (NMApplet *applet)
 
 	g_ptr_array_sort (vpn_connections, sort_vpn_connections);
 	return vpn_connections;
+}
+
+static GPtrArray *
+get_dsl_connections (NMApplet *applet)
+{
+	GPtrArray *all_connections, *dsl_connections;
+	int i;
+
+	all_connections = applet_get_all_connections (applet);
+	dsl_connections = g_ptr_array_new_full (5, g_object_unref);
+
+	for (i = 0; i < all_connections->len; i++) {
+		NMConnection *connection = NM_CONNECTION (all_connections->pdata[i]);
+
+		if (!nm_connection_is_type (connection, NM_SETTING_PPPOE_SETTING_NAME))
+			continue;
+
+		g_ptr_array_add (dsl_connections, g_object_ref (connection));
+	}
+
+	g_ptr_array_unref (all_connections);
+
+	g_ptr_array_sort (dsl_connections, sort_vpn_connections);
+	return dsl_connections;
 }
 
 static void
@@ -1583,6 +1631,49 @@ nma_menu_add_vpn_submenu (GtkWidget *menu, NMApplet *applet)
 	}
 	gtk_menu_shell_append (GTK_MENU_SHELL (vpn_menu), GTK_WIDGET (item));
 	gtk_widget_show (GTK_WIDGET (item));
+
+	g_ptr_array_unref (list);
+}
+
+static void
+nma_menu_add_dsl_connections (GtkWidget *menu, NMApplet *applet)
+{
+	GtkMenuItem *item;
+	GPtrArray *list;
+	int i;
+
+	list = get_dsl_connections (applet);
+
+	/* Only add DSL section if there are DSL connections */
+	if (list->len == 0) {
+		g_ptr_array_unref (list);
+		return;
+	}
+
+	/* Add separator before DSL section */
+	nma_menu_add_separator_item (menu);
+
+	for (i = 0; i < list->len; i++) {
+		NMConnection *connection = NM_CONNECTION (list->pdata[i]);
+		NMActiveConnection *active;
+		const char *name;
+
+		name = nm_connection_get_id (connection);
+
+		item = GTK_MENU_ITEM (gtk_check_menu_item_new_with_label (name));
+
+		/* Check if connection is active */
+		active = applet_get_active_for_connection (applet, connection);
+		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), !!active);
+
+		g_object_set_data_full (G_OBJECT (item), "connection",
+		                        g_object_ref (connection),
+		                        (GDestroyNotify) g_object_unref);
+
+		g_signal_connect (item, "activate", G_CALLBACK (nma_menu_dsl_item_clicked), applet);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), GTK_WIDGET (item));
+		gtk_widget_show (GTK_WIDGET (item));
+	}
 
 	g_ptr_array_unref (list);
 }
@@ -1694,6 +1785,10 @@ static void nma_menu_show_cb (GtkWidget *menu, NMApplet *applet)
 		nma_menu_add_create_network_item (menu, applet);
 		nma_menu_add_separator_item (menu);
 	}
+
+	/* Add DSL/PPPoE connections */
+	nma_menu_add_dsl_connections (menu, applet);
+
 	nma_menu_add_vpn_submenu (menu, applet);
 
 	if (!INDICATOR_ENABLED (applet))
