@@ -18,6 +18,7 @@
 *.log
 *.out
 
+.cache/
 # Editor-specific files
 .idea/
 .vscode/
