@@ -1685,6 +1685,10 @@ msgstr "С_лужба"
 msgid "Sho_w password"
 msgstr "Пока_зывать пароль"
 
+#: src/connection-editor/ce-page-dsl.ui:87
+msgid "Ask user data on connect"
+msgstr "Запрашивать данные пользователя при подключении"
+
 #: src/connection-editor/ce-page-dsl.ui:89
 msgid "Password used to authenticate with the PPPoE service."
 msgstr "Пароль, используемый для аутентификации с помощью службы PPPoE."
