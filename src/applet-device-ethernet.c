@@ -215,7 +215,6 @@ pppoe_update_setting (NMSettingPppoe *pppoe, NMPppoeInfo *info)
 	              NM_SETTING_PPPOE_USERNAME, gtk_entry_get_text (info->username_entry),
 	              NM_SETTING_PPPOE_PASSWORD, gtk_entry_get_text (info->password_entry),
 	              NM_SETTING_PPPOE_SERVICE, s,
-				  NM_SETTING_PPPOE_PASSWORD_FLAGS, 0,
 	              NULL);
 }
 
