@@ -219,7 +219,42 @@ pppoe_update_setting (NMSettingPppoe *pppoe, NMPppoeInfo *info)
 }
 
 static void
-pppoe_update_ui (NMConnection *connection, NMPppoeInfo *info)
+pppoe_hide_secret_dialog_fields (GtkBuilder* builder)
+{
+	GtkWidget *w;
+	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_ask_user_data"));
+	gtk_widget_set_visible(w, FALSE);
+
+	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_interface_label"));
+	gtk_widget_set_visible(w, FALSE);
+
+	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_interface"));
+	gtk_widget_set_visible(w, FALSE);
+
+	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_parent"));
+	gtk_widget_set_visible(w, FALSE);
+
+	w = GTK_WIDGET(gtk_builder_get_object (builder, "parent_interface_label"));
+	gtk_widget_set_visible(w, FALSE);
+
+	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_claim_button"));
+	gtk_widget_set_visible(w, FALSE);
+
+	w = GTK_ENTRY (gtk_builder_get_object (builder, "dsl_username"));
+	gtk_widget_set_visible(w, FALSE);
+
+	w = GTK_WIDGET (gtk_builder_get_object (builder, "label24"));
+	gtk_widget_set_visible(w, FALSE);
+
+	w = GTK_WIDGET(gtk_builder_get_object (builder, "label26"));
+	gtk_widget_set_visible(w, FALSE);
+
+	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_service"));
+	gtk_widget_set_visible(w, FALSE);
+}
+
+static void
+pppoe_update_ui (NMConnection *connection, NMPppoeInfo *info, GtkBuilder* builder)
 {
 	NMSettingPppoe *s_pppoe;
 	const char *s;
@@ -241,29 +276,10 @@ pppoe_update_ui (NMConnection *connection, NMPppoeInfo *info)
 	s = nm_setting_pppoe_get_password (s_pppoe);
 	if (s)
 		gtk_entry_set_text (info->password_entry, s);
-}
 
-static void
-pppoe_hide_secret_dialog_fields (GtkBuilder* builder)
-{
-	GtkWidget *w;
-	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_ask_user_data"));
-	gtk_widget_set_visible(w, FALSE);
-
-	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_interface_label"));
-	gtk_widget_set_visible(w, FALSE);
-
-	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_interface"));
-	gtk_widget_set_visible(w, FALSE);
-
-	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_parent"));
-	gtk_widget_set_visible(w, FALSE);
-
-	w = GTK_WIDGET(gtk_builder_get_object (builder, "parent_interface_label"));
-	gtk_widget_set_visible(w, FALSE);
-
-	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_claim_button"));
-	gtk_widget_set_visible(w, FALSE);
+	if (s_pppoe && nm_setting_pppoe_get_password_flags (s_pppoe) == NM_SETTING_SECRET_FLAG_NOT_SAVED) {
+		pppoe_hide_secret_dialog_fields(builder);
+	}
 }
 
 static void
@@ -369,9 +385,7 @@ pppoe_get_secrets (SecretsRequest *req, GError **error)
 	                    GTK_WIDGET (gtk_builder_get_object (builder, "DslPage")),
 	                    TRUE, TRUE, 0);
 
-	pppoe_update_ui (req->connection, info);
-	
-	pppoe_hide_secret_dialog_fields(builder);
+	pppoe_update_ui (req->connection, info, builder);
 
 	w = GTK_WIDGET (gtk_builder_get_object (builder, "dsl_show_password"));
 	g_signal_connect (w, "toggled", G_CALLBACK (show_password_toggled), info);

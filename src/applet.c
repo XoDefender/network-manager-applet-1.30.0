@@ -515,7 +515,6 @@ typedef struct {
 
 	GtkWidget *dialog;
 	GtkEntry *username_entry;
-	GtkEntry *password_entry;
 	GtkWidget *ok_button;
 } PppoeActivateContext;
 
@@ -536,23 +535,15 @@ static void
 pppoe_activate_verify (GtkEditable *editable, gpointer user_data)
 {
 	PppoeActivateContext *ctx = (PppoeActivateContext *) user_data;
-	const char *username, *password;
+	const char *username;
 	gboolean valid = FALSE;
 
 	username = gtk_entry_get_text (ctx->username_entry);
-	password = gtk_entry_get_text (ctx->password_entry);
 
-	if (username && strlen (username) > 0 && password && strlen (password) > 0)
+	if (username && strlen (username) > 0)
 		valid = TRUE;
 
 	gtk_widget_set_sensitive (ctx->ok_button, valid);
-}
-
-static void
-pppoe_activate_show_password_toggled (GtkToggleButton *button, gpointer user_data)
-{
-	PppoeActivateContext *ctx = (PppoeActivateContext *) user_data;
-	gtk_entry_set_visibility (ctx->password_entry, gtk_toggle_button_get_active (button));
 }
 
 static void
@@ -591,16 +582,15 @@ pppoe_activate_dialog_response_cb (GtkDialog *dialog, gint response, gpointer us
 {
 	PppoeActivateContext *ctx = (PppoeActivateContext *) user_data;
 	NMSettingPppoe *s_pppoe;
-	const char *username, *password;
+	const char *username;
 
 	if (response != GTK_RESPONSE_OK) {
 		pppoe_activate_context_free (ctx);
 		return;
 	}
 
-	/* Get values from dialog */
+	/* Get username from dialog */
 	username = gtk_entry_get_text (ctx->username_entry);
-	password = gtk_entry_get_text (ctx->password_entry);
 
 	/* Update the connection's pppoe setting */
 	s_pppoe = nm_connection_get_setting_pppoe (ctx->connection);
@@ -612,7 +602,6 @@ pppoe_activate_dialog_response_cb (GtkDialog *dialog, gint response, gpointer us
 
 	g_object_set (s_pppoe,
 	              NM_SETTING_PPPOE_USERNAME, username,
-	              NM_SETTING_PPPOE_PASSWORD, password,
 	              NULL);
 
 	/* Commit changes to NetworkManager */
@@ -624,45 +613,15 @@ pppoe_activate_dialog_response_cb (GtkDialog *dialog, gint response, gpointer us
 }
 
 static void
-pppoe_hide_secret_dialog_fields (GtkBuilder* builder)
-{
-	GtkWidget *w;
-	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_ask_user_data"));
-	gtk_widget_set_visible(w, FALSE);
-
-	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_interface_label"));
-	gtk_widget_set_visible(w, FALSE);
-
-	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_interface"));
-	gtk_widget_set_visible(w, FALSE);
-
-	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_parent"));
-	gtk_widget_set_visible(w, FALSE);
-
-	w = GTK_WIDGET(gtk_builder_get_object (builder, "parent_interface_label"));
-	gtk_widget_set_visible(w, FALSE);
-
-	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_claim_button"));
-	gtk_widget_set_visible(w, FALSE);
-
-	w = GTK_WIDGET(gtk_builder_get_object (builder, "label26"));
-	gtk_widget_set_visible(w, FALSE);
-
-	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_service"));
-	gtk_widget_set_visible(w, FALSE);
-}
-
-static void
 show_pppoe_activate_dialog (NMApplet *applet,
                              NMConnection *connection,
                              NMDevice *device,
                              const char *specific_object)
 {
 	PppoeActivateContext *ctx;
-	GtkBuilder *builder;
-	GtkWidget *w;
-	NMSettingPppoe *s_pppoe;
-	GError *error = NULL;
+	GtkWidget *content_area;
+	GtkWidget *hbox;
+	GtkWidget *username_label;
 
 	ctx = g_new0 (PppoeActivateContext, 1);
 	ctx->applet = applet;
@@ -670,59 +629,40 @@ show_pppoe_activate_dialog (NMApplet *applet,
 	ctx->device = device ? g_object_ref (device) : NULL;
 	ctx->specific_object = g_strdup (specific_object);
 
-	builder = gtk_builder_new ();
-
-	if (!gtk_builder_add_from_resource (builder, "/org/freedesktop/network-manager-applet/connection-editor/ce-page-dsl.ui", &error)) {
-		g_warning ("Failed to load PPPoE dialog UI: %s", error ? error->message : "Unknown error");
-		g_clear_error (&error);
-		g_object_unref (builder);
-		pppoe_activate_context_free (ctx);
-		return;
-	}
-
 	/* Create the dialog */
 	ctx->dialog = gtk_dialog_new ();
 	gtk_window_set_title (GTK_WINDOW (ctx->dialog), _("DSL authentication"));
 	gtk_window_set_modal (GTK_WINDOW (ctx->dialog), TRUE);
 
 	gtk_dialog_add_button (GTK_DIALOG (ctx->dialog), _("_Cancel"), GTK_RESPONSE_REJECT);
-	w = gtk_dialog_add_button (GTK_DIALOG (ctx->dialog), _("_OK"), GTK_RESPONSE_OK);
-	ctx->ok_button = w;
+	ctx->ok_button = gtk_dialog_add_button (GTK_DIALOG (ctx->dialog), _("_OK"), GTK_RESPONSE_OK);
 
-	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (ctx->dialog))),
-	                    GTK_WIDGET (gtk_builder_get_object (builder, "DslPage")),
-	                    TRUE, TRUE, 0);
+	/* Create content area */
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (ctx->dialog));
+	gtk_container_set_border_width (GTK_CONTAINER (content_area), 12);
 
-	ctx->username_entry = GTK_ENTRY (gtk_builder_get_object (builder, "dsl_username"));
+	/* Username row */
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
+	gtk_box_pack_start (GTK_BOX (content_area), hbox, FALSE, FALSE, 6);
+
+	username_label = gtk_label_new_with_mnemonic (_("_Username:"));
+	gtk_box_pack_start (GTK_BOX (hbox), username_label, FALSE, FALSE, 0);
+
+	ctx->username_entry = GTK_ENTRY (gtk_entry_new ());
+	gtk_entry_set_activates_default (ctx->username_entry, TRUE);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (username_label), GTK_WIDGET (ctx->username_entry));
+	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (ctx->username_entry), TRUE, TRUE, 0);
 	g_signal_connect (ctx->username_entry, "changed", G_CALLBACK (pppoe_activate_verify), ctx);
-
-	ctx->password_entry = GTK_ENTRY (gtk_builder_get_object (builder, "dsl_password"));
-	g_signal_connect (ctx->password_entry, "changed", G_CALLBACK (pppoe_activate_verify), ctx);
-
-	/* Pre-fill with existing values if available */
-	s_pppoe = nm_connection_get_setting_pppoe (connection);
-	if (s_pppoe) 
-	{
-		const char *username = nm_setting_pppoe_get_username (s_pppoe);
-		if (username)
-			gtk_entry_set_text (ctx->username_entry, username);
-	}
-
-	pppoe_hide_secret_dialog_fields(builder);
-
-	w = GTK_WIDGET (gtk_builder_get_object (builder, "dsl_show_password"));
-	g_signal_connect (w, "toggled", G_CALLBACK (pppoe_activate_show_password_toggled), ctx);
 
 	g_signal_connect (ctx->dialog, "response", G_CALLBACK (pppoe_activate_dialog_response_cb), ctx);
 
-	/* Initial verification to set OK button state */
+	/* Initial validation state */
 	pppoe_activate_verify (NULL, ctx);
 
+	gtk_widget_show_all (content_area);
 	gtk_window_set_position (GTK_WINDOW (ctx->dialog), GTK_WIN_POS_CENTER_ALWAYS);
 	gtk_widget_realize (ctx->dialog);
 	gtk_window_present (GTK_WINDOW (ctx->dialog));
-
-	g_object_unref (builder);
 }
 
 void
