@@ -240,7 +240,7 @@ pppoe_hide_secret_dialog_fields (GtkBuilder* builder)
 	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_claim_button"));
 	gtk_widget_set_visible(w, FALSE);
 
-	w = GTK_ENTRY (gtk_builder_get_object (builder, "dsl_username"));
+	w = GTK_WIDGET (gtk_builder_get_object (builder, "dsl_username"));
 	gtk_widget_set_visible(w, FALSE);
 
 	w = GTK_WIDGET (gtk_builder_get_object (builder, "label24"));
