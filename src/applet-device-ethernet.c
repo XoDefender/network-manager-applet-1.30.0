@@ -218,10 +218,15 @@ pppoe_update_setting (NMSettingPppoe *pppoe, NMPppoeInfo *info)
 	              NULL);
 }
 
+typedef enum { 
+    USERNAME, PSSWD
+} show_only_t;
+
 static void
-pppoe_hide_secret_dialog_fields (GtkBuilder* builder)
-{
+pppoe_hide_secret_dialog_fields (GtkBuilder* builder, show_only_t show_field)
+{	
 	GtkWidget *w;
+
 	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_ask_user_data"));
 	gtk_widget_set_visible(w, FALSE);
 
@@ -240,17 +245,38 @@ pppoe_hide_secret_dialog_fields (GtkBuilder* builder)
 	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_claim_button"));
 	gtk_widget_set_visible(w, FALSE);
 
-	w = GTK_WIDGET (gtk_builder_get_object (builder, "dsl_username"));
-	gtk_widget_set_visible(w, FALSE);
-
-	w = GTK_WIDGET (gtk_builder_get_object (builder, "label24"));
-	gtk_widget_set_visible(w, FALSE);
-
 	w = GTK_WIDGET(gtk_builder_get_object (builder, "label26"));
 	gtk_widget_set_visible(w, FALSE);
 
 	w = GTK_WIDGET(gtk_builder_get_object (builder, "dsl_service"));
 	gtk_widget_set_visible(w, FALSE);
+
+	switch (show_field)
+	{
+	case USERNAME:
+		w = GTK_WIDGET (gtk_builder_get_object (builder, "dsl_show_password"));
+		gtk_widget_set_visible(w, FALSE);
+
+		w = GTK_WIDGET (gtk_builder_get_object (builder, "label25"));
+		gtk_widget_set_visible(w, FALSE);
+
+		w = GTK_WIDGET (gtk_builder_get_object (builder, "dsl_password"));
+		gtk_widget_set_visible(w, FALSE);
+		
+		break;
+	case PSSWD:
+	{
+		w = GTK_WIDGET (gtk_builder_get_object (builder, "dsl_username"));
+		gtk_widget_set_visible(w, FALSE);
+
+		w = GTK_WIDGET (gtk_builder_get_object (builder, "label24"));
+		gtk_widget_set_visible(w, FALSE);
+
+		break;
+	}
+	default:
+		break;
+	}
 }
 
 static void
@@ -276,10 +302,6 @@ pppoe_update_ui (NMConnection *connection, NMPppoeInfo *info, GtkBuilder* builde
 	s = nm_setting_pppoe_get_password (s_pppoe);
 	if (s)
 		gtk_entry_set_text (info->password_entry, s);
-
-	if (s_pppoe && nm_setting_pppoe_get_password_flags (s_pppoe) == NM_SETTING_SECRET_FLAG_NOT_SAVED) {
-		pppoe_hide_secret_dialog_fields(builder);
-	}
 }
 
 static void
@@ -343,15 +365,22 @@ show_password_toggled (GtkToggleButton *button, gpointer user_data)
 }
 
 static gboolean
-pppoe_get_secrets (SecretsRequest *req, GError **error)
+pppoe_fill_dialog(GtkBuilder **out_builder, 
+				  GtkWidget **out_dialog, 
+				  NMConnection *connection, 
+				  GError **error,
+				  show_only_t show_field)
 {
-	NMPppoeInfo *info = (NMPppoeInfo *) req;
-	GtkWidget *w;
-	GtkBuilder* builder;
+	NMSettingPppoe *s_pppoe;
 	GError *tmp_error = NULL;
+	GtkBuilder *builder;
+	GtkWidget *dialog;
+
+	g_return_val_if_fail (out_builder != NULL, FALSE);
+	g_return_val_if_fail (out_dialog != NULL, FALSE);
+	g_return_val_if_fail (NM_IS_CONNECTION (connection), FALSE);
 
 	builder = gtk_builder_new ();
-
 	if (!gtk_builder_add_from_resource (builder, "/org/freedesktop/network-manager-applet/connection-editor/ce-page-dsl.ui", &tmp_error)) {
 		g_set_error (error,
 		             NM_SECRET_AGENT_ERROR,
@@ -359,6 +388,39 @@ pppoe_get_secrets (SecretsRequest *req, GError **error)
 					 "%s.%d (%s): couldn't display secrets UI: %s",
 		             __FILE__, __LINE__, __func__, tmp_error->message);
 		g_error_free (tmp_error);
+		g_object_unref (builder);
+		return FALSE;
+	}
+
+	dialog = gtk_dialog_new ();
+	gtk_window_set_title (GTK_WINDOW (dialog), _("DSL authentication"));
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+
+	s_pppoe = nm_connection_get_setting_pppoe (connection);
+	g_return_val_if_fail (s_pppoe, FALSE);
+
+	if (nm_setting_pppoe_get_password_flags (s_pppoe) == NM_SETTING_SECRET_FLAG_NOT_SAVED) {
+		pppoe_hide_secret_dialog_fields(builder, show_field);
+	}
+
+	*out_builder = builder;
+	*out_dialog = dialog;
+
+	return TRUE;
+}
+
+static gboolean
+pppoe_get_secrets (SecretsRequest *req, GError **error)
+{
+	NMPppoeInfo *info = (NMPppoeInfo *) req;
+	GtkWidget *w;
+	GtkBuilder *builder = NULL;
+
+	if (!pppoe_fill_dialog (&builder, 
+		&info->dialog, 
+		req->connection, 
+		error, 
+		PSSWD)) {
 		return FALSE;
 	}
 
@@ -371,11 +433,6 @@ pppoe_get_secrets (SecretsRequest *req, GError **error)
 
 	info->password_entry = GTK_ENTRY (gtk_builder_get_object (builder, "dsl_password"));
 	g_signal_connect (info->password_entry, "changed", G_CALLBACK (pppoe_verify), info);
-
-	/* Create the dialog */
-	info->dialog = gtk_dialog_new ();
-	gtk_window_set_title (GTK_WINDOW (info->dialog), _("DSL authentication"));
-	gtk_window_set_modal (GTK_WINDOW (info->dialog), TRUE);
 
 	gtk_dialog_add_button (GTK_DIALOG (info->dialog), _("_Cancel"), GTK_RESPONSE_REJECT);
 	w = gtk_dialog_add_button (GTK_DIALOG (info->dialog), _("_OK"), GTK_RESPONSE_OK);
@@ -637,10 +694,8 @@ show_pppoe_activate_dialog (NMApplet *applet,
                              const char *specific_object,
 							 void (*activate_connection_cb))
 {
+	GtkBuilder *builder = NULL;
 	PppoeActivateContext *ctx;
-	GtkWidget *content_area;
-	GtkWidget *hbox;
-	GtkWidget *username_label;
 
 	ctx = g_new0 (PppoeActivateContext, 1);
 	ctx->applet = applet;
@@ -649,37 +704,28 @@ show_pppoe_activate_dialog (NMApplet *applet,
 	ctx->specific_object = g_strdup (specific_object);
 	ctx->activate_connection_cb = activate_connection_cb;
 
-	/* Create the dialog */
-	ctx->dialog = gtk_dialog_new ();
-	gtk_window_set_title (GTK_WINDOW (ctx->dialog), _("DSL authentication"));
-	gtk_window_set_modal (GTK_WINDOW (ctx->dialog), TRUE);
+	if (!pppoe_fill_dialog (&builder, 
+		&ctx->dialog, 
+		ctx->connection, 
+		NULL,
+		USERNAME)) {
+		return;
+	}
+
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (ctx->dialog))),
+                      GTK_WIDGET (gtk_builder_get_object (builder, "DslPage")),
+                      TRUE, TRUE, 0);
+
+	g_signal_connect (ctx->dialog, "response", G_CALLBACK (pppoe_activate_dialog_response_cb), ctx);
 
 	gtk_dialog_add_button (GTK_DIALOG (ctx->dialog), _("_Cancel"), GTK_RESPONSE_REJECT);
 	ctx->ok_button = gtk_dialog_add_button (GTK_DIALOG (ctx->dialog), _("_OK"), GTK_RESPONSE_OK);
 
-	/* Create content area */
-	content_area = gtk_dialog_get_content_area (GTK_DIALOG (ctx->dialog));
-	gtk_container_set_border_width (GTK_CONTAINER (content_area), 12);
-
-	/* Username row */
-	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
-	gtk_box_pack_start (GTK_BOX (content_area), hbox, FALSE, FALSE, 6);
-
-	username_label = gtk_label_new_with_mnemonic (_("_Username:"));
-	gtk_box_pack_start (GTK_BOX (hbox), username_label, FALSE, FALSE, 0);
-
-	ctx->username_entry = GTK_ENTRY (gtk_entry_new ());
-	gtk_entry_set_activates_default (ctx->username_entry, TRUE);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (username_label), GTK_WIDGET (ctx->username_entry));
-	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (ctx->username_entry), TRUE, TRUE, 0);
+	ctx->username_entry = GTK_ENTRY (gtk_builder_get_object (builder, "dsl_username"));
 	g_signal_connect (ctx->username_entry, "changed", G_CALLBACK (pppoe_activate_verify), ctx);
 
-	g_signal_connect (ctx->dialog, "response", G_CALLBACK (pppoe_activate_dialog_response_cb), ctx);
-
-	/* Initial validation state */
 	pppoe_activate_verify (NULL, ctx);
 
-	gtk_widget_show_all (content_area);
 	gtk_window_set_position (GTK_WINDOW (ctx->dialog), GTK_WIN_POS_CENTER_ALWAYS);
 	gtk_widget_realize (ctx->dialog);
 	gtk_window_present (GTK_WINDOW (ctx->dialog));
