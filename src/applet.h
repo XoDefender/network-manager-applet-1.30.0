@@ -236,6 +236,16 @@ struct NMADeviceClass {
 	size_t         secrets_request_size;
 	gboolean       (*get_secrets)          (SecretsRequest *req,
 	                                        GError **error);
+
+	gboolean       (*get_auth_data)          (NMApplet *applet,
+                       						  NMConnection *connection,
+                       						  NMDevice *device,
+                       						  const char *specific_object,
+											  void (*activate_connection_cb));	
+};
+
+struct NMADeviceAuthData {
+	char *username;
 };
 
 GType nma_get_type (void);

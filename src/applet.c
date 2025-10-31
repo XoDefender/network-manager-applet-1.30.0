@@ -503,168 +503,6 @@ activate_connection_cb (GObject *client,
 	applet_schedule_update_icon (NM_APPLET (user_data));
 }
 
-/********************************************************************/
-/* PPPoE pre-activation dialog support */
-/********************************************************************/
-
-typedef struct {
-	NMApplet *applet;
-	NMConnection *connection;
-	NMDevice *device;
-	char *specific_object;
-
-	GtkWidget *dialog;
-	GtkEntry *username_entry;
-	GtkWidget *ok_button;
-} PppoeActivateContext;
-
-static void
-pppoe_activate_context_free (PppoeActivateContext *ctx)
-{
-	if (ctx->dialog)
-		gtk_widget_destroy (ctx->dialog);
-	if (ctx->connection)
-		g_object_unref (ctx->connection);
-	if (ctx->device)
-		g_object_unref (ctx->device);
-	g_free (ctx->specific_object);
-	g_free (ctx);
-}
-
-static void
-pppoe_activate_verify (GtkEditable *editable, gpointer user_data)
-{
-	PppoeActivateContext *ctx = (PppoeActivateContext *) user_data;
-	const char *username;
-	gboolean valid = FALSE;
-
-	username = gtk_entry_get_text (ctx->username_entry);
-
-	if (username && strlen (username) > 0)
-		valid = TRUE;
-
-	gtk_widget_set_sensitive (ctx->ok_button, valid);
-}
-
-static void
-pppoe_commit_changes_cb (GObject *connection,
-                         GAsyncResult *result,
-                         gpointer user_data)
-{
-	PppoeActivateContext *ctx = (PppoeActivateContext *) user_data;
-	GError *error = NULL;
-
-	if (!nm_remote_connection_commit_changes_finish (NM_REMOTE_CONNECTION (connection), result, &error)) {
-		const char *text = _("Failed to update connection");
-		const char *err_text = error ? error->message : _("Unknown error");
-
-		g_warning ("Failed to commit PPPoE connection changes: %s", err_text);
-		utils_show_error_dialog (_("Connection update failure"), text, err_text, FALSE, NULL);
-		g_clear_error (&error);
-		pppoe_activate_context_free (ctx);
-		return;
-	}
-
-	/* Connection updated successfully, now activate it */
-	nm_client_activate_connection_async (ctx->applet->nm_client,
-	                                     ctx->connection,
-	                                     ctx->device,
-	                                     ctx->specific_object,
-	                                     NULL,
-	                                     activate_connection_cb,
-	                                     ctx->applet);
-
-	pppoe_activate_context_free (ctx);
-}
-
-static void
-pppoe_activate_dialog_response_cb (GtkDialog *dialog, gint response, gpointer user_data)
-{
-	PppoeActivateContext *ctx = (PppoeActivateContext *) user_data;
-	NMSettingPppoe *s_pppoe;
-	const char *username;
-
-	if (response != GTK_RESPONSE_OK) {
-		pppoe_activate_context_free (ctx);
-		return;
-	}
-
-	/* Get username from dialog */
-	username = gtk_entry_get_text (ctx->username_entry);
-
-	/* Update the connection's pppoe setting */
-	s_pppoe = nm_connection_get_setting_pppoe (ctx->connection);
-	if (!s_pppoe) {
-		g_warning ("PPPoE setting not found in connection");
-		pppoe_activate_context_free (ctx);
-		return;
-	}
-
-	g_object_set (s_pppoe,
-	              NM_SETTING_PPPOE_USERNAME, username,
-	              NULL);
-
-	/* Commit changes to NetworkManager */
-	nm_remote_connection_commit_changes_async (NM_REMOTE_CONNECTION (ctx->connection),
-	                                           TRUE,
-	                                           NULL,
-	                                           pppoe_commit_changes_cb,
-	                                           ctx);
-}
-
-static void
-show_pppoe_activate_dialog (NMApplet *applet,
-                             NMConnection *connection,
-                             NMDevice *device,
-                             const char *specific_object)
-{
-	PppoeActivateContext *ctx;
-	GtkWidget *content_area;
-	GtkWidget *hbox;
-	GtkWidget *username_label;
-
-	ctx = g_new0 (PppoeActivateContext, 1);
-	ctx->applet = applet;
-	ctx->connection = g_object_ref (connection);
-	ctx->device = device ? g_object_ref (device) : NULL;
-	ctx->specific_object = g_strdup (specific_object);
-
-	/* Create the dialog */
-	ctx->dialog = gtk_dialog_new ();
-	gtk_window_set_title (GTK_WINDOW (ctx->dialog), _("DSL authentication"));
-	gtk_window_set_modal (GTK_WINDOW (ctx->dialog), TRUE);
-
-	gtk_dialog_add_button (GTK_DIALOG (ctx->dialog), _("_Cancel"), GTK_RESPONSE_REJECT);
-	ctx->ok_button = gtk_dialog_add_button (GTK_DIALOG (ctx->dialog), _("_OK"), GTK_RESPONSE_OK);
-
-	/* Create content area */
-	content_area = gtk_dialog_get_content_area (GTK_DIALOG (ctx->dialog));
-	gtk_container_set_border_width (GTK_CONTAINER (content_area), 12);
-
-	/* Username row */
-	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
-	gtk_box_pack_start (GTK_BOX (content_area), hbox, FALSE, FALSE, 6);
-
-	username_label = gtk_label_new_with_mnemonic (_("_Username:"));
-	gtk_box_pack_start (GTK_BOX (hbox), username_label, FALSE, FALSE, 0);
-
-	ctx->username_entry = GTK_ENTRY (gtk_entry_new ());
-	gtk_entry_set_activates_default (ctx->username_entry, TRUE);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (username_label), GTK_WIDGET (ctx->username_entry));
-	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (ctx->username_entry), TRUE, TRUE, 0);
-	g_signal_connect (ctx->username_entry, "changed", G_CALLBACK (pppoe_activate_verify), ctx);
-
-	g_signal_connect (ctx->dialog, "response", G_CALLBACK (pppoe_activate_dialog_response_cb), ctx);
-
-	/* Initial validation state */
-	pppoe_activate_verify (NULL, ctx);
-
-	gtk_widget_show_all (content_area);
-	gtk_window_set_position (GTK_WINDOW (ctx->dialog), GTK_WIN_POS_CENTER_ALWAYS);
-	gtk_widget_realize (ctx->dialog);
-	gtk_window_present (GTK_WINDOW (ctx->dialog));
-}
-
 void
 applet_menu_item_activate_helper (NMDevice *device,
                                   NMConnection *connection,
@@ -675,13 +513,25 @@ applet_menu_item_activate_helper (NMDevice *device,
 	AppletItemActivateInfo *info;
 	NMADeviceClass *dclass;
 
-	NMSettingPppoe *s_pppoe = nm_connection_get_setting_pppoe (connection);
-	if (s_pppoe && nm_setting_pppoe_get_password_flags (s_pppoe) == NM_SETTING_SECRET_FLAG_NOT_SAVED) {
-		show_pppoe_activate_dialog (applet, connection, device, specific_object);
-		return;
-	}
+	if (connection) 
+	{
+		dclass = get_device_class_from_connection (connection, applet);
+		if (dclass) 
+		{
+			NMSettingPppoe *s_pppoe = nm_connection_get_setting_pppoe (connection);
+			if(s_pppoe && nm_setting_pppoe_get_password_flags (s_pppoe) == NM_SETTING_SECRET_FLAG_NOT_SAVED) 
+			{
+				if(dclass->get_auth_data(applet, 
+										 connection, 
+										 device, 
+										 specific_object, 
+										 activate_connection_cb))
+				{
+					return;
+				}
+			}
+		}
 
-	if (connection) {
 		/* If the menu item had an associated connection already, just tell
 		 * NM to activate that connection.
 		 */
