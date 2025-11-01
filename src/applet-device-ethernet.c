@@ -195,6 +195,10 @@ typedef struct {
 	void (*activate_connection_cb);
 } PppoeActivateContext;
 
+typedef enum { 
+    USERNAME, PSSWD, ALL
+} show_only_t;
+
 static void
 pppoe_verify (GtkEditable *editable, gpointer user_data)
 {
@@ -230,10 +234,6 @@ pppoe_update_setting (NMSettingPppoe *pppoe, NMPppoeInfo *info)
 	              NM_SETTING_PPPOE_SERVICE, s,
 	              NULL);
 }
-
-typedef enum { 
-    USERNAME, PSSWD, ALL
-} show_only_t;
 
 static void
 pppoe_hide_secret_dialog_fields (GtkBuilder* builder, show_only_t show_field)
@@ -479,128 +479,6 @@ pppoe_get_secrets (SecretsRequest *req, GError **error)
 	return TRUE;
 }
 
-/* 802.1x */
-
-typedef struct {
-	SecretsRequest req;
-	GtkWidget *dialog;
-} NM8021xInfo;
-
-static void
-free_8021x_info (SecretsRequest *req)
-{
-	NM8021xInfo *info = (NM8021xInfo *) req;
-
-	if (info->dialog) {
-		gtk_widget_hide (info->dialog);
-		gtk_widget_destroy (info->dialog);
-	}
-}
-
-static void
-get_8021x_secrets_cb (GtkDialog *dialog, gint response, gpointer user_data)
-{
-	SecretsRequest *req = user_data;
-	NM8021xInfo *info = (NM8021xInfo *) req;
-	NMConnection *connection = NULL;
-	NMSetting *setting;
-	GError *error = NULL;
-
-	if (response != GTK_RESPONSE_OK) {
-		g_set_error (&error,
-		             NM_SECRET_AGENT_ERROR,
-		             NM_SECRET_AGENT_ERROR_USER_CANCELED,
-		             "%s.%d (%s): canceled",
-		             __FILE__, __LINE__, __func__);
-		goto done;
-	}
-
-	connection = nma_ethernet_dialog_get_connection (info->dialog);
-	if (!connection) {
-		g_set_error (&error,
-		             NM_SECRET_AGENT_ERROR,
-		             NM_SECRET_AGENT_ERROR_FAILED,
-		             "%s.%d (%s): couldn't get connection from ethernet dialog.",
-		             __FILE__, __LINE__, __func__);
-		goto done;
-	}
-
-	setting = nm_connection_get_setting (connection, NM_TYPE_SETTING_802_1X);
-	if (setting) {
-		nm_connection_add_setting (req->connection, g_object_ref (setting));
-	} else {
-		g_set_error (&error,
-		             NM_SECRET_AGENT_ERROR,
-		             NM_SECRET_AGENT_ERROR_FAILED,
-					 "%s.%d (%s): requested setting '802-1x' didn't"
-					 " exist in the connection.",
-					 __FILE__, __LINE__, __func__);
-	}
-
-done:
-	applet_secrets_request_complete_setting (req, NM_SETTING_802_1X_SETTING_NAME, error);
-	applet_secrets_request_free (req);
-	g_clear_error (&error);
-}
-
-static gboolean
-nm_8021x_get_secrets (SecretsRequest *req, GError **error)
-{
-	NM8021xInfo *info = (NM8021xInfo *) req;
-
-	applet_secrets_request_set_free_func (req, free_8021x_info);
-
-	info->dialog = nma_ethernet_dialog_new (g_object_ref (req->connection));
-	if (!info->dialog) {
-		g_set_error (error,
-		             NM_SECRET_AGENT_ERROR,
-		             NM_SECRET_AGENT_ERROR_FAILED,
-		             "%s.%d (%s): couldn't display secrets UI",
-		             __FILE__, __LINE__, __func__);
-		return FALSE;
-	}
-
-	g_signal_connect (info->dialog, "response", G_CALLBACK (get_8021x_secrets_cb), info);
-
-	gtk_window_set_position (GTK_WINDOW (info->dialog), GTK_WIN_POS_CENTER_ALWAYS);
-	gtk_widget_realize (info->dialog);
-	gtk_window_present (GTK_WINDOW (info->dialog));
-
-	return TRUE;
-}
-
-static gboolean
-ethernet_get_secrets (SecretsRequest *req, GError **error)
-{
-	NMSettingConnection *s_con;
-	const char *ctype;
-
-	s_con = nm_connection_get_setting_connection (req->connection);
-	if (!s_con) {
-		g_set_error (error,
-		             NM_SECRET_AGENT_ERROR,
-		             NM_SECRET_AGENT_ERROR_INVALID_CONNECTION,
-		             "%s.%d (%s): Invalid connection",
-		             __FILE__, __LINE__, __func__);
-		return FALSE;
-	}
-
-	ctype = nm_setting_connection_get_connection_type (s_con);
-	if (!strcmp (ctype, NM_SETTING_WIRED_SETTING_NAME))
-		return nm_8021x_get_secrets (req, error);
-	else if (!strcmp (ctype, NM_SETTING_PPPOE_SETTING_NAME))
-		return pppoe_get_secrets (req, error);
-	else {
-		g_set_error (error,
-		             NM_SECRET_AGENT_ERROR,
-		             NM_SECRET_AGENT_ERROR_FAILED,
-		             "%s.%d (%s): unhandled ethernet connection type '%s'",
-		             __FILE__, __LINE__, __func__, ctype);
-	}
-
-	return FALSE;
-}
-
 static void
 pppoe_activate_context_free (PppoeActivateContext *ctx)
 {
@@ -733,6 +611,128 @@ show_pppoe_activate_dialog (NMApplet *applet,
 	gtk_window_set_position (GTK_WINDOW (ctx->dialog), GTK_WIN_POS_CENTER_ALWAYS);
 	gtk_widget_realize (ctx->dialog);
 	gtk_window_present (GTK_WINDOW (ctx->dialog));
+}
+
+/* 802.1x */
+
+typedef struct {
+	SecretsRequest req;
+	GtkWidget *dialog;
+} NM8021xInfo;
+
+static void
+free_8021x_info (SecretsRequest *req)
+{
+	NM8021xInfo *info = (NM8021xInfo *) req;
+
+	if (info->dialog) {
+		gtk_widget_hide (info->dialog);
+		gtk_widget_destroy (info->dialog);
+	}
+}
+
+static void
+get_8021x_secrets_cb (GtkDialog *dialog, gint response, gpointer user_data)
+{
+	SecretsRequest *req = user_data;
+	NM8021xInfo *info = (NM8021xInfo *) req;
+	NMConnection *connection = NULL;
+	NMSetting *setting;
+	GError *error = NULL;
+
+	if (response != GTK_RESPONSE_OK) {
+		g_set_error (&error,
+		             NM_SECRET_AGENT_ERROR,
+		             NM_SECRET_AGENT_ERROR_USER_CANCELED,
+		             "%s.%d (%s): canceled",
+		             __FILE__, __LINE__, __func__);
+		goto done;
+	}
+
+	connection = nma_ethernet_dialog_get_connection (info->dialog);
+	if (!connection) {
+		g_set_error (&error,
+		             NM_SECRET_AGENT_ERROR,
+		             NM_SECRET_AGENT_ERROR_FAILED,
+		             "%s.%d (%s): couldn't get connection from ethernet dialog.",
+		             __FILE__, __LINE__, __func__);
+		goto done;
+	}
+
+	setting = nm_connection_get_setting (connection, NM_TYPE_SETTING_802_1X);
+	if (setting) {
+		nm_connection_add_setting (req->connection, g_object_ref (setting));
+	} else {
+		g_set_error (&error,
+		             NM_SECRET_AGENT_ERROR,
+		             NM_SECRET_AGENT_ERROR_FAILED,
+					 "%s.%d (%s): requested setting '802-1x' didn't"
+					 " exist in the connection.",
+					 __FILE__, __LINE__, __func__);
+	}
+
+done:
+	applet_secrets_request_complete_setting (req, NM_SETTING_802_1X_SETTING_NAME, error);
+	applet_secrets_request_free (req);
+	g_clear_error (&error);
+}
+
+static gboolean
+nm_8021x_get_secrets (SecretsRequest *req, GError **error)
+{
+	NM8021xInfo *info = (NM8021xInfo *) req;
+
+	applet_secrets_request_set_free_func (req, free_8021x_info);
+
+	info->dialog = nma_ethernet_dialog_new (g_object_ref (req->connection));
+	if (!info->dialog) {
+		g_set_error (error,
+		             NM_SECRET_AGENT_ERROR,
+		             NM_SECRET_AGENT_ERROR_FAILED,
+		             "%s.%d (%s): couldn't display secrets UI",
+		             __FILE__, __LINE__, __func__);
+		return FALSE;
+	}
+
+	g_signal_connect (info->dialog, "response", G_CALLBACK (get_8021x_secrets_cb), info);
+
+	gtk_window_set_position (GTK_WINDOW (info->dialog), GTK_WIN_POS_CENTER_ALWAYS);
+	gtk_widget_realize (info->dialog);
+	gtk_window_present (GTK_WINDOW (info->dialog));
+
+	return TRUE;
+}
+
+static gboolean
+ethernet_get_secrets (SecretsRequest *req, GError **error)
+{
+	NMSettingConnection *s_con;
+	const char *ctype;
+
+	s_con = nm_connection_get_setting_connection (req->connection);
+	if (!s_con) {
+		g_set_error (error,
+		             NM_SECRET_AGENT_ERROR,
+		             NM_SECRET_AGENT_ERROR_INVALID_CONNECTION,
+		             "%s.%d (%s): Invalid connection",
+		             __FILE__, __LINE__, __func__);
+		return FALSE;
+	}
+
+	ctype = nm_setting_connection_get_connection_type (s_con);
+	if (!strcmp (ctype, NM_SETTING_WIRED_SETTING_NAME))
+		return nm_8021x_get_secrets (req, error);
+	else if (!strcmp (ctype, NM_SETTING_PPPOE_SETTING_NAME))
+		return pppoe_get_secrets (req, error);
+	else {
+		g_set_error (error,
+		             NM_SECRET_AGENT_ERROR,
+		             NM_SECRET_AGENT_ERROR_FAILED,
+		             "%s.%d (%s): unhandled ethernet connection type '%s'",
+		             __FILE__, __LINE__, __func__, ctype);
+	}
+
+	return FALSE;
 }
 
 static gboolean
