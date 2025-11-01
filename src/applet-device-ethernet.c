@@ -182,6 +182,19 @@ typedef struct {
 	GtkWidget *ok_button;
 } NMPppoeInfo;
 
+typedef struct {
+	NMApplet *applet;
+	NMConnection *connection;
+	NMDevice *device;
+	char *specific_object;
+
+	GtkWidget *dialog;
+	GtkEntry *username_entry;
+	GtkWidget *ok_button;
+
+	void (*activate_connection_cb);
+} PppoeActivateContext;
+
 static void
 pppoe_verify (GtkEditable *editable, gpointer user_data)
 {
@@ -587,23 +600,6 @@ ethernet_get_secrets (SecretsRequest *req, GError **error)
 
 	return FALSE;
 }
-
-/********************************************************************/
-/* PPPoE pre-activation dialog support */
-/********************************************************************/
-
-typedef struct {
-	NMApplet *applet;
-	NMConnection *connection;
-	NMDevice *device;
-	char *specific_object;
-
-	GtkWidget *dialog;
-	GtkEntry *username_entry;
-	GtkWidget *ok_button;
-
-	void (*activate_connection_cb);
-} PppoeActivateContext;
 
 static void
 pppoe_activate_context_free (PppoeActivateContext *ctx)
