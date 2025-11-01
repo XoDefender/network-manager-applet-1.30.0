@@ -670,10 +670,8 @@ pppoe_activate_dialog_response_cb (GtkDialog *dialog, gint response, gpointer us
 		return;
 	}
 
-	/* Get username from dialog */
 	username = gtk_entry_get_text (ctx->username_entry);
 
-	/* Update the connection's pppoe setting */
 	s_pppoe = nm_connection_get_setting_pppoe (ctx->connection);
 	if (!s_pppoe) {
 		g_warning ("PPPoE setting not found in connection");
@@ -685,7 +683,6 @@ pppoe_activate_dialog_response_cb (GtkDialog *dialog, gint response, gpointer us
 	              NM_SETTING_PPPOE_USERNAME, username,
 	              NULL);
 
-	/* Commit changes to NetworkManager */
 	nm_remote_connection_commit_changes_async (NM_REMOTE_CONNECTION (ctx->connection),
 	                                           TRUE,
 	                                           NULL,
@@ -715,6 +712,7 @@ show_pppoe_activate_dialog (NMApplet *applet,
 		ctx->connection, 
 		NULL,
 		USERNAME)) {
+		pppoe_activate_context_free (ctx);
 		return;
 	}
 
