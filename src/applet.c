@@ -3698,6 +3698,100 @@ applet_activate (GApplication *app, gpointer user_data)
 }
 
 static void
+add_ssid_to_glist(gchar *ssid, GList **list) 
+{
+	GList *iter;
+
+	if (!ssid) {
+		return;
+	}
+
+    for (iter = *list; iter != NULL; iter = iter->next) {
+        if (g_ascii_strcasecmp(ssid, (const char*)iter->data) == 0) {
+            return;
+        }
+    }
+
+    *list = g_list_append(*list, g_strdup(ssid));
+}
+
+static void
+add_ssids_to_keyfile_list(GKeyFile *keyfile, char *list_name, GList **list) 
+{
+	GError *error = NULL;
+	gchar **ssids = g_key_file_get_string_list(keyfile, "filter", list_name, NULL, &error);
+    if (!error && ssids) 
+	{
+		for (int i = 0; ssids[i] != NULL; i++) 
+		{
+        	g_strstrip(ssids[i]);
+        	if (strlen(ssids[i]) > 0) {
+            	add_ssid_to_glist(ssids[i], list);
+        	}
+    	}
+        g_strfreev(ssids);
+    }
+	else {
+		g_error_free (error);
+	}
+}
+
+static gboolean
+applet_process_filter_config (AccessPointFilterInfo *filter_info)
+{
+	char *config_path = "/etc/xdg/nm-applet/filter.conf";
+    GKeyFile *keyfile = g_key_file_new();
+
+    if (!g_key_file_load_from_file(keyfile, config_path, G_KEY_FILE_NONE, NULL)) {
+        g_key_file_free(keyfile);
+        return FALSE;
+    }
+
+    if (g_key_file_has_key(keyfile, "filter", "blacklisted_ssids", NULL)) {
+       add_ssids_to_keyfile_list(keyfile, "blacklisted_ssids",
+								 &filter_info->blacklisted_ssids);
+    }
+	if (g_key_file_has_key(keyfile, "filter", "whitelisted_ssids", NULL)) {
+        add_ssids_to_keyfile_list(keyfile, "whitelisted_ssids", 
+								  &filter_info->whitelisted_ssids);
+    }
+
+    filter_info->filter_wpa_ent = g_key_file_get_boolean(keyfile, "filter", "filter_wpa_enterprise", NULL);
+    filter_info->filter_wpa_psk = g_key_file_get_boolean(keyfile, "filter", "filter_wpa_psk", NULL);
+
+    filter_info->filter_ccmp = g_key_file_get_boolean(keyfile, "filter", "filter_ccmp", NULL);
+    filter_info->filter_tkip = g_key_file_get_boolean(keyfile, "filter", "filter_tkip", NULL);
+
+	filter_info->use_whitelist = g_key_file_get_boolean(keyfile, "filter", "use_whitelist", NULL);
+
+    g_key_file_free(keyfile);
+    return TRUE;
+}
+
+static AccessPointFilterInfo* 
+applet_filter_new(void) 
+{
+	static const AccessPointFilterInfo filter_info_def = {
+		.filter_ccmp = FALSE,
+		.filter_tkip = FALSE,
+		.filter_wpa_psk = FALSE,
+		.filter_wpa_ent = FALSE,
+		.use_whitelist = FALSE,
+		.blacklisted_ssids = NULL,
+		.whitelisted_ssids = NULL,
+	};
+
+    AccessPointFilterInfo *filter_info = g_new0(AccessPointFilterInfo, 1); 
+	*filter_info = filter_info_def;
+
+	if(!applet_process_filter_config(filter_info)) {
+		g_warning ("Could not read applet filter config.");
+	}
+
+    return filter_info;
+}
+
+static void
 applet_startup (GApplication *app, gpointer user_data)
 {
 	NMApplet *applet = NM_APPLET (app);
@@ -3767,6 +3861,8 @@ applet_startup (GApplication *app, gpointer user_data)
 	mm1_client_setup (applet);
 #endif
 
+	applet->filter_info = applet_filter_new();
+
 	if (applet->status_icon) {
 		/* Track embedding to help debug issues where user has removed the
 		 * notification area applet from the panel, and thus nm-applet too.
@@ -3810,6 +3906,8 @@ static void finalize (GObject *object)
 	if (applet->icon_theme_tray_name) free(applet->icon_theme_tray_name);
 	if (applet->xsettings_client) xsettings_client_destroy(applet->xsettings_client);
 	g_clear_object (&applet->icon_theme_tray);
+
+	if(applet->filter_info) g_free(applet->filter_info);
 
 	g_clear_object (&applet->fallback_icon);
 	g_free (applet->tip);

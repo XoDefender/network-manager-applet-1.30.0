@@ -435,9 +435,13 @@ msgstr "Wi-Fi выключен"
 msgid "Wi-Fi is disabled by hardware switch"
 msgstr "Wi-Fi выключен механическим переключателем"
 
-#: src/applet-device-wifi.c:887
+#: src/applet-device-wifi.c:945
 msgid "_Available networks"
 msgstr "Доступно"
+
+#: src/applet-device-wifi.c:946
+msgid "_Unavailable networks"
+msgstr "Недоступно"
 
 #: src/applet-device-wifi.c:1066
 msgid "Wi-Fi Networks Available"
