@@ -26,6 +26,7 @@ typedef struct {
 	GtkEntry *interface;
 	GtkLabel *interface_label;
 	GtkToggleButton *claim;
+	GtkToggleButton *ask_user_data;
 
 	GtkEntry *username;
 	GtkEntry *password;
@@ -96,6 +97,7 @@ dsl_private_init (CEPageDsl *self)
 	priv->interface = GTK_ENTRY (gtk_builder_get_object (builder, "dsl_interface"));
 	priv->interface_label = GTK_LABEL (gtk_builder_get_object (builder, "dsl_interface_label"));
 	priv->claim = GTK_TOGGLE_BUTTON (gtk_builder_get_object (builder, "dsl_claim_button"));
+	priv->ask_user_data = GTK_TOGGLE_BUTTON (gtk_builder_get_object (builder, "dsl_ask_user_data"));
 	priv->username = GTK_ENTRY (gtk_builder_get_object (builder, "dsl_username"));
 	priv->password = GTK_ENTRY (gtk_builder_get_object (builder, "dsl_password"));
 	priv->service = GTK_ENTRY (gtk_builder_get_object (builder, "dsl_service"));
@@ -108,6 +110,7 @@ populate_ui (CEPageDsl *self, NMConnection *connection)
 	NMSettingPppoe *setting = priv->setting;
 	gs_free char *parent = NULL;
 	const char *str = NULL;
+	NMSettingSecretFlags flags;
 
 	gtk_widget_set_visible (GTK_WIDGET (priv->interface), parent_supported);
 	gtk_widget_set_visible (GTK_WIDGET (priv->interface_label), parent_supported);
@@ -134,6 +137,9 @@ populate_ui (CEPageDsl *self, NMConnection *connection)
 	}
 
 	claim_toggled (priv->claim, self);
+
+	flags = nm_setting_pppoe_get_password_flags(setting);
+	gtk_toggle_button_set_active (priv->ask_user_data, flags & NM_SETTING_SECRET_FLAG_NOT_SAVED ? TRUE : FALSE);
 
 	str = nm_setting_pppoe_get_username (setting);
 	if (str)
@@ -231,10 +237,12 @@ ui_to_setting (CEPageDsl *self)
 	NMSettingConnection *s_con;
 	GtkWidget *entry;
 	gboolean claim;
+	gboolean ask_user_data;
 
 	s_con = nm_connection_get_setting_connection (CE_PAGE (self)->connection);
 	g_return_if_fail (s_con);
 	claim = gtk_toggle_button_get_active (priv->claim);
+	ask_user_data = gtk_toggle_button_get_active (priv->ask_user_data);
 
 	if (parent_supported && !claim) {
 		interface = gtk_entry_get_text (priv->interface);
@@ -285,6 +293,10 @@ ui_to_setting (CEPageDsl *self)
 	              NM_SETTING_PPPOE_USERNAME, username,
 	              NM_SETTING_PPPOE_PASSWORD, password,
 	              NM_SETTING_PPPOE_SERVICE, service,
+				  NM_SETTING_PPPOE_PASSWORD_FLAGS, 
+				  ask_user_data ? 
+				  NM_SETTING_SECRET_FLAG_NOT_SAVED : 
+				  NM_SETTING_SECRET_FLAG_NONE,
 	              NULL);
 }
 
