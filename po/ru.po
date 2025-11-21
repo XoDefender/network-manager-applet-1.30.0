@@ -343,12 +343,14 @@ msgstr "Сети Wi-Fi (%s)"
 msgid "Wi-Fi Network (%s)"
 msgstr "Сеть Wi-Fi (%s)"
 
-#: src/applet-device-wifi.c:826
+#: src/applet-device-wifi.c:827
+#, c-format
+msgid "Wi-Fi Networks"
+msgstr "Сети Wi-Fi"
+
+#: src/applet-device-wifi.c:829
 msgid "Wi-Fi Network"
-msgid_plural "Wi-Fi Networks"
-msgstr[0] "Сеть Wi-Fi"
-msgstr[1] "Сети Wi-Fi"
-msgstr[2] "Сетей Wi-Fi"
+msgstr "Сеть Wi-Fi"
 
 #: src/applet-device-wifi.c:855
 msgid "Wi-Fi is disabled"
@@ -840,7 +842,7 @@ msgid ""
 "The VPN connection “%s” disconnected because user interrupted."
 msgstr ""
 "\n"
-"В связи с тем, что пользователь преравал подключение, связь с VPN «%s» была потеряна"
+"В связи с тем, что пользователь прервал подключение, связь с VPN «%s» была потеряна"
 
 #: src/applet.c:939
 #, c-format
@@ -958,8 +960,12 @@ msgstr "Включить _мобильную широкополосную свя
 
 #. Toggle notifications item
 #: src/applet.c:1882
-msgid "Enable N_otifications"
-msgstr "Включить _уведомления"
+msgid "Enable all notifications"
+msgstr "Включить все уведомления"
+
+#: src/applet.c:1979
+msgid "Notification settings"
+msgstr "Настройки уведомлений"
 
 #. 'Connection Information' item
 #: src/applet.c:1894
