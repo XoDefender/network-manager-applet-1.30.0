@@ -491,6 +491,8 @@ nm_applet_hc_real = \
 	src/mobile-helpers.h \
 	src/applet-device-bt.h \
 	src/applet-device-bt.c \
+	src/applet-device-vlan.h \
+	src/applet-device-vlan.c \
 	src/fallback-icon.h
 
 if WITH_WWAN

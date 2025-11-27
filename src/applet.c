@@ -23,6 +23,7 @@
 #include <stdlib.h>
 
 #include "applet.h"
+#include "applet-device-vlan.h"
 #include "applet-device-bt.h"
 #include "applet-device-ethernet.h"
 #include "applet-device-wifi.h"
@@ -141,6 +142,8 @@ get_device_class (NMDevice *device, NMApplet *applet)
 #endif
 	} else if (NM_IS_DEVICE_BT (device))
 		return applet->bt_class;
+	else if (NM_IS_DEVICE_VLAN (device))
+		return applet->vlan_class;
 	else
 		g_debug ("%s: Unknown device type '%s'", __func__, G_OBJECT_TYPE_NAME (device));
 	return NULL;
@@ -171,8 +174,44 @@ get_device_class_from_connection (NMConnection *connection, NMApplet *applet)
 #endif
 	else if (!strcmp (ctype, NM_SETTING_BLUETOOTH_SETTING_NAME))
 		return applet->bt_class;
+	else if (!strcmp (ctype, NM_SETTING_VLAN_SETTING_NAME))
+		return applet->vlan_class;
 	else
 		g_warning ("%s: unhandled connection type '%s'", __func__, ctype);
+	return NULL;
+}
+
+static NMConnection *
+applet_find_active_connection_for_virtual_device (const char *iface,
+                                                  NMApplet *applet,
+                                                  NMActiveConnection **out_active)
+{
+	const GPtrArray *active_connections;
+	int i;
+
+	g_return_val_if_fail (iface != NULL, NULL);
+	g_return_val_if_fail (NM_IS_APPLET (applet), NULL);
+	if (out_active)
+		g_return_val_if_fail (*out_active == NULL, NULL);
+
+	active_connections = nm_client_get_active_connections (applet->nm_client);
+	for (i = 0; i < active_connections->len; i++) {
+		NMRemoteConnection *conn;
+		NMActiveConnection *active;
+
+		active = NM_ACTIVE_CONNECTION (g_ptr_array_index (active_connections, i));
+		conn = nm_active_connection_get_connection (active);
+
+		if (!conn)
+			continue;
+
+		if (!g_strcmp0 (nm_connection_get_interface_name (NM_CONNECTION (conn)), iface)) {
+			if (out_active)
+				*out_active = active;
+			return NM_CONNECTION (conn);
+		}
+	}
+
 	return NULL;
 }
 
@@ -243,6 +282,86 @@ applet_get_best_activating_connection (NMApplet *applet, NMDevice **device)
 
 	*device = best_dev;
 	return best;
+}
+
+static gint
+sort_connections_by_ifname (gconstpointer a, gconstpointer b)
+{
+	NMConnection *aa =  *(NMConnection **)a;
+	NMConnection *bb =  *(NMConnection **)b;
+
+	return strcmp (nm_connection_get_interface_name (aa),
+	               nm_connection_get_interface_name (bb));
+}
+
+static int
+add_virtual_items (const char *type, const GPtrArray *all_devices,
+                   const GPtrArray *all_connections, GtkWidget *menu, NMApplet *applet)
+{
+	GPtrArray *connections;
+	int i, n_devices = 0;
+
+	connections = g_ptr_array_sized_new (5);
+	for (i = 0; i < all_connections->len; i++) {
+		NMConnection *connection = all_connections->pdata[i];
+
+		if (!nm_connection_get_interface_name (connection))
+			continue;
+
+		if (nm_connection_is_type (connection, type))
+			g_ptr_array_add (connections, connection);
+	}
+
+	g_ptr_array_sort (connections, sort_connections_by_ifname);
+	/* Count the number of unique interface names */
+	for (i = 0; i < connections->len; i++) {
+		NMConnection *connection = connections->pdata[i];
+
+		n_devices++;
+
+		/* Skip ahead until we find a connection with a different ifname
+		 * (or reach the end of the list).
+		 */
+		while (   i < connections->len
+		       && sort_connections_by_ifname (&connection, &connections->pdata[i]) == 0)
+			i++;
+	}
+
+	for (i = 0; i < connections->len; i++) {
+		NMConnection *connection = connections->pdata[i];
+		NMDevice *device = NULL;
+		const char *iface = nm_connection_get_interface_name (connection);
+		GPtrArray *iface_connections;
+		NMADeviceClass *dclass;
+		NMConnection *active;
+		int d;
+
+		for (d = 0; d < all_devices->len; d++) {
+			NMDevice *candidate = all_devices->pdata[d];
+
+			if (!strcmp (nm_device_get_iface (candidate), iface)) {
+				device = candidate;
+				break;
+			}
+		}
+
+		iface_connections = g_ptr_array_sized_new (5);
+		while (   i < connections->len
+		       && sort_connections_by_ifname (&connection, &connections->pdata[i]) == 0) {
+			g_ptr_array_add (iface_connections, connections->pdata[i]);
+			i++;
+		}
+
+		active = applet_find_active_connection_for_virtual_device (iface, applet, NULL);
+
+		dclass = get_device_class_from_connection (connection, applet);
+		dclass->add_menu_item (device, n_devices > 1, iface_connections, active, menu, applet);
+
+		g_ptr_array_unref (iface_connections);
+	}
+
+	g_ptr_array_unref (connections);
+	return n_devices;
 }
 
 static NMActiveConnection *
@@ -1474,6 +1593,8 @@ nma_menu_add_devices (GtkWidget *menu, NMApplet *applet)
 
 	n_items = 0;
 	n_items += add_device_items  (NM_DEVICE_TYPE_ETHERNET,
+	                              all_devices, all_connections, menu, applet);
+	n_items += add_virtual_items (NM_SETTING_VLAN_SETTING_NAME,
 	                              all_devices, all_connections, menu, applet);
 	n_items += add_device_items  (NM_DEVICE_TYPE_WIFI,
 	                              all_devices, all_connections, menu, applet);
@@ -3857,6 +3978,9 @@ applet_startup (GApplication *app, gpointer user_data)
 	applet->bt_class = applet_device_bt_get_class (applet);
 	g_assert (applet->bt_class);
 
+	applet->vlan_class = applet_device_vlan_get_class (applet);
+	g_assert (applet->vlan_class);
+
 #if WITH_WWAN
 	mm1_client_setup (applet);
 #endif
@@ -3888,6 +4012,7 @@ static void finalize (GObject *object)
 	g_slice_free (NMADeviceClass, applet->broadband_class);
 #endif
 	g_slice_free (NMADeviceClass, applet->bt_class);
+	g_slice_free (NMADeviceClass, applet->vlan_class);
 
 	nm_clear_g_source (&applet->update_icon_id);
 	nm_clear_g_source (&applet->wifi_scan_id);

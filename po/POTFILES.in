@@ -10,6 +10,7 @@ src/ap-menu-item.c
 src/applet-device-broadband.c
 src/applet-device-bt.c
 src/applet-device-ethernet.c
+src/applet-device-vlan.c
 src/applet-device-wifi.c
 src/applet-dialogs.c
 src/applet-vpn-request.c
