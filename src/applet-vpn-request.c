@@ -286,6 +286,7 @@ external_ui_from_child_response (VpnSecretsInfo *info, GError **error)
 	if (num_ask > 0) 
 	{
 		dialog = (NMAVpnPasswordDialog *) nma_vpn_password_dialog_new (title, message, NULL);
+		gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
 		req_data->dialog = g_object_ref_sink (dialog);
 
 		nma_vpn_password_dialog_set_show_password (dialog, FALSE);
