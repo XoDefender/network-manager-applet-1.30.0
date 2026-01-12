@@ -32,6 +32,8 @@
 #include "applet-vpn-request.h"
 #include "utils.h"
 
+#include "nma-cert-chooser.h"
+
 #include <polkit/polkit.h>
 
 #if WITH_WWAN
@@ -622,6 +624,193 @@ activate_connection_cb (GObject *client,
 	applet_schedule_update_icon (NM_APPLET (user_data));
 }
 
+typedef struct {
+	GtkWidget *client_cert_chooser;
+	GtkWidget *ca_cert_chooser;
+	GtkEntry *pin_entry;
+} NMACertAuthData;
+
+typedef struct {
+    NMClient *client;
+    NMRemoteConnection *connection;
+    NMDevice *device;
+    GCancellable *cancellable;
+    GAsyncReadyCallback callback;
+	NMSetting8021x *s_8021x;
+	NMACertAuthData *cert_fields;
+    gpointer user_data;
+} ActivateContext;
+
+static void
+activate_connection_on_update_cb(GObject *connection,
+                      			 GAsyncResult *result,
+                      			 gpointer user_data)
+{
+    GError *error = NULL;
+    ActivateContext *ctx = (ActivateContext *)user_data;
+
+    if (!nm_remote_connection_commit_changes_finish(NM_REMOTE_CONNECTION(connection), result, &error))
+	{
+        g_warning("Ошибка сохранения настроек подключения: %s", error->message);
+        g_clear_error(&error);
+        g_free(ctx);
+        return;
+    }
+
+    nm_client_activate_connection_async(ctx->client,
+                                        NM_CONNECTION(ctx->connection),
+                                        ctx->device,
+                                        NULL,
+                                        ctx->cancellable,
+                                        ctx->callback,
+                                        ctx->user_data);
+
+    g_free(ctx);
+}
+
+static const guchar *
+nma_cert_auth_data_get_pin_value (NMACertAuthData *data)
+{
+	GtkEntryBuffer *buffer = gtk_entry_get_buffer (data->pin_entry);
+	return (guchar *) gtk_entry_buffer_get_text (buffer);
+}
+
+static void
+fill_cert_auth_data_dialog (GtkDialog *dialog, NMACertAuthData *auth_fields)
+{
+    GtkWidget *content_area;
+	GtkWidget *label;
+	GtkWidget *hbox;
+
+	g_assert(auth_fields);
+	g_assert(dialog);
+
+	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+	label = gtk_label_new("PIN:");
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+
+	gtk_box_pack_start(GTK_BOX(content_area), auth_fields->client_cert_chooser, TRUE, TRUE, 10);
+	gtk_box_pack_start(GTK_BOX(content_area), hbox, FALSE, FALSE, 10);
+
+ 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 5);
+	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(auth_fields->pin_entry), TRUE, TRUE, 5);
+
+	gtk_widget_set_size_request(GTK_WIDGET(auth_fields->pin_entry), -1, 30);
+
+	gtk_widget_set_margin_left(auth_fields->client_cert_chooser, 15);
+	gtk_widget_set_margin_right(auth_fields->client_cert_chooser, 15);
+
+	gtk_widget_set_margin_left(hbox, 15);
+	gtk_widget_set_margin_right(hbox, 15);
+
+	gtk_widget_show_all(hbox);
+}
+
+static NMACertAuthData *
+nma_cert_auth_data_new(void)
+{
+	NMACertAuthData *method;
+	method = g_slice_alloc0 (sizeof (NMACertAuthData));
+	if (!method) {
+		return NULL;
+	}
+
+	method->ca_cert_chooser = nma_cert_chooser_new ("CA", NMA_CERT_CHOOSER_FLAG_CERT);
+	method->client_cert_chooser = nma_cert_chooser_new ("User", NMA_CERT_CHOOSER_FLAG_NO_PASSWORDS);
+	method->pin_entry = GTK_ENTRY(gtk_entry_new());
+
+	gtk_entry_set_visibility(method->pin_entry, FALSE);
+
+	gtk_widget_show(method->client_cert_chooser);
+	gtk_widget_show(GTK_WIDGET(method->pin_entry));
+
+	return method;
+}
+
+static void
+cert_auth_dialog_response (GtkDialog *dialog, int response_id, gpointer _ctx)
+{
+	if (response_id == GTK_RESPONSE_OK) 
+	{
+		ActivateContext *ctx = (ActivateContext*) _ctx;
+		gchar *cert_value = NULL;
+		gchar *priv_key_value = NULL;
+		const guchar *pin_value = NULL;
+
+		GError *error = NULL;
+		NMSetting8021xCKScheme scheme;
+		NMSetting8021xCKFormat format = NM_SETTING_802_1X_CK_FORMAT_UNKNOWN;
+
+		cert_value = nma_cert_chooser_get_cert (NMA_CERT_CHOOSER (ctx->cert_fields->client_cert_chooser), &scheme);
+		if(scheme == NM_SETTING_802_1X_CK_SCHEME_PKCS11) {
+			if (!nm_setting_802_1x_set_client_cert (ctx->s_8021x, cert_value, scheme, &format, &error)) {
+				g_warning ("Couldn't read client certificate '%s': %s", cert_value, error ? error->message : "(unknown)");
+				g_clear_error (&error);
+			}
+		} else {
+			g_warning ("Not pkcs11 cert selected");
+		}
+
+		priv_key_value = nma_cert_chooser_get_key (NMA_CERT_CHOOSER (ctx->cert_fields->client_cert_chooser), &scheme);
+		if(scheme == NM_SETTING_802_1X_CK_SCHEME_PKCS11) {
+			if (!nm_setting_802_1x_set_private_key(ctx->s_8021x, priv_key_value, NULL, scheme, &format, &error)) {
+				g_warning ("Couldn't read private key '%s': %s", priv_key_value, error ? error->message : "(unknown)");
+				g_clear_error (&error);
+			}
+		} else {
+			g_warning ("Not pkcs11 private key selected");
+		}
+
+		pin_value = nma_cert_auth_data_get_pin_value(ctx->cert_fields);
+		g_object_set (ctx->s_8021x, NM_SETTING_802_1X_PIN, pin_value, NULL);
+
+		nm_remote_connection_commit_changes_async(ctx->connection,
+												  TRUE,
+												  ctx->cancellable,
+												  activate_connection_on_update_cb,
+												  ctx);
+
+		g_free (cert_value);
+		g_free (priv_key_value);
+	}
+
+	gtk_widget_destroy (GTK_WIDGET(dialog));
+}
+
+static void
+show_ask_cert_auth_data_dialog(ActivateContext *ctx)
+{
+	GtkWidget *dialog = gtk_dialog_new_with_buttons("Certificate Chooser",
+                                         			NULL,
+                                          			GTK_DIALOG_MODAL,
+                                          			"_OK", GTK_RESPONSE_OK,
+                                          			"_Cancel", GTK_RESPONSE_CANCEL,
+                                          			NULL);
+
+	gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
+	g_signal_connect (dialog, "response", G_CALLBACK (cert_auth_dialog_response), ctx);
+
+	fill_cert_auth_data_dialog(GTK_DIALOG (dialog), ctx->cert_fields);
+
+	gtk_widget_show(dialog);
+	gtk_dialog_run(GTK_DIALOG(dialog));
+}
+
+static void 
+applet_fill_context(NMApplet *applet, ActivateContext *ctx, 
+					NMConnection *connection, NMDevice *device, 
+					NMSetting8021x *s_8021x)
+{
+	ctx->client = g_object_ref(applet->nm_client);
+	ctx->connection = g_object_ref(connection);
+	ctx->device = g_object_ref(device);
+	ctx->cancellable = NULL;
+	ctx->callback = activate_connection_cb;
+	ctx->user_data = applet;
+	ctx->s_8021x = g_object_ref(s_8021x);
+	ctx->cert_fields = nma_cert_auth_data_new();
+}
+
 void
 applet_menu_item_activate_helper (NMDevice *device,
                                   NMConnection *connection,
@@ -632,10 +821,29 @@ applet_menu_item_activate_helper (NMDevice *device,
 	AppletItemActivateInfo *info;
 	NMADeviceClass *dclass;
 
-	if (connection) {
+	if (connection) 
+	{
 		/* If the menu item had an associated connection already, just tell
 		 * NM to activate that connection.
 		 */
+		NMSetting8021x *s_8021x = nm_connection_get_setting_802_1x (connection);
+		if(s_8021x && nm_setting_802_1x_get_num_eap_methods (s_8021x)) 
+		{	
+			NMSettingSecretFlags secret_flags;
+			g_object_get (s_8021x, NM_SETTING_802_1X_PIN_FLAGS, &secret_flags, NULL);
+
+			const char *method = nm_setting_802_1x_get_eap_method (s_8021x, 0);
+			if(method && (!strcmp(method, "tls") || !strcmp(method, "ttls")) &&
+			   secret_flags == NM_SETTING_SECRET_FLAG_NOT_SAVED) 
+			{
+				ActivateContext *ctx = g_new0(ActivateContext, 1);
+				applet_fill_context(applet, ctx, connection, device, s_8021x);
+				show_ask_cert_auth_data_dialog(ctx);
+
+				return;
+			}
+		}
+		
 		nm_client_activate_connection_async (applet->nm_client,
 		                                     connection,
 		                                     device,
