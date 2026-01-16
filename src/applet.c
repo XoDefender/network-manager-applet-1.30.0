@@ -1455,7 +1455,7 @@ nma_menu_vpn_item_clicked (GtkMenuItem *item, gpointer user_data)
 static void
 nma_menu_configure_vpn_item_activate (GtkMenuItem *item, gpointer user_data)
 {
-	const char *argv[] = { BINDIR "/nm-connection-editor", "--show", "--type", NM_SETTING_VPN_SETTING_NAME, NULL};
+	const char *argv[] = { BINDIR "/kcmshell5", "kcm_networkmanagement", NULL};
 
 	g_spawn_async (NULL, (gchar **) argv, NULL, 0, NULL, NULL, NULL, NULL);
 }
@@ -1469,7 +1469,7 @@ nma_menu_configure_vpn_item_activate (GtkMenuItem *item, gpointer user_data)
 static void
 nma_menu_add_vpn_item_activate (GtkMenuItem *item, gpointer user_data)
 {
-	const char *argv[] = { BINDIR "/nm-connection-editor", "--create", "--type", NM_SETTING_VPN_SETTING_NAME, NULL};
+	const char *argv[] = { BINDIR "/kcmshell5", "kcm_networkmanagement", NULL};
 
 	g_spawn_async (NULL, (gchar **) argv, NULL, 0, NULL, NULL, NULL, NULL);
 }
@@ -2160,12 +2160,13 @@ ce_child_setup (gpointer user_data G_GNUC_UNUSED)
 static void
 nma_edit_connections_cb (void)
 {
-	char *argv[2];
+	char *argv[3];
 	GError *error = NULL;
 	gboolean success;
 
-	argv[0] = BINDIR "/nm-connection-editor";
-	argv[1] = NULL;
+	argv[0] = BINDIR "/kcmshell5";
+	argv[1] = "kcm_networkmanagement";
+	argv[2] = NULL;
 
 	success = g_spawn_async ("/", argv, NULL, 0, &ce_child_setup, NULL, NULL, &error);
 	if (!success) {
