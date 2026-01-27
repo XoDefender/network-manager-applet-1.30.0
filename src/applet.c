@@ -675,6 +675,27 @@ nma_cert_auth_data_get_pin_value (NMACertAuthData *data)
 	return (guchar *) gtk_entry_buffer_get_text (buffer);
 }
 
+static gchar *
+append_pin_to_pkcs11_uri (const gchar *uri, const guchar *pin)
+{
+	gchar *escaped_pin;
+	gchar *result;
+
+	if (!uri || !pin || !*pin)
+		return g_strdup (uri);
+
+	escaped_pin = g_uri_escape_string ((const gchar *) pin, NULL, TRUE);
+
+	if (strchr (uri, '?')) {
+		result = g_strdup_printf ("%s&pin-value=%s", uri, escaped_pin);
+	} else {
+		result = g_strdup_printf ("%s?pin-value=%s", uri, escaped_pin);
+	}
+
+	g_free (escaped_pin);
+	return result;
+}
+
 static void
 fill_cert_auth_data_dialog (GtkDialog *dialog, NMACertAuthData *auth_fields)
 {
@@ -751,18 +772,21 @@ cert_auth_dialog_response (GtkDialog *dialog, int response_id, gpointer _ctx)
 			g_warning ("Not pkcs11 cert selected");
 		}
 
+		pin_value = nma_cert_auth_data_get_pin_value(ctx->cert_fields);
+
 		priv_key_value = nma_cert_chooser_get_key (NMA_CERT_CHOOSER (ctx->cert_fields->client_cert_chooser), &scheme);
 		if(scheme == NM_SETTING_802_1X_CK_SCHEME_PKCS11) {
-			if (!nm_setting_802_1x_set_private_key(ctx->s_8021x, priv_key_value, NULL, scheme, &format, &error)) {
-				g_warning ("Couldn't read private key '%s': %s", priv_key_value, error ? error->message : "(unknown)");
+			gchar *priv_key_with_pin = append_pin_to_pkcs11_uri (priv_key_value, pin_value);
+
+			if (!nm_setting_802_1x_set_private_key(ctx->s_8021x, priv_key_with_pin, NULL, scheme, &format, &error)) {
+				g_warning ("Couldn't read private key '%s': %s", priv_key_with_pin, error ? error->message : "(unknown)");
 				g_clear_error (&error);
 			}
+
+			g_free (priv_key_with_pin);
 		} else {
 			g_warning ("Not pkcs11 private key selected");
 		}
-
-		pin_value = nma_cert_auth_data_get_pin_value(ctx->cert_fields);
-		g_object_set (ctx->s_8021x, NM_SETTING_802_1X_PIN, pin_value, NULL);
 
 		nm_remote_connection_commit_changes_async(ctx->connection,
 												  TRUE,
