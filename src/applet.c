@@ -762,6 +762,11 @@ cert_auth_dialog_response (GtkDialog *dialog, int response_id, gpointer _ctx)
 		NMSetting8021xCKScheme scheme;
 		NMSetting8021xCKFormat format = NM_SETTING_802_1X_CK_FORMAT_UNKNOWN;
 
+		g_object_set (G_OBJECT (ctx->s_8021x),
+		              NM_SETTING_802_1X_CLIENT_CERT, NULL,
+		              NM_SETTING_802_1X_PRIVATE_KEY, NULL,
+		              NULL);
+
 		cert_value = nma_cert_chooser_get_cert (NMA_CERT_CHOOSER (ctx->cert_fields->client_cert_chooser), &scheme);
 		if(scheme == NM_SETTING_802_1X_CK_SCHEME_PKCS11) {
 			if (!nm_setting_802_1x_set_client_cert (ctx->s_8021x, cert_value, scheme, &format, &error)) {
@@ -789,7 +794,7 @@ cert_auth_dialog_response (GtkDialog *dialog, int response_id, gpointer _ctx)
 		}
 
 		nm_remote_connection_commit_changes_async(ctx->connection,
-												  TRUE,
+												  FALSE,
 												  ctx->cancellable,
 												  activate_connection_on_update_cb,
 												  ctx);
