@@ -37,3 +37,4 @@ Thumbs.db
 *.diff
 *.patch
 
+*_tasks
