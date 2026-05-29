@@ -737,7 +737,9 @@ nma_cert_auth_data_new(void)
 	}
 
 	method->ca_cert_chooser = nma_cert_chooser_new ("CA", NMA_CERT_CHOOSER_FLAG_CERT);
-	method->client_cert_chooser = nma_cert_chooser_new ("User", NMA_CERT_CHOOSER_FLAG_NO_PASSWORDS);
+	method->client_cert_chooser = nma_cert_chooser_new ("User",
+	                                                    NMA_CERT_CHOOSER_FLAG_NO_PASSWORDS
+	                                                    | NMA_CERT_CHOOSER_FLAG_AUTODETECT_KEY);
 	method->pin_entry = GTK_ENTRY(gtk_entry_new());
 
 	gtk_entry_set_visibility(method->pin_entry, FALSE);
