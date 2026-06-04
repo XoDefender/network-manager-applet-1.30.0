@@ -37,3 +37,6 @@ Thumbs.db
 *.diff
 *.patch
 
+# Task notes
+_tasks/
+

@@ -1446,6 +1446,12 @@ nma_menu_vpn_item_clicked (GtkMenuItem *item, gpointer user_data)
 	start_animation_timeout (applet);
 }
 
+static gboolean
+nma_use_plasma_nm (void)
+{
+	return !!g_getenv ("NM_APPLET_USE_PLASMA_NM");
+}
+
 /*
  * nma_menu_configure_vpn_item_activate
  *
@@ -1455,9 +1461,12 @@ nma_menu_vpn_item_clicked (GtkMenuItem *item, gpointer user_data)
 static void
 nma_menu_configure_vpn_item_activate (GtkMenuItem *item, gpointer user_data)
 {
-	const char *argv[] = { BINDIR "/kcmshell5", "kcm_networkmanagement", NULL};
+	gboolean plasma = nma_use_plasma_nm ();
+	const char *argv_plasma[] = { "kcmshell5", "kcm_networkmanagement", NULL };
+	const char *argv_nce[]    = { BINDIR "/nm-connection-editor", "--show", "--type", NM_SETTING_VPN_SETTING_NAME, NULL };
 
-	g_spawn_async (NULL, (gchar **) argv, NULL, 0, NULL, NULL, NULL, NULL);
+	g_spawn_async (NULL, (gchar **) (plasma ? argv_plasma : argv_nce),
+	               NULL, plasma ? G_SPAWN_SEARCH_PATH : 0, NULL, NULL, NULL, NULL);
 }
 
 /*
@@ -1469,9 +1478,12 @@ nma_menu_configure_vpn_item_activate (GtkMenuItem *item, gpointer user_data)
 static void
 nma_menu_add_vpn_item_activate (GtkMenuItem *item, gpointer user_data)
 {
-	const char *argv[] = { BINDIR "/kcmshell5", "kcm_networkmanagement", NULL};
+	gboolean plasma = nma_use_plasma_nm ();
+	const char *argv_plasma[] = { "kcmshell5", "kcm_networkmanagement", NULL };
+	const char *argv_nce[]    = { BINDIR "/nm-connection-editor", "--create", "--type", NM_SETTING_VPN_SETTING_NAME, NULL };
 
-	g_spawn_async (NULL, (gchar **) argv, NULL, 0, NULL, NULL, NULL, NULL);
+	g_spawn_async (NULL, (gchar **) (plasma ? argv_plasma : argv_nce),
+	               NULL, plasma ? G_SPAWN_SEARCH_PATH : 0, NULL, NULL, NULL, NULL);
 }
 
 static NMVpnConnectionState
@@ -2160,15 +2172,14 @@ ce_child_setup (gpointer user_data G_GNUC_UNUSED)
 static void
 nma_edit_connections_cb (void)
 {
-	char *argv[3];
+	gboolean plasma = nma_use_plasma_nm ();
+	char *argv_plasma[] = { "kcmshell5", "kcm_networkmanagement", NULL };
+	char *argv_nce[]    = { BINDIR "/nm-connection-editor", NULL };
+	char **argv = plasma ? argv_plasma : argv_nce;
 	GError *error = NULL;
 	gboolean success;
 
-	argv[0] = BINDIR "/kcmshell5";
-	argv[1] = "kcm_networkmanagement";
-	argv[2] = NULL;
-
-	success = g_spawn_async ("/", argv, NULL, 0, &ce_child_setup, NULL, NULL, &error);
+	success = g_spawn_async ("/", argv, NULL, plasma ? G_SPAWN_SEARCH_PATH : 0, &ce_child_setup, NULL, NULL, &error);
 	if (!success) {
 		g_warning ("Error launching connection editor: %s", error->message);
 		g_error_free (error);
