@@ -6,3 +6,17 @@ rbt-block-save-btn-on-validation-error.patch
 rbt-fix-conn-info-ru-po.patch
 rbt-fix-ineffective-notification-button.patch
 rbt-add-notification-on-vpn-user-disconnect.patch
+rbt-add-notification-manager.patch
+rbt-add-notification-polkit.patch
+rbt-remove-extra-networks-ru-plural-form.patch
+rbt-add-external-gui-cert-chooser.patch
+rbt-add-connection-filtering.patch
+rbt-display-vlan-in-applet.patch
+rbt-ask-cert-data-on-wifi-connect.patch
+rbt-show-vpn-dialogs-on-top.patch
+rbt-add-pin-to-private-key-uri.patch
+rbt-dont-save-cert-on-ask-on-connect.patch
+rbt-add-open-plasma-nm-env.patch
+rbt-add-private-key-autoselect.patch
+rbt-add-single-client-cert-autoselect.patch
+rbt-add-token-pin-check.patch

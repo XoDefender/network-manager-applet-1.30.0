@@ -737,7 +737,10 @@ nma_cert_auth_data_new(void)
 	}
 
 	method->ca_cert_chooser = nma_cert_chooser_new ("CA", NMA_CERT_CHOOSER_FLAG_CERT);
-	method->client_cert_chooser = nma_cert_chooser_new ("User", NMA_CERT_CHOOSER_FLAG_NO_PASSWORDS);
+	method->client_cert_chooser = nma_cert_chooser_new ("User", NMA_CERT_CHOOSER_FLAG_NO_PASSWORDS
+																| NMA_CERT_CHOOSER_FLAG_AUTODETECT_KEY);
+
+	nma_cert_chooser_autoselect_single_cert (NMA_CERT_CHOOSER (method->client_cert_chooser));
 	method->pin_entry = GTK_ENTRY(gtk_entry_new());
 
 	gtk_entry_set_visibility(method->pin_entry, FALSE);
@@ -749,61 +752,70 @@ nma_cert_auth_data_new(void)
 }
 
 static void
-cert_auth_dialog_response (GtkDialog *dialog, int response_id, gpointer _ctx)
+cert_auth_apply_and_activate (ActivateContext *ctx)
 {
-	if (response_id == GTK_RESPONSE_OK) 
-	{
-		ActivateContext *ctx = (ActivateContext*) _ctx;
-		gchar *cert_value = NULL;
-		gchar *priv_key_value = NULL;
-		const guchar *pin_value = NULL;
+	gchar *cert_value = NULL;
+	gchar *priv_key_value = NULL;
+	const guchar *pin_value = NULL;
 
-		GError *error = NULL;
-		NMSetting8021xCKScheme scheme;
-		NMSetting8021xCKFormat format = NM_SETTING_802_1X_CK_FORMAT_UNKNOWN;
+	GError *error = NULL;
+	NMSetting8021xCKScheme scheme;
+	NMSetting8021xCKFormat format = NM_SETTING_802_1X_CK_FORMAT_UNKNOWN;
 
-		g_object_set (G_OBJECT (ctx->s_8021x),
-		              NM_SETTING_802_1X_CLIENT_CERT, NULL,
-		              NM_SETTING_802_1X_PRIVATE_KEY, NULL,
-		              NULL);
+	g_object_set (G_OBJECT (ctx->s_8021x),
+	              NM_SETTING_802_1X_CLIENT_CERT, NULL,
+	              NM_SETTING_802_1X_PRIVATE_KEY, NULL,
+	              NULL);
 
-		cert_value = nma_cert_chooser_get_cert (NMA_CERT_CHOOSER (ctx->cert_fields->client_cert_chooser), &scheme);
-		if(scheme == NM_SETTING_802_1X_CK_SCHEME_PKCS11) {
-			if (!nm_setting_802_1x_set_client_cert (ctx->s_8021x, cert_value, scheme, &format, &error)) {
-				g_warning ("Couldn't read client certificate '%s': %s", cert_value, error ? error->message : "(unknown)");
-				g_clear_error (&error);
-			}
-		} else {
-			g_warning ("Not pkcs11 cert selected");
+	cert_value = nma_cert_chooser_get_cert (NMA_CERT_CHOOSER (ctx->cert_fields->client_cert_chooser), &scheme);
+	if(scheme == NM_SETTING_802_1X_CK_SCHEME_PKCS11) {
+		if (!nm_setting_802_1x_set_client_cert (ctx->s_8021x, cert_value, scheme, &format, &error)) {
+			g_warning ("Couldn't read client certificate '%s': %s", cert_value, error ? error->message : "(unknown)");
+			g_clear_error (&error);
 		}
-
-		pin_value = nma_cert_auth_data_get_pin_value(ctx->cert_fields);
-
-		priv_key_value = nma_cert_chooser_get_key (NMA_CERT_CHOOSER (ctx->cert_fields->client_cert_chooser), &scheme);
-		if(scheme == NM_SETTING_802_1X_CK_SCHEME_PKCS11) {
-			gchar *priv_key_with_pin = append_pin_to_pkcs11_uri (priv_key_value, pin_value);
-
-			if (!nm_setting_802_1x_set_private_key(ctx->s_8021x, priv_key_with_pin, NULL, scheme, &format, &error)) {
-				g_warning ("Couldn't read private key '%s': %s", priv_key_with_pin, error ? error->message : "(unknown)");
-				g_clear_error (&error);
-			}
-
-			g_free (priv_key_with_pin);
-		} else {
-			g_warning ("Not pkcs11 private key selected");
-		}
-
-		nm_remote_connection_commit_changes_async(ctx->connection,
-												  FALSE,
-												  ctx->cancellable,
-												  activate_connection_on_update_cb,
-												  ctx);
-
-		g_free (cert_value);
-		g_free (priv_key_value);
+	} else {
+		g_warning ("Not pkcs11 cert selected");
 	}
 
-	gtk_widget_destroy (GTK_WIDGET(dialog));
+	pin_value = nma_cert_auth_data_get_pin_value(ctx->cert_fields);
+
+	priv_key_value = nma_cert_chooser_get_key (NMA_CERT_CHOOSER (ctx->cert_fields->client_cert_chooser), &scheme);
+	if(scheme == NM_SETTING_802_1X_CK_SCHEME_PKCS11) {
+		gchar *priv_key_with_pin = append_pin_to_pkcs11_uri (priv_key_value, pin_value);
+
+		if (!nm_setting_802_1x_set_private_key(ctx->s_8021x, priv_key_with_pin, NULL, scheme, &format, &error)) {
+			g_warning ("Couldn't read private key '%s': %s", priv_key_with_pin, error ? error->message : "(unknown)");
+			g_clear_error (&error);
+		}
+
+		g_free (priv_key_with_pin);
+	} else {
+		g_warning ("Not pkcs11 private key selected");
+	}
+
+	nm_remote_connection_commit_changes_async(ctx->connection,
+											  FALSE,
+											  ctx->cancellable,
+											  activate_connection_on_update_cb,
+											  ctx);
+
+	g_free (cert_value);
+	g_free (priv_key_value);
+}
+
+static void
+show_wrong_pin_dialog (GtkWindow *parent)
+{
+	GtkWidget *dialog;
+
+	dialog = gtk_message_dialog_new (parent,
+	                                 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+	                                 GTK_MESSAGE_ERROR,
+	                                 GTK_BUTTONS_OK,
+	                                 "%s", _("Incorrect PIN code"));
+	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 static void
@@ -817,12 +829,42 @@ show_ask_cert_auth_data_dialog(ActivateContext *ctx)
                                           			NULL);
 
 	gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
-	g_signal_connect (dialog, "response", G_CALLBACK (cert_auth_dialog_response), ctx);
 
 	fill_cert_auth_data_dialog(GTK_DIALOG (dialog), ctx->cert_fields);
 
 	gtk_widget_show(dialog);
-	gtk_dialog_run(GTK_DIALOG(dialog));
+
+	while (TRUE) {
+		const guchar *pin;
+		gsize pin_len;
+		NMATokenLoginResult login;
+		gint response_id;
+
+		response_id = gtk_dialog_run (GTK_DIALOG (dialog));
+
+		if (response_id != GTK_RESPONSE_OK) {
+			g_free (ctx);
+			break;
+		}
+
+		pin = nma_cert_auth_data_get_pin_value (ctx->cert_fields);
+		pin_len = pin ? strlen ((const char *) pin) : 0;
+		login = pin_len ? nma_cert_chooser_login_token (NMA_CERT_CHOOSER (ctx->cert_fields->client_cert_chooser),
+		                                                pin, pin_len)
+		                : NMA_TOKEN_LOGIN_PIN_INCORRECT;
+
+		if (login == NMA_TOKEN_LOGIN_PIN_INCORRECT) {
+			show_wrong_pin_dialog (GTK_WINDOW (dialog));
+			gtk_entry_set_text (ctx->cert_fields->pin_entry, "");
+			gtk_widget_grab_focus (GTK_WIDGET (ctx->cert_fields->pin_entry));
+			continue;
+		}
+
+		cert_auth_apply_and_activate (ctx);
+		break;
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 static void 
@@ -1475,6 +1517,12 @@ nma_menu_vpn_item_clicked (GtkMenuItem *item, gpointer user_data)
 	start_animation_timeout (applet);
 }
 
+static gboolean
+nma_use_plasma_nm (void)
+{
+	return !!g_getenv ("NM_APPLET_USE_PLASMA_NM");
+}
+
 /*
  * nma_menu_configure_vpn_item_activate
  *
@@ -1484,9 +1532,12 @@ nma_menu_vpn_item_clicked (GtkMenuItem *item, gpointer user_data)
 static void
 nma_menu_configure_vpn_item_activate (GtkMenuItem *item, gpointer user_data)
 {
-	const char *argv[] = { BINDIR "/nm-connection-editor", "--show", "--type", NM_SETTING_VPN_SETTING_NAME, NULL};
+	gboolean plasma = nma_use_plasma_nm ();
+	const char *argv_plasma[] = { "kcmshell5", "kcm_networkmanagement", NULL };
+	const char *argv_nce[]    = { BINDIR "/nm-connection-editor", "--show", "--type", NM_SETTING_VPN_SETTING_NAME, NULL };
 
-	g_spawn_async (NULL, (gchar **) argv, NULL, 0, NULL, NULL, NULL, NULL);
+	g_spawn_async (NULL, (gchar **) (plasma ? argv_plasma : argv_nce),
+	               NULL, plasma ? G_SPAWN_SEARCH_PATH : 0, NULL, NULL, NULL, NULL);
 }
 
 /*
@@ -1498,9 +1549,12 @@ nma_menu_configure_vpn_item_activate (GtkMenuItem *item, gpointer user_data)
 static void
 nma_menu_add_vpn_item_activate (GtkMenuItem *item, gpointer user_data)
 {
-	const char *argv[] = { BINDIR "/nm-connection-editor", "--create", "--type", NM_SETTING_VPN_SETTING_NAME, NULL};
+	gboolean plasma = nma_use_plasma_nm ();
+	const char *argv_plasma[] = { "kcmshell5", "kcm_networkmanagement", NULL };
+	const char *argv_nce[]    = { BINDIR "/nm-connection-editor", "--create", "--type", NM_SETTING_VPN_SETTING_NAME, NULL };
 
-	g_spawn_async (NULL, (gchar **) argv, NULL, 0, NULL, NULL, NULL, NULL);
+	g_spawn_async (NULL, (gchar **) (plasma ? argv_plasma : argv_nce),
+	               NULL, plasma ? G_SPAWN_SEARCH_PATH : 0, NULL, NULL, NULL, NULL);
 }
 
 static NMVpnConnectionState
@@ -2189,14 +2243,14 @@ ce_child_setup (gpointer user_data G_GNUC_UNUSED)
 static void
 nma_edit_connections_cb (void)
 {
-	char *argv[2];
+	gboolean plasma = nma_use_plasma_nm ();
+	char *argv_plasma[] = { "kcmshell5", "kcm_networkmanagement", NULL };
+	char *argv_nce[]    = { BINDIR "/nm-connection-editor", NULL };
+	char **argv = plasma ? argv_plasma : argv_nce;
 	GError *error = NULL;
 	gboolean success;
 
-	argv[0] = BINDIR "/nm-connection-editor";
-	argv[1] = NULL;
-
-	success = g_spawn_async ("/", argv, NULL, 0, &ce_child_setup, NULL, NULL, &error);
+	success = g_spawn_async ("/", argv, NULL, plasma ? G_SPAWN_SEARCH_PATH : 0, &ce_child_setup, NULL, NULL, &error);
 	if (!success) {
 		g_warning ("Error launching connection editor: %s", error->message);
 		g_error_free (error);

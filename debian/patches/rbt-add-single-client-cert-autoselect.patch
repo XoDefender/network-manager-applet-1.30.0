@@ -1,0 +1,11 @@
+--- a/src/applet.c	2026-06-09 13:40:50.000000000 +0300
++++ b/src/applet.c	2026-06-09 13:58:35.867981118 +0300
+@@ -739,6 +739,8 @@
+ 	method->ca_cert_chooser = nma_cert_chooser_new ("CA", NMA_CERT_CHOOSER_FLAG_CERT);
+ 	method->client_cert_chooser = nma_cert_chooser_new ("User", NMA_CERT_CHOOSER_FLAG_NO_PASSWORDS
+ 																| NMA_CERT_CHOOSER_FLAG_AUTODETECT_KEY);
++
++	nma_cert_chooser_autoselect_single_cert (NMA_CERT_CHOOSER (method->client_cert_chooser));
+ 	method->pin_entry = GTK_ENTRY(gtk_entry_new());
+ 
+ 	gtk_entry_set_visibility(method->pin_entry, FALSE);

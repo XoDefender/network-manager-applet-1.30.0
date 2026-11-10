@@ -408,6 +408,10 @@ msgstr "Недостаточно прав."
 msgid "Connection failure"
 msgstr "Сбой подключения"
 
+#: src/applet.c:829
+msgid "Incorrect PIN code"
+msgstr "Неверный PIN-код"
+
 #: src/applet-device-wifi.c:827
 #, c-format
 msgid "Wi-Fi Networks (%s)"

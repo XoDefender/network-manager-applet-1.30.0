@@ -32,7 +32,7 @@
 +"The VPN connection “%s” disconnected because user interrupted."
 +msgstr ""
 +"\n"
-+"В связи с тем, что пользователь преравал подключение, связь с VPN «%s» была потеряна"
++"В связи с тем, что пользователь прервал подключение, связь с VPN «%s» была потеряна"
 +
  #: src/applet.c:852
  #, c-format

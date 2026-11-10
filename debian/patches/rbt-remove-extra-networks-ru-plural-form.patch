@@ -1,0 +1,41 @@
+--- a/po/ru.po	2025-08-06 18:39:20.000000000 +0300
++++ b/po/ru.po	2025-08-06 18:22:51.871951349 +0300
+@@ -418,12 +418,14 @@
+ msgid "Wi-Fi Network (%s)"
+ msgstr "Сеть Wi-Fi (%s)"
+ 
+-#: src/applet-device-wifi.c:831
++#: src/applet-device-wifi.c:834
++#, c-format
++msgid "Wi-Fi Networks"
++msgstr "Сети Wi-Fi"
++
++#: src/applet-device-wifi.c:836
+ msgid "Wi-Fi Network"
+-msgid_plural "Wi-Fi Networks"
+-msgstr[0] "Сеть Wi-Fi"
+-msgstr[1] "Сети Wi-Fi"
+-msgstr[2] "Сетей Wi-Fi"
++msgstr "Сеть Wi-Fi"
+ 
+ #: src/applet-device-wifi.c:860
+ msgid "Wi-Fi is disabled"
+
+--- a/src/applet-device-wifi.c	2022-11-07 10:00:04.000000000 +0300
++++ b/src/applet-device-wifi.c	2025-08-06 18:34:08.027948770 +0300
+@@ -827,8 +827,13 @@
+ 			text = g_strdup_printf (_("Wi-Fi Networks (%s)"), desc);
+ 		else
+ 			text = g_strdup_printf (_("Wi-Fi Network (%s)"), desc);
+-	} else
+-		text = g_strdup (ngettext ("Wi-Fi Network", "Wi-Fi Networks", aps ? aps->len : 0));
++	} 
++	else {
++		if(aps && aps->len > 1)
++			text = g_strdup (_("Wi-Fi Networks"));
++		else	
++			text = g_strdup (_("Wi-Fi Network"));
++	}
+ 
+ 	widget = applet_menu_item_create_device_item_helper (device, applet, text);
+ 	g_free (text);

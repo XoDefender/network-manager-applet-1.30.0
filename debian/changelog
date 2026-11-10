@@ -1,3 +1,83 @@
+network-manager-applet (1.30.0-2astra19) unstable; urgency=medium
+
+  * Add rbt-add-token-pin-check.patch
+
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Mon, 22 Jun 2026 12:26:17 +0300
+
+network-manager-applet (1.30.0-2astra18) unstable; urgency=medium
+
+  * Add rbt-add-single-client-cert-autoselect.patch
+
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Wed, 10 Jun 2026 12:44:48 +0300
+
+network-manager-applet (1.30.0-2astra17) unstable; urgency=medium
+
+  * Add rbt-add-private-key-autoselect.patch
+
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Fri, 05 Jun 2026 13:10:14 +0300
+
+network-manager-applet (1.30.0-2astra16) unstable; urgency=medium
+
+  * Add rbt-add-open-plasma-nm-env.patch
+
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Wed, 03 Jun 2026 17:24:58 +0300
+
+network-manager-applet (1.30.0-2astra15) unstable; urgency=medium
+
+  * Add rbt-dont-save-cert-on-ask-on-connect.patch
+
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Mon, 27 Apr 2026 17:34:46 +0300
+
+network-manager-applet (1.30.0-2astra14) unstable; urgency=medium
+
+  * Add rbt-add-pin-to-private-key-uri.patch
+
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Tue, 27 Jan 2026 19:42:18 +0300
+
+network-manager-applet (1.30.0-2astra13) unstable; urgency=medium
+
+  * Add rbt-show-vpn-dialogs-on-top.patch
+
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Mon, 12 Jan 2026 11:36:17 +0300
+
+network-manager-applet (1.30.0-2astra12+ci1) unstable; urgency=medium
+
+  * Add rbt-ask-cert-data-on-wifi-connect.patch
+
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Thu, 27 Nov 2025 13:42:14 +0300
+
+network-manager-applet (1.30.0-2astra12) unstable; urgency=medium
+
+  * Add rbt-display-vlan-in-applet.patch
+
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Wed, 05 Nov 2025 17:27:19 +0300
+
+network-manager-applet (1.30.0-2astra11) unstable; urgency=medium
+
+  * Add rbt-add-connection-filtering.patch
+  * Update libnma version in Build-Depends and Depends
+
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Wed, 24 Sep 2025 17:09:48 +0300
+ 
+network-manager-applet (1.30.0-2astra10) unstable; urgency=medium
+
+  * Add rbt-add-external-gui-cert-chooser.patch
+
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Wed, 27 Aug 2025 17:27:56 +0300
+
+network-manager-applet (1.30.0-2astra9) unstable; urgency=medium
+
+  * Add rbt-remove-extra-networks-ru-plural-form.patch
+
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Wed, 06 Aug 2025 18:55:26 +0300
+
+network-manager-applet (1.30.0-2astra8) unstable; urgency=medium
+
+  * Add rbt-add-notification-manager.patch
+  * Add rbt-add-notification-polkit.patch
+
+ -- Kirill Zhilnikov <kzhilnikov@astralinux.ru>  Thu, 17 Jul 2025 14:09:13 +0300
+
 network-manager-applet (1.30.0-2astra7) unstable; urgency=medium
 
   * Add rbt-add-notification-on-vpn-user-disconnect.patch

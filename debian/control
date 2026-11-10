@@ -12,12 +12,13 @@ Build-Depends: debhelper-compat (= 13),
                libayatana-appindicator3-dev,
                libdbusmenu-gtk3-dev (>= 16.04.0),
                libnm-dev (>= 1.15),
-               libnma-dev (>= 1.8.27),
+               libnma-dev (>= 1.10.6-1astra10),
                libmm-glib-dev,
                libgudev-1.0-dev (>= 147),
                libjansson-dev (>= 2.7),
                libselinux-dev,
-               libxsettings-client-dev (>=0.17-10)
+               libxsettings-client-dev (>=0.17-10),
+               libpolkit-gobject-1-dev (>= 0.105),
 Standards-Version: 4.6.1
 Rules-Requires-Root: no
 Vcs-Git: https://salsa.debian.org/utopia-team/network-manager-applet.git
@@ -32,7 +33,8 @@ Depends: ${shlibs:Depends},
          ${misc:Depends},
          network-manager,
          policykit-1-gnome | polkit-1-auth-agent,
-         default-dbus-session-bus | dbus-session-bus
+         default-dbus-session-bus | dbus-session-bus,
+         libnma0 (>= 1.10.6-1astra10)
 Recommends: notification-daemon,
             gnome-keyring,
             gnome-icon-theme,
